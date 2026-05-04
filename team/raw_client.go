@@ -40,7 +40,7 @@ func (r *RawClient) Get(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/team/%v",
@@ -84,7 +84,7 @@ func (r *RawClient) GetUserById(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/team/users/search"
 	queryParams, err := internal.QueryValues(request)
@@ -131,7 +131,7 @@ func (r *RawClient) GetSvixUrl(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/team/svix/url"
 	headers := internal.MergeHeaders(
@@ -171,7 +171,7 @@ func (r *RawClient) GetSourcePriorities(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/team/source/priorities"
 	queryParams, err := internal.QueryValues(request)
@@ -218,7 +218,7 @@ func (r *RawClient) UpdateSourcePriorities(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/team/source/priorities"
 	headers := internal.MergeHeaders(
@@ -258,7 +258,7 @@ func (r *RawClient) GetPhysicians(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/team/%v/physicians",

@@ -40,7 +40,7 @@ func (r *RawClient) GetAll(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/user"
 	queryParams, err := internal.QueryValues(request)
@@ -88,7 +88,7 @@ func (r *RawClient) Create(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/user"
 	headers := internal.MergeHeaders(
@@ -130,7 +130,7 @@ func (r *RawClient) GetTeamMetrics(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/user/metrics"
 	headers := internal.MergeHeaders(
@@ -170,7 +170,7 @@ func (r *RawClient) GetConnectedProviders(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/providers/%v",
@@ -214,7 +214,7 @@ func (r *RawClient) GetLatestUserInfo(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/info/latest",
@@ -258,7 +258,7 @@ func (r *RawClient) CreateInsurance(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/insurance",
@@ -304,7 +304,7 @@ func (r *RawClient) GetLatestInsurance(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/insurance/latest",
@@ -355,7 +355,7 @@ func (r *RawClient) UpsertUserInfo(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/info",
@@ -401,7 +401,7 @@ func (r *RawClient) GetByClientUserId(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/resolve/%v",
@@ -445,7 +445,7 @@ func (r *RawClient) DeregisterProvider(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/%v",
@@ -490,7 +490,7 @@ func (r *RawClient) Get(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v",
@@ -534,7 +534,7 @@ func (r *RawClient) Delete(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v",
@@ -578,7 +578,7 @@ func (r *RawClient) Patch(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v",
@@ -622,7 +622,7 @@ func (r *RawClient) UndoDelete(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/user/undo_delete"
 	queryParams, err := internal.QueryValues(request)
@@ -670,7 +670,7 @@ func (r *RawClient) Refresh(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/refresh/%v",
@@ -721,7 +721,7 @@ func (r *RawClient) GetDevices(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/device",
@@ -765,7 +765,7 @@ func (r *RawClient) GetDevice(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/device/%v",
@@ -810,7 +810,7 @@ func (r *RawClient) GetUserSignInToken(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/sign_in_token",
@@ -854,7 +854,7 @@ func (r *RawClient) CreatePortalUrl(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/user/%v/create_portal_url",

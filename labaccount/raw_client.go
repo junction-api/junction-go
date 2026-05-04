@@ -40,7 +40,7 @@ func (r *RawClient) GetTeamLabAccounts(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/lab_test/lab_account"
 	queryParams, err := internal.QueryValues(request)

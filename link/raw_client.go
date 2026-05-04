@@ -40,7 +40,7 @@ func (r *RawClient) ListBulkOps(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/bulk_op"
 	queryParams, err := internal.QueryValues(request)
@@ -88,7 +88,7 @@ func (r *RawClient) BulkImport(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/bulk_import"
 	headers := internal.MergeHeaders(
@@ -131,7 +131,7 @@ func (r *RawClient) BulkTriggerHistoricalPull(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/bulk_trigger_historical_pull"
 	headers := internal.MergeHeaders(
@@ -174,7 +174,7 @@ func (r *RawClient) BulkExport(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/bulk_export"
 	headers := internal.MergeHeaders(
@@ -217,7 +217,7 @@ func (r *RawClient) BulkPause(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/bulk_pause"
 	headers := internal.MergeHeaders(
@@ -260,7 +260,7 @@ func (r *RawClient) Token(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/token"
 	headers := internal.MergeHeaders(
@@ -303,7 +303,7 @@ func (r *RawClient) CodeCreate(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/code/create"
 	queryParams, err := internal.QueryValues(request)
@@ -351,7 +351,7 @@ func (r *RawClient) GenerateOauthLink(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/link/provider/oauth/%v",
@@ -399,7 +399,7 @@ func (r *RawClient) ConnectPasswordProvider(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/link/provider/password/%v",
@@ -448,7 +448,7 @@ func (r *RawClient) CompletePasswordProviderMfa(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/link/provider/password/%v/complete_mfa",
@@ -497,7 +497,7 @@ func (r *RawClient) ConnectEmailAuthProvider(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/link/provider/email/%v",
@@ -546,7 +546,7 @@ func (r *RawClient) GetAllProviders(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/providers"
 	headers := internal.MergeHeaders(
@@ -591,7 +591,7 @@ func (r *RawClient) ConnectDemoProvider(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/link/connect/demo"
 	headers := internal.MergeHeaders(

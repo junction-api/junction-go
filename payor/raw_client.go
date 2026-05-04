@@ -40,7 +40,7 @@ func (r *RawClient) CreatePayor(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/payor"
 	headers := internal.MergeHeaders(
