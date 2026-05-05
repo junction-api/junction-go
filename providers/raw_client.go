@@ -40,7 +40,7 @@ func (r *RawClient) GetAll(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/providers"
 	queryParams, err := internal.QueryValues(request)

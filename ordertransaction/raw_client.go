@@ -42,7 +42,7 @@ func (r *RawClient) GetTransaction(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order_transaction/%v",
@@ -86,7 +86,7 @@ func (r *RawClient) GetTransactionResult(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order_transaction/%v/result",
@@ -130,7 +130,7 @@ func (r *RawClient) GetTransactionResultPdf(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order_transaction/%v/result/pdf",

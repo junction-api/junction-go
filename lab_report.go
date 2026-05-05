@@ -54,20 +54,26 @@ func (p *ParserGetJobLabReportRequest) SetJobId(jobId string) {
 var (
 	labReportResultFieldTestName          = big.NewInt(1 << 0)
 	labReportResultFieldValue             = big.NewInt(1 << 1)
-	labReportResultFieldType              = big.NewInt(1 << 2)
-	labReportResultFieldUnits             = big.NewInt(1 << 3)
-	labReportResultFieldMaxReferenceRange = big.NewInt(1 << 4)
-	labReportResultFieldMinReferenceRange = big.NewInt(1 << 5)
-	labReportResultFieldSourcePanelName   = big.NewInt(1 << 6)
-	labReportResultFieldLoincMatches      = big.NewInt(1 << 7)
-	labReportResultFieldInterpretation    = big.NewInt(1 << 8)
-	labReportResultFieldIsAboveMaxRange   = big.NewInt(1 << 9)
-	labReportResultFieldIsBelowMinRange   = big.NewInt(1 << 10)
+	labReportResultFieldSampleType        = big.NewInt(1 << 2)
+	labReportResultFieldMeasurementKind   = big.NewInt(1 << 3)
+	labReportResultFieldType              = big.NewInt(1 << 4)
+	labReportResultFieldUnits             = big.NewInt(1 << 5)
+	labReportResultFieldMaxReferenceRange = big.NewInt(1 << 6)
+	labReportResultFieldMinReferenceRange = big.NewInt(1 << 7)
+	labReportResultFieldSourcePanelName   = big.NewInt(1 << 8)
+	labReportResultFieldLoincMatches      = big.NewInt(1 << 9)
+	labReportResultFieldInterpretation    = big.NewInt(1 << 10)
+	labReportResultFieldIsAboveMaxRange   = big.NewInt(1 << 11)
+	labReportResultFieldIsBelowMinRange   = big.NewInt(1 << 12)
 )
 
 type LabReportResult struct {
 	TestName string `json:"test_name" url:"test_name"`
 	Value    string `json:"value" url:"value"`
+	// ℹ️ This enum is non-exhaustive.
+	SampleType *LabReportResultSampleType `json:"sample_type,omitempty" url:"sample_type,omitempty"`
+	// ℹ️ This enum is non-exhaustive.
+	MeasurementKind *LabReportResultMeasurementKind `json:"measurement_kind,omitempty" url:"measurement_kind,omitempty"`
 	// ℹ️ This enum is non-exhaustive.
 	Type              *LabReportResultType `json:"type,omitempty" url:"type,omitempty"`
 	Units             *string              `json:"units,omitempty" url:"units,omitempty"`
@@ -99,6 +105,20 @@ func (l *LabReportResult) GetValue() string {
 		return ""
 	}
 	return l.Value
+}
+
+func (l *LabReportResult) GetSampleType() *LabReportResultSampleType {
+	if l == nil {
+		return nil
+	}
+	return l.SampleType
+}
+
+func (l *LabReportResult) GetMeasurementKind() *LabReportResultMeasurementKind {
+	if l == nil {
+		return nil
+	}
+	return l.MeasurementKind
 }
 
 func (l *LabReportResult) GetType() *LabReportResultType {
@@ -190,6 +210,20 @@ func (l *LabReportResult) SetTestName(testName string) {
 func (l *LabReportResult) SetValue(value string) {
 	l.Value = value
 	l.require(labReportResultFieldValue)
+}
+
+// SetSampleType sets the SampleType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabReportResult) SetSampleType(sampleType *LabReportResultSampleType) {
+	l.SampleType = sampleType
+	l.require(labReportResultFieldSampleType)
+}
+
+// SetMeasurementKind sets the MeasurementKind field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabReportResult) SetMeasurementKind(measurementKind *LabReportResultMeasurementKind) {
+	l.MeasurementKind = measurementKind
+	l.require(labReportResultFieldMeasurementKind)
 }
 
 // SetType sets the Type field and marks it as non-optional;
@@ -295,6 +329,73 @@ func (l *LabReportResult) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", l)
+}
+
+// ℹ️ This enum is non-exhaustive.
+type LabReportResultMeasurementKind string
+
+const (
+	LabReportResultMeasurementKindDirect     LabReportResultMeasurementKind = "direct"
+	LabReportResultMeasurementKindCalculated LabReportResultMeasurementKind = "calculated"
+	LabReportResultMeasurementKindRatio      LabReportResultMeasurementKind = "ratio"
+	LabReportResultMeasurementKindUnknown    LabReportResultMeasurementKind = "unknown"
+)
+
+func NewLabReportResultMeasurementKindFromString(s string) (LabReportResultMeasurementKind, error) {
+	switch s {
+	case "direct":
+		return LabReportResultMeasurementKindDirect, nil
+	case "calculated":
+		return LabReportResultMeasurementKindCalculated, nil
+	case "ratio":
+		return LabReportResultMeasurementKindRatio, nil
+	case "unknown":
+		return LabReportResultMeasurementKindUnknown, nil
+	}
+	var t LabReportResultMeasurementKind
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (l LabReportResultMeasurementKind) Ptr() *LabReportResultMeasurementKind {
+	return &l
+}
+
+// ℹ️ This enum is non-exhaustive.
+type LabReportResultSampleType string
+
+const (
+	LabReportResultSampleTypeUrine            LabReportResultSampleType = "urine"
+	LabReportResultSampleTypeSerumPlasmaBlood LabReportResultSampleType = "serum_plasma_blood"
+	LabReportResultSampleTypeCapillaryBlood   LabReportResultSampleType = "capillary_blood"
+	LabReportResultSampleTypeStool            LabReportResultSampleType = "stool"
+	LabReportResultSampleTypeSaliva           LabReportResultSampleType = "saliva"
+	LabReportResultSampleTypeOther            LabReportResultSampleType = "other"
+	LabReportResultSampleTypeUnknown          LabReportResultSampleType = "unknown"
+)
+
+func NewLabReportResultSampleTypeFromString(s string) (LabReportResultSampleType, error) {
+	switch s {
+	case "urine":
+		return LabReportResultSampleTypeUrine, nil
+	case "serum_plasma_blood":
+		return LabReportResultSampleTypeSerumPlasmaBlood, nil
+	case "capillary_blood":
+		return LabReportResultSampleTypeCapillaryBlood, nil
+	case "stool":
+		return LabReportResultSampleTypeStool, nil
+	case "saliva":
+		return LabReportResultSampleTypeSaliva, nil
+	case "other":
+		return LabReportResultSampleTypeOther, nil
+	case "unknown":
+		return LabReportResultSampleTypeUnknown, nil
+	}
+	var t LabReportResultSampleType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (l LabReportResultSampleType) Ptr() *LabReportResultSampleType {
+	return &l
 }
 
 // ℹ️ This enum is non-exhaustive.
