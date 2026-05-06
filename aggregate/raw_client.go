@@ -40,7 +40,7 @@ func (r *RawClient) QueryOne(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/aggregate/v1/user/%v/query",
@@ -87,7 +87,7 @@ func (r *RawClient) GetResultTableForContinuousQuery(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/aggregate/v1/user/%v/continuous_query/%v/result_table",
@@ -133,7 +133,7 @@ func (r *RawClient) GetTaskHistoryForContinuousQuery(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/aggregate/v1/user/%v/continuous_query/%v/task_history",

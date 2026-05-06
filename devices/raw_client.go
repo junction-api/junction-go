@@ -40,7 +40,7 @@ func (r *RawClient) GetRaw(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/summary/devices/%v/raw",

@@ -40,7 +40,7 @@ func (r *RawClient) SearchGetPayorInfo(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/insurance/search/payor"
 	queryParams, err := internal.QueryValues(request)
@@ -88,7 +88,7 @@ func (r *RawClient) SearchPayorInfo(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/insurance/search/payor"
 	headers := internal.MergeHeaders(
@@ -131,7 +131,7 @@ func (r *RawClient) SearchDiagnosis(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/insurance/search/diagnosis"
 	queryParams, err := internal.QueryValues(request)

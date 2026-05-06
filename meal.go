@@ -746,16 +746,17 @@ var (
 	mealInDbBaseClientFacingSourceFieldSourceId       = big.NewInt(1 << 3)
 	mealInDbBaseClientFacingSourceFieldProviderId     = big.NewInt(1 << 4)
 	mealInDbBaseClientFacingSourceFieldTimestamp      = big.NewInt(1 << 5)
-	mealInDbBaseClientFacingSourceFieldName           = big.NewInt(1 << 6)
-	mealInDbBaseClientFacingSourceFieldEnergy         = big.NewInt(1 << 7)
-	mealInDbBaseClientFacingSourceFieldMacros         = big.NewInt(1 << 8)
-	mealInDbBaseClientFacingSourceFieldMicros         = big.NewInt(1 << 9)
-	mealInDbBaseClientFacingSourceFieldData           = big.NewInt(1 << 10)
-	mealInDbBaseClientFacingSourceFieldSource         = big.NewInt(1 << 11)
-	mealInDbBaseClientFacingSourceFieldCreatedAt      = big.NewInt(1 << 12)
-	mealInDbBaseClientFacingSourceFieldUpdatedAt      = big.NewInt(1 << 13)
-	mealInDbBaseClientFacingSourceFieldSourceAppId    = big.NewInt(1 << 14)
-	mealInDbBaseClientFacingSourceFieldSourceDeviceId = big.NewInt(1 << 15)
+	mealInDbBaseClientFacingSourceFieldCalendarDate   = big.NewInt(1 << 6)
+	mealInDbBaseClientFacingSourceFieldName           = big.NewInt(1 << 7)
+	mealInDbBaseClientFacingSourceFieldEnergy         = big.NewInt(1 << 8)
+	mealInDbBaseClientFacingSourceFieldMacros         = big.NewInt(1 << 9)
+	mealInDbBaseClientFacingSourceFieldMicros         = big.NewInt(1 << 10)
+	mealInDbBaseClientFacingSourceFieldData           = big.NewInt(1 << 11)
+	mealInDbBaseClientFacingSourceFieldSource         = big.NewInt(1 << 12)
+	mealInDbBaseClientFacingSourceFieldCreatedAt      = big.NewInt(1 << 13)
+	mealInDbBaseClientFacingSourceFieldUpdatedAt      = big.NewInt(1 << 14)
+	mealInDbBaseClientFacingSourceFieldSourceAppId    = big.NewInt(1 << 15)
+	mealInDbBaseClientFacingSourceFieldSourceDeviceId = big.NewInt(1 << 16)
 )
 
 type MealInDbBaseClientFacingSource struct {
@@ -766,8 +767,10 @@ type MealInDbBaseClientFacingSource struct {
 	// This value has no meaning.
 	SourceId int `json:"source_id" url:"source_id"`
 	// This value is identical to `id`.
-	ProviderId     string                       `json:"provider_id" url:"provider_id"`
-	Timestamp      time.Time                    `json:"timestamp" url:"timestamp"`
+	ProviderId string    `json:"provider_id" url:"provider_id"`
+	Timestamp  time.Time `json:"timestamp" url:"timestamp"`
+	// Date of the meal in the YYYY-mm-dd format. For providers that only expose a date, this is the calendar date as recorded by the user.
+	CalendarDate   string                       `json:"calendar_date" url:"calendar_date"`
 	Name           string                       `json:"name" url:"name"`
 	Energy         *Energy                      `json:"energy,omitempty" url:"energy,omitempty"`
 	Macros         *Macros                      `json:"macros,omitempty" url:"macros,omitempty"`
@@ -826,6 +829,13 @@ func (m *MealInDbBaseClientFacingSource) GetTimestamp() time.Time {
 		return time.Time{}
 	}
 	return m.Timestamp
+}
+
+func (m *MealInDbBaseClientFacingSource) GetCalendarDate() string {
+	if m == nil {
+		return ""
+	}
+	return m.CalendarDate
 }
 
 func (m *MealInDbBaseClientFacingSource) GetName() string {
@@ -952,6 +962,13 @@ func (m *MealInDbBaseClientFacingSource) SetProviderId(providerId string) {
 func (m *MealInDbBaseClientFacingSource) SetTimestamp(timestamp time.Time) {
 	m.Timestamp = timestamp
 	m.require(mealInDbBaseClientFacingSourceFieldTimestamp)
+}
+
+// SetCalendarDate sets the CalendarDate field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MealInDbBaseClientFacingSource) SetCalendarDate(calendarDate string) {
+	m.CalendarDate = calendarDate
+	m.require(mealInDbBaseClientFacingSourceFieldCalendarDate)
 }
 
 // SetName sets the Name field and marks it as non-optional;

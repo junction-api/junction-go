@@ -40,7 +40,7 @@ func (r *RawClient) GetUserResources(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/introspect/resources"
 	queryParams, err := internal.QueryValues(request)
@@ -88,7 +88,7 @@ func (r *RawClient) GetUserHistoricalPulls(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v2/introspect/historical_pull"
 	queryParams, err := internal.QueryValues(request)

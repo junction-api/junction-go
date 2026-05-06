@@ -42,7 +42,7 @@ func (r *RawClient) Get(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/lab_tests"
 	queryParams, err := internal.QueryValues(request)
@@ -90,7 +90,7 @@ func (r *RawClient) Create(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/lab_tests"
 	headers := internal.MergeHeaders(
@@ -133,7 +133,7 @@ func (r *RawClient) GetById(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/lab_tests/%v",
@@ -184,7 +184,7 @@ func (r *RawClient) UpdateLabTest(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/lab_tests/%v",
@@ -230,7 +230,7 @@ func (r *RawClient) GetMarkers(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/lab_tests/markers"
 	queryParams, err := internal.QueryValues(request)
@@ -278,7 +278,7 @@ func (r *RawClient) GetMarkersForOrderSet(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/lab_tests/list_order_set_markers"
 	queryParams, err := internal.QueryValues(request)
@@ -328,7 +328,7 @@ func (r *RawClient) GetMarkersForLabTest(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/lab_tests/%v/markers",
@@ -379,7 +379,7 @@ func (r *RawClient) GetMarkersByLabAndProviderId(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/lab_tests/%v/markers/%v",
@@ -430,7 +430,7 @@ func (r *RawClient) GetLabs(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/lab_tests/labs"
 	headers := internal.MergeHeaders(
@@ -470,7 +470,7 @@ func (r *RawClient) GetPaginated(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/lab_test"
 	queryParams, err := internal.QueryValues(request)
@@ -518,7 +518,7 @@ func (r *RawClient) GetLabTestCollectionInstructionPdf(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/lab_test/%v/collection_instruction_pdf",
@@ -562,7 +562,7 @@ func (r *RawClient) GetOrders(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/orders"
 	queryParams, err := internal.QueryValues(request)
@@ -610,7 +610,7 @@ func (r *RawClient) GetPhlebotomyAppointmentAvailability(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/phlebotomy/appointment/availability"
 	queryParams, err := internal.QueryValues(request)
@@ -660,7 +660,7 @@ func (r *RawClient) BookPhlebotomyAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/phlebotomy/appointment/book",
@@ -706,7 +706,7 @@ func (r *RawClient) RequestPhlebotomyAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/phlebotomy/appointment/request",
@@ -752,7 +752,7 @@ func (r *RawClient) ReschedulePhlebotomyAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/phlebotomy/appointment/reschedule",
@@ -798,7 +798,7 @@ func (r *RawClient) CancelPhlebotomyAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/phlebotomy/appointment/cancel",
@@ -843,7 +843,7 @@ func (r *RawClient) GetPhlebotomyAppointmentCancellationReason(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/phlebotomy/appointment/cancellation-reasons"
 	headers := internal.MergeHeaders(
@@ -883,7 +883,7 @@ func (r *RawClient) GetPhlebotomyAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/phlebotomy/appointment",
@@ -927,7 +927,7 @@ func (r *RawClient) GetAreaInfo(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/area/info"
 	queryParams, err := internal.QueryValues(request)
@@ -975,7 +975,7 @@ func (r *RawClient) GetPscInfo(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/psc/info"
 	queryParams, err := internal.QueryValues(request)
@@ -1023,7 +1023,7 @@ func (r *RawClient) GetOrderPscInfo(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/psc/info",
@@ -1074,7 +1074,7 @@ func (r *RawClient) GetResultPdf(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/result/pdf",
@@ -1118,7 +1118,7 @@ func (r *RawClient) GetResultMetadata(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/result/metadata",
@@ -1162,7 +1162,7 @@ func (r *RawClient) GetResultRaw(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/result",
@@ -1206,7 +1206,7 @@ func (r *RawClient) GetLabelsPdf(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/labels/pdf",
@@ -1257,7 +1257,7 @@ func (r *RawClient) GetPscAppointmentAvailability(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/psc/appointment/availability"
 	queryParams, err := internal.QueryValues(request)
@@ -1305,7 +1305,7 @@ func (r *RawClient) BookPscAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/psc/appointment/book",
@@ -1357,7 +1357,7 @@ func (r *RawClient) ReschedulePscAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/psc/appointment/reschedule",
@@ -1403,7 +1403,7 @@ func (r *RawClient) CancelPscAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/psc/appointment/cancel",
@@ -1448,7 +1448,7 @@ func (r *RawClient) GetPscAppointmentCancellationReason(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/psc/appointment/cancellation-reasons"
 	headers := internal.MergeHeaders(
@@ -1488,7 +1488,7 @@ func (r *RawClient) GetPscAppointment(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/psc/appointment",
@@ -1532,7 +1532,7 @@ func (r *RawClient) GetOrderCollectionInstructionPdf(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/collection_instruction_pdf",
@@ -1576,7 +1576,7 @@ func (r *RawClient) GetOrderRequistionPdf(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/requisition/pdf",
@@ -1620,7 +1620,7 @@ func (r *RawClient) GetOrderAbnPdf(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/abn_pdf",
@@ -1664,7 +1664,7 @@ func (r *RawClient) GetOrder(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v",
@@ -1708,7 +1708,7 @@ func (r *RawClient) CreateOrder(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order"
 	headers := internal.MergeHeaders(
@@ -1757,7 +1757,7 @@ func (r *RawClient) ImportOrder(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/import"
 	headers := internal.MergeHeaders(
@@ -1800,7 +1800,7 @@ func (r *RawClient) CancelOrder(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/cancel",
@@ -1844,7 +1844,7 @@ func (r *RawClient) SimulateOrderProcess(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/test",
@@ -1897,7 +1897,7 @@ func (r *RawClient) UpdateOnSiteCollectionOrderDrawCompleted(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/order/%v/draw_completed",
@@ -1941,7 +1941,7 @@ func (r *RawClient) ValidateIcdCodes(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/insurance/validate_icd_codes"
 	headers := internal.MergeHeaders(

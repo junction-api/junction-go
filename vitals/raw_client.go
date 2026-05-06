@@ -40,7 +40,7 @@ func (r *RawClient) WorkoutSwimmingStrokeGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/workout_swimming_stroke/grouped",
@@ -91,7 +91,7 @@ func (r *RawClient) WorkoutDistanceGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/workout_distance/grouped",
@@ -142,7 +142,7 @@ func (r *RawClient) HeartRateRecoveryOneMinuteGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/heart_rate_recovery_one_minute/grouped",
@@ -193,7 +193,7 @@ func (r *RawClient) WaistCircumferenceGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/waist_circumference/grouped",
@@ -244,7 +244,7 @@ func (r *RawClient) LeanBodyMassGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/lean_body_mass/grouped",
@@ -295,7 +295,7 @@ func (r *RawClient) BodyMassIndexGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/body_mass_index/grouped",
@@ -346,7 +346,7 @@ func (r *RawClient) BasalBodyTemperatureGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/basal_body_temperature/grouped",
@@ -397,7 +397,7 @@ func (r *RawClient) HandwashingGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/handwashing/grouped",
@@ -448,7 +448,7 @@ func (r *RawClient) DaylightExposureGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/daylight_exposure/grouped",
@@ -499,7 +499,7 @@ func (r *RawClient) UvExposureGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/uv_exposure/grouped",
@@ -550,7 +550,7 @@ func (r *RawClient) FallGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/fall/grouped",
@@ -601,7 +601,7 @@ func (r *RawClient) InhalerUsageGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/inhaler_usage/grouped",
@@ -652,7 +652,7 @@ func (r *RawClient) PeakExpiratoryFlowRateGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/peak_expiratory_flow_rate/grouped",
@@ -703,7 +703,7 @@ func (r *RawClient) ForcedVitalCapacityGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/forced_vital_capacity/grouped",
@@ -754,7 +754,7 @@ func (r *RawClient) ForcedExpiratoryVolume1Grouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/forced_expiratory_volume_1/grouped",
@@ -805,7 +805,7 @@ func (r *RawClient) WheelchairPushGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/wheelchair_push/grouped",
@@ -856,7 +856,7 @@ func (r *RawClient) SleepBreathingDisturbanceGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/sleep_breathing_disturbance/grouped",
@@ -907,7 +907,7 @@ func (r *RawClient) SleepApneaAlertGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/sleep_apnea_alert/grouped",
@@ -958,7 +958,7 @@ func (r *RawClient) StandDurationGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/stand_duration/grouped",
@@ -1009,7 +1009,7 @@ func (r *RawClient) StandHourGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/stand_hour/grouped",
@@ -1060,7 +1060,7 @@ func (r *RawClient) HeartRateAlertGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/heart_rate_alert/grouped",
@@ -1111,7 +1111,7 @@ func (r *RawClient) AfibBurdenGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/afib_burden/grouped",
@@ -1162,7 +1162,7 @@ func (r *RawClient) WorkoutDurationGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/workout_duration/grouped",
@@ -1213,7 +1213,7 @@ func (r *RawClient) Vo2MaxGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/vo2_max/grouped",
@@ -1264,7 +1264,7 @@ func (r *RawClient) StressLevelGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/stress_level/grouped",
@@ -1315,7 +1315,7 @@ func (r *RawClient) MindfulnessMinutesGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/mindfulness_minutes/grouped",
@@ -1366,7 +1366,7 @@ func (r *RawClient) CaffeineGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/caffeine/grouped",
@@ -1417,7 +1417,7 @@ func (r *RawClient) WaterGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/water/grouped",
@@ -1468,7 +1468,7 @@ func (r *RawClient) StepsGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/steps/grouped",
@@ -1519,7 +1519,7 @@ func (r *RawClient) FloorsClimbedGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/floors_climbed/grouped",
@@ -1570,7 +1570,7 @@ func (r *RawClient) DistanceGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/distance/grouped",
@@ -1621,7 +1621,7 @@ func (r *RawClient) CaloriesBasalGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/calories_basal/grouped",
@@ -1672,7 +1672,7 @@ func (r *RawClient) CaloriesActiveGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/calories_active/grouped",
@@ -1723,7 +1723,7 @@ func (r *RawClient) RespiratoryRateGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/respiratory_rate/grouped",
@@ -1774,7 +1774,7 @@ func (r *RawClient) NoteGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/note/grouped",
@@ -1825,7 +1825,7 @@ func (r *RawClient) InsulinInjectionGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/insulin_injection/grouped",
@@ -1876,7 +1876,7 @@ func (r *RawClient) IgeGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/ige/grouped",
@@ -1927,7 +1927,7 @@ func (r *RawClient) IggGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/igg/grouped",
@@ -1978,7 +1978,7 @@ func (r *RawClient) HypnogramGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/hypnogram/grouped",
@@ -2029,7 +2029,7 @@ func (r *RawClient) HrvGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/hrv/grouped",
@@ -2080,7 +2080,7 @@ func (r *RawClient) HeartrateGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/heartrate/grouped",
@@ -2131,7 +2131,7 @@ func (r *RawClient) GlucoseGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/glucose/grouped",
@@ -2182,7 +2182,7 @@ func (r *RawClient) CholesterolGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/cholesterol/grouped",
@@ -2233,7 +2233,7 @@ func (r *RawClient) CarbohydratesGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/carbohydrates/grouped",
@@ -2284,7 +2284,7 @@ func (r *RawClient) BodyTemperatureDeltaGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/body_temperature_delta/grouped",
@@ -2335,7 +2335,7 @@ func (r *RawClient) BodyTemperatureGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/body_temperature/grouped",
@@ -2386,7 +2386,7 @@ func (r *RawClient) BodyWeightGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/body_weight/grouped",
@@ -2437,7 +2437,7 @@ func (r *RawClient) BodyFatGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/body_fat/grouped",
@@ -2488,7 +2488,7 @@ func (r *RawClient) BloodOxygenGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/blood_oxygen/grouped",
@@ -2539,7 +2539,7 @@ func (r *RawClient) ElectrocardiogramVoltageGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/electrocardiogram_voltage/grouped",
@@ -2590,7 +2590,7 @@ func (r *RawClient) BloodPressureGrouped(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/blood_pressure/grouped",
@@ -2641,7 +2641,7 @@ func (r *RawClient) Vo2Max(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/vo2_max",
@@ -2692,7 +2692,7 @@ func (r *RawClient) StressLevel(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/stress_level",
@@ -2743,7 +2743,7 @@ func (r *RawClient) MindfulnessMinutes(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/mindfulness_minutes",
@@ -2794,7 +2794,7 @@ func (r *RawClient) Caffeine(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/caffeine",
@@ -2845,7 +2845,7 @@ func (r *RawClient) Water(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/water",
@@ -2896,7 +2896,7 @@ func (r *RawClient) Steps(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/steps",
@@ -2947,7 +2947,7 @@ func (r *RawClient) FloorsClimbed(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/floors_climbed",
@@ -2998,7 +2998,7 @@ func (r *RawClient) Distance(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/distance",
@@ -3049,7 +3049,7 @@ func (r *RawClient) CaloriesBasal(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/calories_basal",
@@ -3100,7 +3100,7 @@ func (r *RawClient) CaloriesActive(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/calories_active",
@@ -3151,7 +3151,7 @@ func (r *RawClient) RespiratoryRate(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/respiratory_rate",
@@ -3202,7 +3202,7 @@ func (r *RawClient) Ige(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/ige",
@@ -3253,7 +3253,7 @@ func (r *RawClient) Igg(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/igg",
@@ -3304,7 +3304,7 @@ func (r *RawClient) Hypnogram(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/hypnogram",
@@ -3355,7 +3355,7 @@ func (r *RawClient) Hrv(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/hrv",
@@ -3406,7 +3406,7 @@ func (r *RawClient) Heartrate(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/heartrate",
@@ -3457,7 +3457,7 @@ func (r *RawClient) Glucose(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/glucose",
@@ -3508,7 +3508,7 @@ func (r *RawClient) CholesterolTriglycerides(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/cholesterol/triglycerides",
@@ -3559,7 +3559,7 @@ func (r *RawClient) CholesterolTotal(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/cholesterol/total",
@@ -3610,7 +3610,7 @@ func (r *RawClient) CholesterolLdl(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/cholesterol/ldl",
@@ -3661,7 +3661,7 @@ func (r *RawClient) CholesterolHdl(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/cholesterol/hdl",
@@ -3712,7 +3712,7 @@ func (r *RawClient) Cholesterol(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/cholesterol",
@@ -3763,7 +3763,7 @@ func (r *RawClient) BodyWeight(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/body_weight",
@@ -3814,7 +3814,7 @@ func (r *RawClient) BodyFat(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/body_fat",
@@ -3865,7 +3865,7 @@ func (r *RawClient) BloodOxygen(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/blood_oxygen",
@@ -3916,7 +3916,7 @@ func (r *RawClient) ElectrocardiogramVoltage(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/electrocardiogram_voltage",
@@ -3967,7 +3967,7 @@ func (r *RawClient) BloodPressure(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v2/timeseries/%v/blood_pressure",

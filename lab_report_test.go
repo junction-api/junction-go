@@ -71,6 +71,22 @@ func TestSettersLabReportResult(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetSampleType", func(t *testing.T) {
+		obj := &LabReportResult{}
+		var fernTestValueSampleType *LabReportResultSampleType
+		obj.SetSampleType(fernTestValueSampleType)
+		assert.Equal(t, fernTestValueSampleType, obj.SampleType)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetMeasurementKind", func(t *testing.T) {
+		obj := &LabReportResult{}
+		var fernTestValueMeasurementKind *LabReportResultMeasurementKind
+		obj.SetMeasurementKind(fernTestValueMeasurementKind)
+		assert.Equal(t, fernTestValueMeasurementKind, obj.MeasurementKind)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetType", func(t *testing.T) {
 		obj := &LabReportResult{}
 		var fernTestValueType *LabReportResultType
@@ -190,6 +206,72 @@ func TestGettersLabReportResult(t *testing.T) {
 			}
 		}()
 		_ = obj.GetValue() // Should return zero value
+	})
+
+	t.Run("GetSampleType", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		var expected *LabReportResultSampleType
+		obj.SampleType = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetSampleType(), "getter should return the property value")
+	})
+
+	t.Run("GetSampleType_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		obj.SampleType = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetSampleType(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetSampleType_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *LabReportResult
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetSampleType() // Should return zero value
+	})
+
+	t.Run("GetMeasurementKind", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		var expected *LabReportResultMeasurementKind
+		obj.MeasurementKind = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetMeasurementKind(), "getter should return the property value")
+	})
+
+	t.Run("GetMeasurementKind_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		obj.MeasurementKind = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetMeasurementKind(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetMeasurementKind_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *LabReportResult
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetMeasurementKind() // Should return zero value
 	})
 
 	t.Run("GetType", func(t *testing.T) {
@@ -531,6 +613,68 @@ func TestSettersMarkExplicitLabReportResult(t *testing.T) {
 
 		// Act
 		obj.SetValue(fernTestValueValue)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetSampleType_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		var fernTestValueSampleType *LabReportResultSampleType
+
+		// Act
+		obj.SetSampleType(fernTestValueSampleType)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetMeasurementKind_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		var fernTestValueMeasurementKind *LabReportResultMeasurementKind
+
+		// Act
+		obj.SetMeasurementKind(fernTestValueMeasurementKind)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -2555,6 +2699,113 @@ func TestStringResultMetadata(t *testing.T) {
 		var obj *ResultMetadata
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestEnumLabReportResultMeasurementKind(t *testing.T) {
+	t.Run("NewFromString_direct", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultMeasurementKindFromString("direct")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultMeasurementKind("direct"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_calculated", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultMeasurementKindFromString("calculated")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultMeasurementKind("calculated"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_ratio", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultMeasurementKindFromString("ratio")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultMeasurementKind("ratio"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_unknown", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultMeasurementKindFromString("unknown")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultMeasurementKind("unknown"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewLabReportResultMeasurementKindFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewLabReportResultMeasurementKindFromString("direct")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumLabReportResultSampleType(t *testing.T) {
+	t.Run("NewFromString_urine", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSampleTypeFromString("urine")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSampleType("urine"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_serum_plasma_blood", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSampleTypeFromString("serum_plasma_blood")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSampleType("serum_plasma_blood"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_capillary_blood", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSampleTypeFromString("capillary_blood")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSampleType("capillary_blood"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_stool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSampleTypeFromString("stool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSampleType("stool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_saliva", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSampleTypeFromString("saliva")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSampleType("saliva"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_other", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSampleTypeFromString("other")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSampleType("other"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_unknown", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSampleTypeFromString("unknown")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSampleType("unknown"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewLabReportResultSampleTypeFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewLabReportResultSampleTypeFromString("urine")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
 	})
 }
 

@@ -1624,6 +1624,14 @@ func TestSettersMealInDbBaseClientFacingSource(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetCalendarDate", func(t *testing.T) {
+		obj := &MealInDbBaseClientFacingSource{}
+		var fernTestValueCalendarDate string
+		obj.SetCalendarDate(fernTestValueCalendarDate)
+		assert.Equal(t, fernTestValueCalendarDate, obj.CalendarDate)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetName", func(t *testing.T) {
 		obj := &MealInDbBaseClientFacingSource{}
 		var fernTestValueName string
@@ -1843,6 +1851,29 @@ func TestGettersMealInDbBaseClientFacingSource(t *testing.T) {
 			}
 		}()
 		_ = obj.GetTimestamp() // Should return zero value
+	})
+
+	t.Run("GetCalendarDate", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &MealInDbBaseClientFacingSource{}
+		var expected string
+		obj.CalendarDate = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetCalendarDate(), "getter should return the property value")
+	})
+
+	t.Run("GetCalendarDate_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *MealInDbBaseClientFacingSource
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetCalendarDate() // Should return zero value
 	})
 
 	t.Run("GetName", func(t *testing.T) {
@@ -2311,6 +2342,37 @@ func TestSettersMarkExplicitMealInDbBaseClientFacingSource(t *testing.T) {
 
 		// Act
 		obj.SetTimestamp(fernTestValueTimestamp)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetCalendarDate_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &MealInDbBaseClientFacingSource{}
+		var fernTestValueCalendarDate string
+
+		// Act
+		obj.SetCalendarDate(fernTestValueCalendarDate)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
