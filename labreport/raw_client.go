@@ -41,7 +41,7 @@ func (r *RawClient) ParserCreateJob(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/lab_report/v1/parser/job"
 	headers := internal.MergeHeaders(
@@ -102,7 +102,7 @@ func (r *RawClient) ParserGetJob(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/lab_report/v1/parser/job/%v",

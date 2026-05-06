@@ -12,8 +12,8 @@ var Environments = struct {
 	Sandbox      string
 	SandboxEu    string
 }{
-	Production:   "https://api.tryvital.io",
-	ProductionEu: "https://api.eu.tryvital.io",
-	Sandbox:      "https://api.sandbox.tryvital.io",
-	SandboxEu:    "https://api.sandbox.eu.tryvital.io",
+	Production:   "https://api.us.junction.com",
+	ProductionEu: "https://api.eu.junction.com",
+	Sandbox:      "https://api.sandbox.us.junction.com",
+	SandboxEu:    "https://api.sandbox.eu.junction.com",
 }

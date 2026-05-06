@@ -40,7 +40,7 @@ func (r *RawClient) Register(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/testkit/register"
 	headers := internal.MergeHeaders(
@@ -83,7 +83,7 @@ func (r *RawClient) CreateOrder(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/order/testkit"
 	headers := internal.MergeHeaders(

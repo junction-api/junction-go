@@ -40,7 +40,7 @@ func (r *RawClient) Search(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/compendium/search"
 	headers := internal.MergeHeaders(
@@ -83,7 +83,7 @@ func (r *RawClient) Convert(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"https://api.tryvital.io",
+		"https://api.us.junction.com",
 	)
 	endpointURL := baseURL + "/v3/compendium/convert"
 	headers := internal.MergeHeaders(
