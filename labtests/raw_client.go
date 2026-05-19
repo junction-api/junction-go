@@ -1699,6 +1699,52 @@ func (r *RawClient) GetOrder(
 	}, nil
 }
 
+func (r *RawClient) UpdateOrder(
+	ctx context.Context,
+	request *junctiongo.UpdateOrderBody,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.PostOrderResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v3/order/%v",
+		request.OrderId,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	headers.Add("Content-Type", "application/json")
+	var response *junctiongo.PostOrderResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPatch,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.PostOrderResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) CreateOrder(
 	ctx context.Context,
 	request *junctiongo.CreateOrderRequestCompatible,
