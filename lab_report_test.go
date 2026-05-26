@@ -135,6 +135,14 @@ func TestSettersLabReportResult(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetLoincMatchStatus", func(t *testing.T) {
+		obj := &LabReportResult{}
+		var fernTestValueLoincMatchStatus *LabReportResultLoincMatchStatus
+		obj.SetLoincMatchStatus(fernTestValueLoincMatchStatus)
+		assert.Equal(t, fernTestValueLoincMatchStatus, obj.LoincMatchStatus)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetInterpretation", func(t *testing.T) {
 		obj := &LabReportResult{}
 		var fernTestValueInterpretation *Interpretation
@@ -470,6 +478,39 @@ func TestGettersLabReportResult(t *testing.T) {
 			}
 		}()
 		_ = obj.GetLoincMatches() // Should return zero value
+	})
+
+	t.Run("GetLoincMatchStatus", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		var expected *LabReportResultLoincMatchStatus
+		obj.LoincMatchStatus = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetLoincMatchStatus(), "getter should return the property value")
+	})
+
+	t.Run("GetLoincMatchStatus_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		obj.LoincMatchStatus = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetLoincMatchStatus(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetLoincMatchStatus_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *LabReportResult
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetLoincMatchStatus() // Should return zero value
 	})
 
 	t.Run("GetInterpretation", func(t *testing.T) {
@@ -861,6 +902,37 @@ func TestSettersMarkExplicitLabReportResult(t *testing.T) {
 
 		// Act
 		obj.SetLoincMatches(fernTestValueLoincMatches)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetLoincMatchStatus_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &LabReportResult{}
+		var fernTestValueLoincMatchStatus *LabReportResultLoincMatchStatus
+
+		// Act
+		obj.SetLoincMatchStatus(fernTestValueLoincMatchStatus)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -2699,6 +2771,42 @@ func TestStringResultMetadata(t *testing.T) {
 		var obj *ResultMetadata
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestEnumLabReportResultLoincMatchStatus(t *testing.T) {
+	t.Run("NewFromString_auto_match", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultLoincMatchStatusFromString("auto_match")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultLoincMatchStatus("auto_match"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_needs_review", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultLoincMatchStatusFromString("needs_review")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultLoincMatchStatus("needs_review"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_no_match", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultLoincMatchStatusFromString("no_match")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultLoincMatchStatus("no_match"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewLabReportResultLoincMatchStatusFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewLabReportResultLoincMatchStatusFromString("auto_match")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
 	})
 }
 

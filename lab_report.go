@@ -62,9 +62,10 @@ var (
 	labReportResultFieldMinReferenceRange = big.NewInt(1 << 7)
 	labReportResultFieldSourcePanelName   = big.NewInt(1 << 8)
 	labReportResultFieldLoincMatches      = big.NewInt(1 << 9)
-	labReportResultFieldInterpretation    = big.NewInt(1 << 10)
-	labReportResultFieldIsAboveMaxRange   = big.NewInt(1 << 11)
-	labReportResultFieldIsBelowMinRange   = big.NewInt(1 << 12)
+	labReportResultFieldLoincMatchStatus  = big.NewInt(1 << 10)
+	labReportResultFieldInterpretation    = big.NewInt(1 << 11)
+	labReportResultFieldIsAboveMaxRange   = big.NewInt(1 << 12)
+	labReportResultFieldIsBelowMinRange   = big.NewInt(1 << 13)
 )
 
 type LabReportResult struct {
@@ -81,6 +82,8 @@ type LabReportResult struct {
 	MinReferenceRange *float64             `json:"min_reference_range,omitempty" url:"min_reference_range,omitempty"`
 	SourcePanelName   *string              `json:"source_panel_name,omitempty" url:"source_panel_name,omitempty"`
 	LoincMatches      []*LoincMatch        `json:"loinc_matches,omitempty" url:"loinc_matches,omitempty"`
+	// ℹ️ This enum is non-exhaustive.
+	LoincMatchStatus *LabReportResultLoincMatchStatus `json:"loinc_match_status,omitempty" url:"loinc_match_status,omitempty"`
 	// ℹ️ This enum is non-exhaustive.
 	Interpretation  *Interpretation `json:"interpretation,omitempty" url:"interpretation,omitempty"`
 	IsAboveMaxRange *bool           `json:"is_above_max_range,omitempty" url:"is_above_max_range,omitempty"`
@@ -161,6 +164,13 @@ func (l *LabReportResult) GetLoincMatches() []*LoincMatch {
 		return nil
 	}
 	return l.LoincMatches
+}
+
+func (l *LabReportResult) GetLoincMatchStatus() *LabReportResultLoincMatchStatus {
+	if l == nil {
+		return nil
+	}
+	return l.LoincMatchStatus
 }
 
 func (l *LabReportResult) GetInterpretation() *Interpretation {
@@ -268,6 +278,13 @@ func (l *LabReportResult) SetLoincMatches(loincMatches []*LoincMatch) {
 	l.require(labReportResultFieldLoincMatches)
 }
 
+// SetLoincMatchStatus sets the LoincMatchStatus field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabReportResult) SetLoincMatchStatus(loincMatchStatus *LabReportResultLoincMatchStatus) {
+	l.LoincMatchStatus = loincMatchStatus
+	l.require(labReportResultFieldLoincMatchStatus)
+}
+
 // SetInterpretation sets the Interpretation field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (l *LabReportResult) SetInterpretation(interpretation *Interpretation) {
@@ -329,6 +346,31 @@ func (l *LabReportResult) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", l)
+}
+
+type LabReportResultLoincMatchStatus string
+
+const (
+	LabReportResultLoincMatchStatusAutoMatch   LabReportResultLoincMatchStatus = "auto_match"
+	LabReportResultLoincMatchStatusNeedsReview LabReportResultLoincMatchStatus = "needs_review"
+	LabReportResultLoincMatchStatusNoMatch     LabReportResultLoincMatchStatus = "no_match"
+)
+
+func NewLabReportResultLoincMatchStatusFromString(s string) (LabReportResultLoincMatchStatus, error) {
+	switch s {
+	case "auto_match":
+		return LabReportResultLoincMatchStatusAutoMatch, nil
+	case "needs_review":
+		return LabReportResultLoincMatchStatusNeedsReview, nil
+	case "no_match":
+		return LabReportResultLoincMatchStatusNoMatch, nil
+	}
+	var t LabReportResultLoincMatchStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (l LabReportResultLoincMatchStatus) Ptr() *LabReportResultLoincMatchStatus {
+	return &l
 }
 
 // ℹ️ This enum is non-exhaustive.

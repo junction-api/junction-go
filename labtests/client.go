@@ -635,6 +635,33 @@ func (c *Client) GetOrder(
 	return response.Body, nil
 }
 
+// Update a modifiable order's scheduled activation date.
+//
+// The order must be in `ordered` or `awaiting_registration` status. Setting
+// `activate_by` to a future date reschedules dispatch; setting it to `null`
+// clears the schedule and enqueues immediate dispatch for `ordered` orders.
+//
+// Returns 400 when:
+//   - the order is not in a modifiable status,
+//   - the order was created for immediate processing (cannot be scheduled
+//     after the fact),
+//   - `activate_by` is in the past.
+func (c *Client) UpdateOrder(
+	ctx context.Context,
+	request *junctiongo.UpdateOrderBody,
+	opts ...option.RequestOption,
+) (*junctiongo.PostOrderResponse, error) {
+	response, err := c.WithRawResponse.UpdateOrder(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 func (c *Client) CreateOrder(
 	ctx context.Context,
 	request *junctiongo.CreateOrderRequestCompatible,
