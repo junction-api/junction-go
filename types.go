@@ -27936,6 +27936,106 @@ func (g GenderIdentity) Ptr() *GenderIdentity {
 }
 
 var (
+	getOrderCommunicationSettingsResponseFieldOrderId    = big.NewInt(1 << 0)
+	getOrderCommunicationSettingsResponseFieldSmsEnabled = big.NewInt(1 << 1)
+)
+
+type GetOrderCommunicationSettingsResponse struct {
+	OrderId    string `json:"order_id" url:"order_id"`
+	SmsEnabled bool   `json:"sms_enabled" url:"sms_enabled"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (g *GetOrderCommunicationSettingsResponse) GetOrderId() string {
+	if g == nil {
+		return ""
+	}
+	return g.OrderId
+}
+
+func (g *GetOrderCommunicationSettingsResponse) GetSmsEnabled() bool {
+	if g == nil {
+		return false
+	}
+	return g.SmsEnabled
+}
+
+func (g *GetOrderCommunicationSettingsResponse) GetExtraProperties() map[string]interface{} {
+	if g == nil {
+		return nil
+	}
+	return g.extraProperties
+}
+
+func (g *GetOrderCommunicationSettingsResponse) require(field *big.Int) {
+	if g.explicitFields == nil {
+		g.explicitFields = big.NewInt(0)
+	}
+	g.explicitFields.Or(g.explicitFields, field)
+}
+
+// SetOrderId sets the OrderId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetOrderCommunicationSettingsResponse) SetOrderId(orderId string) {
+	g.OrderId = orderId
+	g.require(getOrderCommunicationSettingsResponseFieldOrderId)
+}
+
+// SetSmsEnabled sets the SmsEnabled field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetOrderCommunicationSettingsResponse) SetSmsEnabled(smsEnabled bool) {
+	g.SmsEnabled = smsEnabled
+	g.require(getOrderCommunicationSettingsResponseFieldSmsEnabled)
+}
+
+func (g *GetOrderCommunicationSettingsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler GetOrderCommunicationSettingsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GetOrderCommunicationSettingsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+	g.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GetOrderCommunicationSettingsResponse) MarshalJSON() ([]byte, error) {
+	type embed GetOrderCommunicationSettingsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*g),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (g *GetOrderCommunicationSettingsResponse) String() string {
+	if g == nil {
+		return "<nil>"
+	}
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
+}
+
+var (
 	guarantorDetailsFieldFirstName       = big.NewInt(1 << 0)
 	guarantorDetailsFieldLastName        = big.NewInt(1 << 1)
 	guarantorDetailsFieldAddress         = big.NewInt(1 << 2)
@@ -30437,6 +30537,190 @@ func (p *ParentBiomarkerData) MarshalJSON() ([]byte, error) {
 }
 
 func (p *ParentBiomarkerData) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+var (
+	patchOrderCommunicationSettingsBodyFieldSmsEnabled = big.NewInt(1 << 0)
+)
+
+type PatchOrderCommunicationSettingsBody struct {
+	SmsEnabled bool `json:"sms_enabled" url:"sms_enabled"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PatchOrderCommunicationSettingsBody) GetSmsEnabled() bool {
+	if p == nil {
+		return false
+	}
+	return p.SmsEnabled
+}
+
+func (p *PatchOrderCommunicationSettingsBody) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PatchOrderCommunicationSettingsBody) require(field *big.Int) {
+	if p.explicitFields == nil {
+		p.explicitFields = big.NewInt(0)
+	}
+	p.explicitFields.Or(p.explicitFields, field)
+}
+
+// SetSmsEnabled sets the SmsEnabled field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PatchOrderCommunicationSettingsBody) SetSmsEnabled(smsEnabled bool) {
+	p.SmsEnabled = smsEnabled
+	p.require(patchOrderCommunicationSettingsBodyFieldSmsEnabled)
+}
+
+func (p *PatchOrderCommunicationSettingsBody) UnmarshalJSON(data []byte) error {
+	type unmarshaler PatchOrderCommunicationSettingsBody
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PatchOrderCommunicationSettingsBody(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PatchOrderCommunicationSettingsBody) MarshalJSON() ([]byte, error) {
+	type embed PatchOrderCommunicationSettingsBody
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PatchOrderCommunicationSettingsBody) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+var (
+	patchOrderCommunicationSettingsResponseFieldOrderId    = big.NewInt(1 << 0)
+	patchOrderCommunicationSettingsResponseFieldSmsEnabled = big.NewInt(1 << 1)
+)
+
+type PatchOrderCommunicationSettingsResponse struct {
+	OrderId    string `json:"order_id" url:"order_id"`
+	SmsEnabled bool   `json:"sms_enabled" url:"sms_enabled"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PatchOrderCommunicationSettingsResponse) GetOrderId() string {
+	if p == nil {
+		return ""
+	}
+	return p.OrderId
+}
+
+func (p *PatchOrderCommunicationSettingsResponse) GetSmsEnabled() bool {
+	if p == nil {
+		return false
+	}
+	return p.SmsEnabled
+}
+
+func (p *PatchOrderCommunicationSettingsResponse) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PatchOrderCommunicationSettingsResponse) require(field *big.Int) {
+	if p.explicitFields == nil {
+		p.explicitFields = big.NewInt(0)
+	}
+	p.explicitFields.Or(p.explicitFields, field)
+}
+
+// SetOrderId sets the OrderId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PatchOrderCommunicationSettingsResponse) SetOrderId(orderId string) {
+	p.OrderId = orderId
+	p.require(patchOrderCommunicationSettingsResponseFieldOrderId)
+}
+
+// SetSmsEnabled sets the SmsEnabled field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PatchOrderCommunicationSettingsResponse) SetSmsEnabled(smsEnabled bool) {
+	p.SmsEnabled = smsEnabled
+	p.require(patchOrderCommunicationSettingsResponseFieldSmsEnabled)
+}
+
+func (p *PatchOrderCommunicationSettingsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler PatchOrderCommunicationSettingsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PatchOrderCommunicationSettingsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PatchOrderCommunicationSettingsResponse) MarshalJSON() ([]byte, error) {
+	type embed PatchOrderCommunicationSettingsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PatchOrderCommunicationSettingsResponse) String() string {
 	if p == nil {
 		return "<nil>"
 	}
