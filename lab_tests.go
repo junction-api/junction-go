@@ -7809,6 +7809,63 @@ func (u *UpdateOnSiteCollectionOrderDrawCompletedLabTestsRequest) SetOrderId(ord
 }
 
 var (
+	updateOrderBodyFieldOrderId    = big.NewInt(1 << 0)
+	updateOrderBodyFieldActivateBy = big.NewInt(1 << 1)
+)
+
+type UpdateOrderBody struct {
+	// Your Order ID.
+	OrderId string `json:"-" url:"-"`
+	// The date on which the order should be activated (dispatched to the lab). Must be today or a future date. Set to `null` to clear an existing scheduled date and dispatch the order immediately. Note: an order originally created for immediate processing (no `activate_by` at creation time) cannot be rescheduled — only orders that were created with an `activate_by` can have it changed or cleared.
+	ActivateBy *string `json:"activate_by,omitempty" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (u *UpdateOrderBody) require(field *big.Int) {
+	if u.explicitFields == nil {
+		u.explicitFields = big.NewInt(0)
+	}
+	u.explicitFields.Or(u.explicitFields, field)
+}
+
+// SetOrderId sets the OrderId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateOrderBody) SetOrderId(orderId string) {
+	u.OrderId = orderId
+	u.require(updateOrderBodyFieldOrderId)
+}
+
+// SetActivateBy sets the ActivateBy field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateOrderBody) SetActivateBy(activateBy *string) {
+	u.ActivateBy = activateBy
+	u.require(updateOrderBodyFieldActivateBy)
+}
+
+func (u *UpdateOrderBody) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateOrderBody
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*u = UpdateOrderBody(body)
+	return nil
+}
+
+func (u *UpdateOrderBody) MarshalJSON() ([]byte, error) {
+	type embed UpdateOrderBody
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+var (
 	validateIcdCodesBodyFieldCodes = big.NewInt(1 << 0)
 )
 

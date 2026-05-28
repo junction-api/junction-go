@@ -14429,6 +14429,85 @@ client.LabTests.GetOrder(
 </dl>
 </details>
 
+<details><summary><code>client.LabTests.UpdateOrder(OrderId, request) -> *junctiongo.PostOrderResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update a modifiable order's scheduled activation date.
+
+The order must be in `ordered` or `awaiting_registration` status. Setting
+`activate_by` to a future date reschedules dispatch; setting it to `null`
+clears the schedule and enqueues immediate dispatch for `ordered` orders.
+
+Returns 400 when:
+- the order is not in a modifiable status,
+- the order was created for immediate processing (cannot be scheduled
+  after the fact),
+- `activate_by` is in the past.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.UpdateOrderBody{
+        OrderId: "order_id",
+    }
+client.LabTests.UpdateOrder(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**orderId:** `string` — Your Order ID.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**activateBy:** `*string` — The date on which the order should be activated (dispatched to the lab). Must be today or a future date. Set to `null` to clear an existing scheduled date and dispatch the order immediately. Note: an order originally created for immediate processing (no `activate_by` at creation time) cannot be rescheduled — only orders that were created with an `activate_by` can have it changed or cleared.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.LabTests.CreateOrder(request) -> *junctiongo.PostOrderResponse</code></summary>
 <dl>
 <dd>
