@@ -1574,6 +1574,236 @@ func (a *AggregationResult) String() string {
 	return fmt.Sprintf("%#v", a)
 }
 
+// Post-aggregation alignment clause for a CQ query.
+//
+// `carry` runs after group_by+aggregate, implicitly materialising missing
+// datetime buckets before filling them. Omitting `.align()` entirely preserves
+// honest-null behaviour; the `carry` field is required when `align` is present.
+var (
+	alignExprFieldCarry = big.NewInt(1 << 0)
+)
+
+type AlignExpr struct {
+	Carry *AlignExprCarry `json:"carry" url:"carry"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (a *AlignExpr) GetCarry() *AlignExprCarry {
+	if a == nil {
+		return nil
+	}
+	return a.Carry
+}
+
+func (a *AlignExpr) GetExtraProperties() map[string]interface{} {
+	if a == nil {
+		return nil
+	}
+	return a.extraProperties
+}
+
+func (a *AlignExpr) require(field *big.Int) {
+	if a.explicitFields == nil {
+		a.explicitFields = big.NewInt(0)
+	}
+	a.explicitFields.Or(a.explicitFields, field)
+}
+
+// SetCarry sets the Carry field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AlignExpr) SetCarry(carry *AlignExprCarry) {
+	a.Carry = carry
+	a.require(alignExprFieldCarry)
+}
+
+func (a *AlignExpr) UnmarshalJSON(data []byte) error {
+	type unmarshaler AlignExpr
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AlignExpr(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+	a.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AlignExpr) MarshalJSON() ([]byte, error) {
+	type embed AlignExpr
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*a),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, a.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (a *AlignExpr) String() string {
+	if a == nil {
+		return "<nil>"
+	}
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
+type AlignExprCarry struct {
+	Mode          string
+	CarryForward  *CarryForwardExpr
+	CarryBackward *CarryBackwardExpr
+	CarryNearest  *CarryNearestExpr
+}
+
+func (a *AlignExprCarry) GetMode() string {
+	if a == nil {
+		return ""
+	}
+	return a.Mode
+}
+
+func (a *AlignExprCarry) GetCarryForward() *CarryForwardExpr {
+	if a == nil {
+		return nil
+	}
+	return a.CarryForward
+}
+
+func (a *AlignExprCarry) GetCarryBackward() *CarryBackwardExpr {
+	if a == nil {
+		return nil
+	}
+	return a.CarryBackward
+}
+
+func (a *AlignExprCarry) GetCarryNearest() *CarryNearestExpr {
+	if a == nil {
+		return nil
+	}
+	return a.CarryNearest
+}
+
+func (a *AlignExprCarry) UnmarshalJSON(data []byte) error {
+	var unmarshaler struct {
+		Mode string `json:"mode"`
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	a.Mode = unmarshaler.Mode
+	if unmarshaler.Mode == "" {
+		return fmt.Errorf("%T did not include discriminant mode", a)
+	}
+	switch unmarshaler.Mode {
+	case "carry_forward":
+		value := new(CarryForwardExpr)
+		if err := json.Unmarshal(data, &value); err != nil {
+			return err
+		}
+		a.CarryForward = value
+	case "carry_backward":
+		value := new(CarryBackwardExpr)
+		if err := json.Unmarshal(data, &value); err != nil {
+			return err
+		}
+		a.CarryBackward = value
+	case "carry_nearest":
+		value := new(CarryNearestExpr)
+		if err := json.Unmarshal(data, &value); err != nil {
+			return err
+		}
+		a.CarryNearest = value
+	}
+	return nil
+}
+
+func (a AlignExprCarry) MarshalJSON() ([]byte, error) {
+	if err := a.validate(); err != nil {
+		return nil, err
+	}
+	if a.CarryForward != nil {
+		return internal.MarshalJSONWithExtraProperty(a.CarryForward, "mode", "carry_forward")
+	}
+	if a.CarryBackward != nil {
+		return internal.MarshalJSONWithExtraProperty(a.CarryBackward, "mode", "carry_backward")
+	}
+	if a.CarryNearest != nil {
+		return internal.MarshalJSONWithExtraProperty(a.CarryNearest, "mode", "carry_nearest")
+	}
+	return nil, fmt.Errorf("type %T does not define a non-empty union type", a)
+}
+
+type AlignExprCarryVisitor interface {
+	VisitCarryForward(*CarryForwardExpr) error
+	VisitCarryBackward(*CarryBackwardExpr) error
+	VisitCarryNearest(*CarryNearestExpr) error
+}
+
+func (a *AlignExprCarry) Accept(visitor AlignExprCarryVisitor) error {
+	if a.CarryForward != nil {
+		return visitor.VisitCarryForward(a.CarryForward)
+	}
+	if a.CarryBackward != nil {
+		return visitor.VisitCarryBackward(a.CarryBackward)
+	}
+	if a.CarryNearest != nil {
+		return visitor.VisitCarryNearest(a.CarryNearest)
+	}
+	return fmt.Errorf("type %T does not define a non-empty union type", a)
+}
+
+func (a *AlignExprCarry) validate() error {
+	if a == nil {
+		return fmt.Errorf("type %T is nil", a)
+	}
+	var fields []string
+	if a.CarryForward != nil {
+		fields = append(fields, "carry_forward")
+	}
+	if a.CarryBackward != nil {
+		fields = append(fields, "carry_backward")
+	}
+	if a.CarryNearest != nil {
+		fields = append(fields, "carry_nearest")
+	}
+	if len(fields) == 0 {
+		if a.Mode != "" {
+			return fmt.Errorf("type %T defines a discriminant set to %q but the field is not set", a, a.Mode)
+		}
+		return fmt.Errorf("type %T is empty", a)
+	}
+	if len(fields) > 1 {
+		return fmt.Errorf("type %T defines values for %s, but only one value is allowed", a, fields)
+	}
+	if a.Mode != "" {
+		field := fields[0]
+		if a.Mode != field {
+			return fmt.Errorf(
+				"type %T defines a discriminant set to %q, but it does not match the %T field; either remove or update the discriminant to match",
+				a,
+				a.Mode,
+				a,
+			)
+		}
+	}
+	return nil
+}
+
 var (
 	asleepAtValueMacroExprFieldVersion = big.NewInt(1 << 0)
 )
@@ -2143,6 +2373,274 @@ func NewBodyColumnExprBodyFromString(s string) (BodyColumnExprBody, error) {
 
 func (b BodyColumnExprBody) Ptr() *BodyColumnExprBody {
 	return &b
+}
+
+// Post-aggregation carry operator: carry-backward.
+//
+// For each empty bucket, carries the nearest subsequent non-empty bucket's
+// aggregate backward in time. `max_age=None` means no cap; when set,
+// enforced >= group_by_period at CQ validation time.
+var (
+	carryBackwardExprFieldMaxAge = big.NewInt(1 << 0)
+)
+
+type CarryBackwardExpr struct {
+	MaxAge *Period `json:"max_age,omitempty" url:"max_age,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CarryBackwardExpr) GetMaxAge() *Period {
+	if c == nil {
+		return nil
+	}
+	return c.MaxAge
+}
+
+func (c *CarryBackwardExpr) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CarryBackwardExpr) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetMaxAge sets the MaxAge field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CarryBackwardExpr) SetMaxAge(maxAge *Period) {
+	c.MaxAge = maxAge
+	c.require(carryBackwardExprFieldMaxAge)
+}
+
+func (c *CarryBackwardExpr) UnmarshalJSON(data []byte) error {
+	type unmarshaler CarryBackwardExpr
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CarryBackwardExpr(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CarryBackwardExpr) MarshalJSON() ([]byte, error) {
+	type embed CarryBackwardExpr
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CarryBackwardExpr) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Post-aggregation carry operator: last-observation-carried-forward.
+//
+// For each empty bucket, carries the most recent prior non-empty bucket's
+// aggregate forward. `max_age=None` means no cap (carry indefinitely);
+// when set, enforced >= group_by_period at CQ validation time.
+var (
+	carryForwardExprFieldMaxAge = big.NewInt(1 << 0)
+)
+
+type CarryForwardExpr struct {
+	MaxAge *Period `json:"max_age,omitempty" url:"max_age,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CarryForwardExpr) GetMaxAge() *Period {
+	if c == nil {
+		return nil
+	}
+	return c.MaxAge
+}
+
+func (c *CarryForwardExpr) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CarryForwardExpr) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetMaxAge sets the MaxAge field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CarryForwardExpr) SetMaxAge(maxAge *Period) {
+	c.MaxAge = maxAge
+	c.require(carryForwardExprFieldMaxAge)
+}
+
+func (c *CarryForwardExpr) UnmarshalJSON(data []byte) error {
+	type unmarshaler CarryForwardExpr
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CarryForwardExpr(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CarryForwardExpr) MarshalJSON() ([]byte, error) {
+	type embed CarryForwardExpr
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CarryForwardExpr) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Post-aggregation carry operator: carry from the nearest non-empty bucket.
+//
+// For each empty bucket, borrows the nearest non-empty adjacent bucket's
+// aggregate — past or future, whichever is closer. On a tie the past value
+// is preferred. `span=None` means no cap; when set, enforced >=
+// group_by_period at CQ validation time.
+var (
+	carryNearestExprFieldSpan = big.NewInt(1 << 0)
+)
+
+type CarryNearestExpr struct {
+	Span *Period `json:"span,omitempty" url:"span,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CarryNearestExpr) GetSpan() *Period {
+	if c == nil {
+		return nil
+	}
+	return c.Span
+}
+
+func (c *CarryNearestExpr) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CarryNearestExpr) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetSpan sets the Span field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CarryNearestExpr) SetSpan(span *Period) {
+	c.Span = span
+	c.require(carryNearestExprFieldSpan)
+}
+
+func (c *CarryNearestExpr) UnmarshalJSON(data []byte) error {
+	type unmarshaler CarryNearestExpr
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CarryNearestExpr(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CarryNearestExpr) MarshalJSON() ([]byte, error) {
+	type embed CarryNearestExpr
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CarryNearestExpr) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 var (
@@ -6080,6 +6578,7 @@ var (
 	queryFieldSelect  = big.NewInt(1 << 0)
 	queryFieldGroupBy = big.NewInt(1 << 1)
 	queryFieldWhere   = big.NewInt(1 << 2)
+	queryFieldAlign   = big.NewInt(1 << 3)
 )
 
 type Query struct {
@@ -6091,6 +6590,10 @@ type Query struct {
 	// * Available operators: `>`, `>=`, `<`, `<=`, `=`, `!=`, `NOT`, `AND` and `OR`.
 	// * Parentheses is supported.
 	Where *string `json:"where,omitempty" url:"where,omitempty"`
+	// Post-aggregation alignment clause. When a carry operator is set, missing
+	// datetime buckets are materialised and filled after group_by+aggregate.
+	// Omitting this field preserves honest-null behaviour.
+	Align *AlignExpr `json:"align,omitempty" url:"align,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -6118,6 +6621,13 @@ func (q *Query) GetWhere() *string {
 		return nil
 	}
 	return q.Where
+}
+
+func (q *Query) GetAlign() *AlignExpr {
+	if q == nil {
+		return nil
+	}
+	return q.Align
 }
 
 func (q *Query) GetExtraProperties() map[string]interface{} {
@@ -6153,6 +6663,13 @@ func (q *Query) SetGroupBy(groupBy []*QueryGroupByItem) {
 func (q *Query) SetWhere(where *string) {
 	q.Where = where
 	q.require(queryFieldWhere)
+}
+
+// SetAlign sets the Align field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (q *Query) SetAlign(align *AlignExpr) {
+	q.Align = align
+	q.require(queryFieldAlign)
 }
 
 func (q *Query) UnmarshalJSON(data []byte) error {
