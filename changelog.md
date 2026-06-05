@@ -1,3 +1,20 @@
+## v1.2.0 - 2026-06-05
+### Added
+* **`AlignExpr`** — new public symbol
+* **`AlignExprCarry`** — new public symbol
+* **`AlignExprCarryVisitor`** — new public symbol
+* **`CarryBackwardExpr`** — new public symbol
+* **`CarryForwardExpr`** — new public symbol
+* **`CarryNearestExpr`** — new public symbol
+### Changed
+* **`Query`** — new optional field(s): Align
+### Beta
+* **`LabReportResult`** — field(s) removed: IsSensitive
+* **`LabReportResultIsSensitive`** — public symbol removed
+* **`LabReportResultSensitivity`** — new public symbol
+* **`NewLabReportResultIsSensitiveFromString()`** — public symbol removed
+* **`NewLabReportResultSensitivityFromString()`** — new public symbol
+
 ## v1.1.0 - 2026-05-27
 ### Added
 * **`UpdateOrder`** — new method on `labtests.Client` (and `RawClient`) to update a modifiable order's scheduled activation date via PATCH `/v3/order/{id}`; accepts the new `UpdateOrderBody` request type with `OrderId` and optional `ActivateBy` fields.

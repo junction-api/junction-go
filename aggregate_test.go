@@ -2065,6 +2065,212 @@ func TestSettersMarkExplicitAggregationResult(t *testing.T) {
 
 }
 
+func TestSettersAlignExpr(t *testing.T) {
+	t.Run("SetCarry", func(t *testing.T) {
+		obj := &AlignExpr{}
+		var fernTestValueCarry *AlignExprCarry
+		obj.SetCarry(fernTestValueCarry)
+		assert.Equal(t, fernTestValueCarry, obj.Carry)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersAlignExpr(t *testing.T) {
+	t.Run("GetCarry", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExpr{}
+		var expected *AlignExprCarry
+		obj.Carry = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetCarry(), "getter should return the property value")
+	})
+
+	t.Run("GetCarry_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExpr{}
+		obj.Carry = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetCarry(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetCarry_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *AlignExpr
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetCarry() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitAlignExpr(t *testing.T) {
+	t.Run("SetCarry_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExpr{}
+		var fernTestValueCarry *AlignExprCarry
+
+		// Act
+		obj.SetCarry(fernTestValueCarry)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestGettersAlignExprCarry(t *testing.T) {
+	t.Run("GetMode", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExprCarry{}
+		var expected string
+		obj.Mode = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetMode(), "getter should return the property value")
+	})
+
+	t.Run("GetMode_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *AlignExprCarry
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetMode() // Should return zero value
+	})
+
+	t.Run("GetCarryForward", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExprCarry{}
+		var expected *CarryForwardExpr
+		obj.CarryForward = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetCarryForward(), "getter should return the property value")
+	})
+
+	t.Run("GetCarryForward_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExprCarry{}
+		obj.CarryForward = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetCarryForward(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetCarryForward_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *AlignExprCarry
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetCarryForward() // Should return zero value
+	})
+
+	t.Run("GetCarryBackward", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExprCarry{}
+		var expected *CarryBackwardExpr
+		obj.CarryBackward = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetCarryBackward(), "getter should return the property value")
+	})
+
+	t.Run("GetCarryBackward_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExprCarry{}
+		obj.CarryBackward = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetCarryBackward(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetCarryBackward_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *AlignExprCarry
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetCarryBackward() // Should return zero value
+	})
+
+	t.Run("GetCarryNearest", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExprCarry{}
+		var expected *CarryNearestExpr
+		obj.CarryNearest = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetCarryNearest(), "getter should return the property value")
+	})
+
+	t.Run("GetCarryNearest_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExprCarry{}
+		obj.CarryNearest = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetCarryNearest(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetCarryNearest_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *AlignExprCarry
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetCarryNearest() // Should return zero value
+	})
+
+}
+
 func TestSettersBloodPressureTimeseriesExpr(t *testing.T) {
 	t.Run("SetField", func(t *testing.T) {
 		obj := &BloodPressureTimeseriesExpr{}
@@ -2182,6 +2388,249 @@ func TestSettersMarkExplicitBodyColumnExpr(t *testing.T) {
 
 		// Act
 		obj.SetBody(fernTestValueBody)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestSettersCarryBackwardExpr(t *testing.T) {
+	t.Run("SetMaxAge", func(t *testing.T) {
+		obj := &CarryBackwardExpr{}
+		var fernTestValueMaxAge *Period
+		obj.SetMaxAge(fernTestValueMaxAge)
+		assert.Equal(t, fernTestValueMaxAge, obj.MaxAge)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersCarryBackwardExpr(t *testing.T) {
+	t.Run("GetMaxAge", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryBackwardExpr{}
+		var expected *Period
+		obj.MaxAge = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetMaxAge(), "getter should return the property value")
+	})
+
+	t.Run("GetMaxAge_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryBackwardExpr{}
+		obj.MaxAge = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetMaxAge(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetMaxAge_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryBackwardExpr
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetMaxAge() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitCarryBackwardExpr(t *testing.T) {
+	t.Run("SetMaxAge_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryBackwardExpr{}
+		var fernTestValueMaxAge *Period
+
+		// Act
+		obj.SetMaxAge(fernTestValueMaxAge)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestSettersCarryForwardExpr(t *testing.T) {
+	t.Run("SetMaxAge", func(t *testing.T) {
+		obj := &CarryForwardExpr{}
+		var fernTestValueMaxAge *Period
+		obj.SetMaxAge(fernTestValueMaxAge)
+		assert.Equal(t, fernTestValueMaxAge, obj.MaxAge)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersCarryForwardExpr(t *testing.T) {
+	t.Run("GetMaxAge", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryForwardExpr{}
+		var expected *Period
+		obj.MaxAge = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetMaxAge(), "getter should return the property value")
+	})
+
+	t.Run("GetMaxAge_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryForwardExpr{}
+		obj.MaxAge = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetMaxAge(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetMaxAge_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryForwardExpr
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetMaxAge() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitCarryForwardExpr(t *testing.T) {
+	t.Run("SetMaxAge_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryForwardExpr{}
+		var fernTestValueMaxAge *Period
+
+		// Act
+		obj.SetMaxAge(fernTestValueMaxAge)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestSettersCarryNearestExpr(t *testing.T) {
+	t.Run("SetSpan", func(t *testing.T) {
+		obj := &CarryNearestExpr{}
+		var fernTestValueSpan *Period
+		obj.SetSpan(fernTestValueSpan)
+		assert.Equal(t, fernTestValueSpan, obj.Span)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersCarryNearestExpr(t *testing.T) {
+	t.Run("GetSpan", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryNearestExpr{}
+		var expected *Period
+		obj.Span = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetSpan(), "getter should return the property value")
+	})
+
+	t.Run("GetSpan_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryNearestExpr{}
+		obj.Span = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetSpan(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetSpan_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryNearestExpr
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetSpan() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitCarryNearestExpr(t *testing.T) {
+	t.Run("SetSpan_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryNearestExpr{}
+		var fernTestValueSpan *Period
+
+		// Act
+		obj.SetSpan(fernTestValueSpan)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -4967,6 +5416,14 @@ func TestSettersQuery(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetAlign", func(t *testing.T) {
+		obj := &Query{}
+		var fernTestValueAlign *AlignExpr
+		obj.SetAlign(fernTestValueAlign)
+		assert.Equal(t, fernTestValueAlign, obj.Align)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 }
 
 func TestGettersQuery(t *testing.T) {
@@ -5069,6 +5526,39 @@ func TestGettersQuery(t *testing.T) {
 		_ = obj.GetWhere() // Should return zero value
 	})
 
+	t.Run("GetAlign", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &Query{}
+		var expected *AlignExpr
+		obj.Align = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetAlign(), "getter should return the property value")
+	})
+
+	t.Run("GetAlign_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &Query{}
+		obj.Align = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetAlign(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetAlign_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *Query
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetAlign() // Should return zero value
+	})
+
 }
 
 func TestSettersMarkExplicitQuery(t *testing.T) {
@@ -5142,6 +5632,37 @@ func TestSettersMarkExplicitQuery(t *testing.T) {
 
 		// Act
 		obj.SetWhere(fernTestValueWhere)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetAlign_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &Query{}
+		var fernTestValueAlign *AlignExpr
+
+		// Act
+		obj.SetAlign(fernTestValueAlign)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -8958,6 +9479,39 @@ func TestJSONMarshalingAggregationResult(t *testing.T) {
 	})
 }
 
+func TestJSONMarshalingAlignExpr(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AlignExpr{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled AlignExpr
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj AlignExpr
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj AlignExpr
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
 func TestJSONMarshalingAsleepAtValueMacroExpr(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
@@ -9094,6 +9648,105 @@ func TestJSONMarshalingBodyColumnExpr(t *testing.T) {
 	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
 		t.Parallel()
 		var obj BodyColumnExpr
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
+func TestJSONMarshalingCarryBackwardExpr(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryBackwardExpr{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled CarryBackwardExpr
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj CarryBackwardExpr
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj CarryBackwardExpr
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
+func TestJSONMarshalingCarryForwardExpr(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryForwardExpr{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled CarryForwardExpr
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj CarryForwardExpr
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj CarryForwardExpr
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
+func TestJSONMarshalingCarryNearestExpr(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CarryNearestExpr{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled CarryNearestExpr
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj CarryNearestExpr
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj CarryNearestExpr
 		err := json.Unmarshal([]byte(`{}`), &obj)
 		assert.NoError(t, err, "unmarshaling empty object should succeed")
 	})
@@ -10445,6 +11098,22 @@ func TestStringAggregationResult(t *testing.T) {
 	})
 }
 
+func TestStringAlignExpr(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &AlignExpr{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *AlignExpr
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
 func TestStringAsleepAtValueMacroExpr(t *testing.T) {
 	t.Run("StringMethod", func(t *testing.T) {
 		t.Parallel()
@@ -10520,6 +11189,54 @@ func TestStringBodyColumnExpr(t *testing.T) {
 	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *BodyColumnExpr
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestStringCarryBackwardExpr(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &CarryBackwardExpr{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryBackwardExpr
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestStringCarryForwardExpr(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &CarryForwardExpr{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryForwardExpr
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestStringCarryNearestExpr(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &CarryNearestExpr{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryNearestExpr
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
 	})
@@ -14423,6 +15140,29 @@ func TestExtraPropertiesAggregationResult(t *testing.T) {
 	})
 }
 
+func TestExtraPropertiesAlignExpr(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &AlignExpr{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *AlignExpr
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
 func TestExtraPropertiesAsleepAtValueMacroExpr(t *testing.T) {
 	t.Run("GetExtraProperties", func(t *testing.T) {
 		t.Parallel()
@@ -14533,6 +15273,75 @@ func TestExtraPropertiesBodyColumnExpr(t *testing.T) {
 	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *BodyColumnExpr
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
+func TestExtraPropertiesCarryBackwardExpr(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &CarryBackwardExpr{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryBackwardExpr
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
+func TestExtraPropertiesCarryForwardExpr(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &CarryForwardExpr{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryForwardExpr
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
+func TestExtraPropertiesCarryNearestExpr(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &CarryNearestExpr{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *CarryNearestExpr
 		extraProps := obj.GetExtraProperties()
 		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
 	})

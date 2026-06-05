@@ -61,7 +61,7 @@ var (
 	labReportResultFieldMaxReferenceRange = big.NewInt(1 << 6)
 	labReportResultFieldMinReferenceRange = big.NewInt(1 << 7)
 	labReportResultFieldSourcePanelName   = big.NewInt(1 << 8)
-	labReportResultFieldIsSensitive       = big.NewInt(1 << 9)
+	labReportResultFieldSensitivity       = big.NewInt(1 << 9)
 	labReportResultFieldLoincMatches      = big.NewInt(1 << 10)
 	labReportResultFieldLoincMatchStatus  = big.NewInt(1 << 11)
 	labReportResultFieldInterpretation    = big.NewInt(1 << 12)
@@ -83,7 +83,7 @@ type LabReportResult struct {
 	MinReferenceRange *float64             `json:"min_reference_range,omitempty" url:"min_reference_range,omitempty"`
 	SourcePanelName   *string              `json:"source_panel_name,omitempty" url:"source_panel_name,omitempty"`
 	// ℹ️ This enum is non-exhaustive.
-	IsSensitive  *LabReportResultIsSensitive `json:"is_sensitive,omitempty" url:"is_sensitive,omitempty"`
+	Sensitivity  *LabReportResultSensitivity `json:"sensitivity,omitempty" url:"sensitivity,omitempty"`
 	LoincMatches []*LoincMatch               `json:"loinc_matches,omitempty" url:"loinc_matches,omitempty"`
 	// ℹ️ This enum is non-exhaustive.
 	LoincMatchStatus *LabReportResultLoincMatchStatus `json:"loinc_match_status,omitempty" url:"loinc_match_status,omitempty"`
@@ -162,11 +162,11 @@ func (l *LabReportResult) GetSourcePanelName() *string {
 	return l.SourcePanelName
 }
 
-func (l *LabReportResult) GetIsSensitive() *LabReportResultIsSensitive {
+func (l *LabReportResult) GetSensitivity() *LabReportResultSensitivity {
 	if l == nil {
 		return nil
 	}
-	return l.IsSensitive
+	return l.Sensitivity
 }
 
 func (l *LabReportResult) GetLoincMatches() []*LoincMatch {
@@ -281,11 +281,11 @@ func (l *LabReportResult) SetSourcePanelName(sourcePanelName *string) {
 	l.require(labReportResultFieldSourcePanelName)
 }
 
-// SetIsSensitive sets the IsSensitive field and marks it as non-optional;
+// SetSensitivity sets the Sensitivity field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *LabReportResult) SetIsSensitive(isSensitive *LabReportResultIsSensitive) {
-	l.IsSensitive = isSensitive
-	l.require(labReportResultFieldIsSensitive)
+func (l *LabReportResult) SetSensitivity(sensitivity *LabReportResultSensitivity) {
+	l.Sensitivity = sensitivity
+	l.require(labReportResultFieldSensitivity)
 }
 
 // SetLoincMatches sets the LoincMatches field and marks it as non-optional;
@@ -363,32 +363,6 @@ func (l *LabReportResult) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", l)
-}
-
-// ℹ️ This enum is non-exhaustive.
-type LabReportResultIsSensitive string
-
-const (
-	LabReportResultIsSensitiveSensitive   LabReportResultIsSensitive = "sensitive"
-	LabReportResultIsSensitiveInsensitive LabReportResultIsSensitive = "insensitive"
-	LabReportResultIsSensitiveUnknown     LabReportResultIsSensitive = "unknown"
-)
-
-func NewLabReportResultIsSensitiveFromString(s string) (LabReportResultIsSensitive, error) {
-	switch s {
-	case "sensitive":
-		return LabReportResultIsSensitiveSensitive, nil
-	case "insensitive":
-		return LabReportResultIsSensitiveInsensitive, nil
-	case "unknown":
-		return LabReportResultIsSensitiveUnknown, nil
-	}
-	var t LabReportResultIsSensitive
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (l LabReportResultIsSensitive) Ptr() *LabReportResultIsSensitive {
-	return &l
 }
 
 type LabReportResultLoincMatchStatus string
@@ -480,6 +454,32 @@ func NewLabReportResultSampleTypeFromString(s string) (LabReportResultSampleType
 }
 
 func (l LabReportResultSampleType) Ptr() *LabReportResultSampleType {
+	return &l
+}
+
+// ℹ️ This enum is non-exhaustive.
+type LabReportResultSensitivity string
+
+const (
+	LabReportResultSensitivitySensitive   LabReportResultSensitivity = "sensitive"
+	LabReportResultSensitivityInsensitive LabReportResultSensitivity = "insensitive"
+	LabReportResultSensitivityUnknown     LabReportResultSensitivity = "unknown"
+)
+
+func NewLabReportResultSensitivityFromString(s string) (LabReportResultSensitivity, error) {
+	switch s {
+	case "sensitive":
+		return LabReportResultSensitivitySensitive, nil
+	case "insensitive":
+		return LabReportResultSensitivityInsensitive, nil
+	case "unknown":
+		return LabReportResultSensitivityUnknown, nil
+	}
+	var t LabReportResultSensitivity
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (l LabReportResultSensitivity) Ptr() *LabReportResultSensitivity {
 	return &l
 }
 
@@ -942,6 +942,7 @@ const (
 	ParsingJobFailureReasonInvalidInput ParsingJobFailureReason = "invalid_input"
 	ParsingJobFailureReasonLowQuality   ParsingJobFailureReason = "low_quality"
 	ParsingJobFailureReasonNotEnglish   ParsingJobFailureReason = "not_english"
+	ParsingJobFailureReasonTooManyPages ParsingJobFailureReason = "too_many_pages"
 )
 
 func NewParsingJobFailureReasonFromString(s string) (ParsingJobFailureReason, error) {
@@ -952,6 +953,8 @@ func NewParsingJobFailureReasonFromString(s string) (ParsingJobFailureReason, er
 		return ParsingJobFailureReasonLowQuality, nil
 	case "not_english":
 		return ParsingJobFailureReasonNotEnglish, nil
+	case "too_many_pages":
+		return ParsingJobFailureReasonTooManyPages, nil
 	}
 	var t ParsingJobFailureReason
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

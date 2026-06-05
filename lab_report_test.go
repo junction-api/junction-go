@@ -127,11 +127,11 @@ func TestSettersLabReportResult(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
-	t.Run("SetIsSensitive", func(t *testing.T) {
+	t.Run("SetSensitivity", func(t *testing.T) {
 		obj := &LabReportResult{}
-		var fernTestValueIsSensitive *LabReportResultIsSensitive
-		obj.SetIsSensitive(fernTestValueIsSensitive)
-		assert.Equal(t, fernTestValueIsSensitive, obj.IsSensitive)
+		var fernTestValueSensitivity *LabReportResultSensitivity
+		obj.SetSensitivity(fernTestValueSensitivity)
+		assert.Equal(t, fernTestValueSensitivity, obj.Sensitivity)
 		assert.NotNil(t, obj.explicitFields)
 	})
 
@@ -455,28 +455,28 @@ func TestGettersLabReportResult(t *testing.T) {
 		_ = obj.GetSourcePanelName() // Should return zero value
 	})
 
-	t.Run("GetIsSensitive", func(t *testing.T) {
+	t.Run("GetSensitivity", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &LabReportResult{}
-		var expected *LabReportResultIsSensitive
-		obj.IsSensitive = expected
+		var expected *LabReportResultSensitivity
+		obj.Sensitivity = expected
 
 		// Act & Assert
-		assert.Equal(t, expected, obj.GetIsSensitive(), "getter should return the property value")
+		assert.Equal(t, expected, obj.GetSensitivity(), "getter should return the property value")
 	})
 
-	t.Run("GetIsSensitive_NilValue", func(t *testing.T) {
+	t.Run("GetSensitivity_NilValue", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &LabReportResult{}
-		obj.IsSensitive = nil
+		obj.Sensitivity = nil
 
 		// Act & Assert
-		assert.Nil(t, obj.GetIsSensitive(), "getter should return nil when property is nil")
+		assert.Nil(t, obj.GetSensitivity(), "getter should return nil when property is nil")
 	})
 
-	t.Run("GetIsSensitive_NilReceiver", func(t *testing.T) {
+	t.Run("GetSensitivity_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *LabReportResult
 		// Should not panic - getters should handle nil receiver gracefully
@@ -485,7 +485,7 @@ func TestGettersLabReportResult(t *testing.T) {
 				t.Errorf("Getter panicked on nil receiver: %v", r)
 			}
 		}()
-		_ = obj.GetIsSensitive() // Should return zero value
+		_ = obj.GetSensitivity() // Should return zero value
 	})
 
 	t.Run("GetLoincMatches", func(t *testing.T) {
@@ -935,14 +935,14 @@ func TestSettersMarkExplicitLabReportResult(t *testing.T) {
 		// It verifies that setting a field via setter allows successful JSON round-trip
 	})
 
-	t.Run("SetIsSensitive_MarksExplicit", func(t *testing.T) {
+	t.Run("SetSensitivity_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &LabReportResult{}
-		var fernTestValueIsSensitive *LabReportResultIsSensitive
+		var fernTestValueSensitivity *LabReportResultSensitivity
 
 		// Act
-		obj.SetIsSensitive(fernTestValueIsSensitive)
+		obj.SetSensitivity(fernTestValueSensitivity)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -2846,42 +2846,6 @@ func TestStringResultMetadata(t *testing.T) {
 	})
 }
 
-func TestEnumLabReportResultIsSensitive(t *testing.T) {
-	t.Run("NewFromString_sensitive", func(t *testing.T) {
-		t.Parallel()
-		val, err := NewLabReportResultIsSensitiveFromString("sensitive")
-		assert.NoError(t, err, "valid enum value should not return error")
-		assert.Equal(t, LabReportResultIsSensitive("sensitive"), val, "enum value should match expected wire value")
-	})
-
-	t.Run("NewFromString_insensitive", func(t *testing.T) {
-		t.Parallel()
-		val, err := NewLabReportResultIsSensitiveFromString("insensitive")
-		assert.NoError(t, err, "valid enum value should not return error")
-		assert.Equal(t, LabReportResultIsSensitive("insensitive"), val, "enum value should match expected wire value")
-	})
-
-	t.Run("NewFromString_unknown", func(t *testing.T) {
-		t.Parallel()
-		val, err := NewLabReportResultIsSensitiveFromString("unknown")
-		assert.NoError(t, err, "valid enum value should not return error")
-		assert.Equal(t, LabReportResultIsSensitive("unknown"), val, "enum value should match expected wire value")
-	})
-
-	t.Run("NewFromString_Invalid", func(t *testing.T) {
-		_, err := NewLabReportResultIsSensitiveFromString("invalid_value_that_does_not_exist")
-		assert.Error(t, err)
-	})
-
-	t.Run("Ptr", func(t *testing.T) {
-		val, err := NewLabReportResultIsSensitiveFromString("sensitive")
-		assert.NoError(t, err)
-		ptr := val.Ptr()
-		assert.NotNil(t, ptr)
-		assert.Equal(t, val, *ptr)
-	})
-}
-
 func TestEnumLabReportResultLoincMatchStatus(t *testing.T) {
 	t.Run("NewFromString_auto_match", func(t *testing.T) {
 		t.Parallel()
@@ -3025,6 +2989,42 @@ func TestEnumLabReportResultSampleType(t *testing.T) {
 	})
 }
 
+func TestEnumLabReportResultSensitivity(t *testing.T) {
+	t.Run("NewFromString_sensitive", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSensitivityFromString("sensitive")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSensitivity("sensitive"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_insensitive", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSensitivityFromString("insensitive")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSensitivity("insensitive"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_unknown", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewLabReportResultSensitivityFromString("unknown")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, LabReportResultSensitivity("unknown"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewLabReportResultSensitivityFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewLabReportResultSensitivityFromString("sensitive")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
 func TestEnumLabReportResultType(t *testing.T) {
 	t.Run("NewFromString_numeric", func(t *testing.T) {
 		t.Parallel()
@@ -3109,6 +3109,13 @@ func TestEnumParsingJobFailureReason(t *testing.T) {
 		val, err := NewParsingJobFailureReasonFromString("not_english")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, ParsingJobFailureReason("not_english"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_too_many_pages", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewParsingJobFailureReasonFromString("too_many_pages")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ParsingJobFailureReason("too_many_pages"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
