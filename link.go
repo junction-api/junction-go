@@ -1784,6 +1784,7 @@ const (
 	OAuthProvidersMyFitnessPalV2 OAuthProviders = "my_fitness_pal_v2"
 	OAuthProvidersUltrahuman     OAuthProviders = "ultrahuman"
 	OAuthProvidersRunkeeper      OAuthProviders = "runkeeper"
+	OAuthProvidersGoogleHealth   OAuthProviders = "google_health"
 )
 
 func NewOAuthProvidersFromString(s string) (OAuthProviders, error) {
@@ -1820,6 +1821,8 @@ func NewOAuthProvidersFromString(s string) (OAuthProviders, error) {
 		return OAuthProvidersUltrahuman, nil
 	case "runkeeper":
 		return OAuthProvidersRunkeeper, nil
+	case "google_health":
+		return OAuthProvidersGoogleHealth, nil
 	}
 	var t OAuthProviders
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

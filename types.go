@@ -32219,6 +32219,7 @@ const (
 	ProvidersMyFitnessPalV2    Providers = "my_fitness_pal_v2"
 	ProvidersMapMyFitness      Providers = "map_my_fitness"
 	ProvidersRunkeeper         Providers = "runkeeper"
+	ProvidersGoogleHealth      Providers = "google_health"
 )
 
 func NewProvidersFromString(s string) (Providers, error) {
@@ -32303,6 +32304,8 @@ func NewProvidersFromString(s string) (Providers, error) {
 		return ProvidersMapMyFitness, nil
 	case "runkeeper":
 		return ProvidersRunkeeper, nil
+	case "google_health":
+		return ProvidersGoogleHealth, nil
 	}
 	var t Providers
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

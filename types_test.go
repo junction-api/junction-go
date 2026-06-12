@@ -79168,6 +79168,13 @@ func TestEnumProviders(t *testing.T) {
 		assert.Equal(t, Providers("runkeeper"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_google_health", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewProvidersFromString("google_health")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, Providers("google_health"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewProvidersFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
