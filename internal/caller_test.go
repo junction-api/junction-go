@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/junction-api/junction-go/core"
+	"github.com/junction-api/junction-go/v2/core"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
