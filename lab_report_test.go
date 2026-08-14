@@ -3118,6 +3118,13 @@ func TestEnumParsingJobFailureReason(t *testing.T) {
 		assert.Equal(t, ParsingJobFailureReason("too_many_pages"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_processing_error", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewParsingJobFailureReasonFromString("processing_error")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ParsingJobFailureReason("processing_error"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewParsingJobFailureReasonFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)

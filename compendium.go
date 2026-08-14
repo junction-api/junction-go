@@ -185,6 +185,71 @@ func (s *SearchCompendiumBody) MarshalJSON() ([]byte, error) {
 }
 
 var (
+	searchOrderableTestsBodyFieldProviderIds      = big.NewInt(1 << 0)
+	searchOrderableTestsBodyFieldTargetLab        = big.NewInt(1 << 1)
+	searchOrderableTestsBodyFieldPerProviderLimit = big.NewInt(1 << 2)
+)
+
+type SearchOrderableTestsBody struct {
+	ProviderIds []string `json:"provider_ids" url:"-"`
+	// ℹ️ This enum is non-exhaustive.
+	TargetLab        CompendiumSearchLabs `json:"target_lab" url:"-"`
+	PerProviderLimit *int                 `json:"per_provider_limit,omitempty" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (s *SearchOrderableTestsBody) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetProviderIds sets the ProviderIds field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SearchOrderableTestsBody) SetProviderIds(providerIds []string) {
+	s.ProviderIds = providerIds
+	s.require(searchOrderableTestsBodyFieldProviderIds)
+}
+
+// SetTargetLab sets the TargetLab field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SearchOrderableTestsBody) SetTargetLab(targetLab CompendiumSearchLabs) {
+	s.TargetLab = targetLab
+	s.require(searchOrderableTestsBodyFieldTargetLab)
+}
+
+// SetPerProviderLimit sets the PerProviderLimit field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SearchOrderableTestsBody) SetPerProviderLimit(perProviderLimit *int) {
+	s.PerProviderLimit = perProviderLimit
+	s.require(searchOrderableTestsBodyFieldPerProviderLimit)
+}
+
+func (s *SearchOrderableTestsBody) UnmarshalJSON(data []byte) error {
+	type unmarshaler SearchOrderableTestsBody
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*s = SearchOrderableTestsBody(body)
+	return nil
+}
+
+func (s *SearchOrderableTestsBody) MarshalJSON() ([]byte, error) {
+	type embed SearchOrderableTestsBody
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+var (
 	canonicalCandidateFieldLoincSetHash    = big.NewInt(1 << 0)
 	canonicalCandidateFieldDisplayName     = big.NewInt(1 << 1)
 	canonicalCandidateFieldAliases         = big.NewInt(1 << 2)
@@ -1347,4 +1412,88 @@ func NewSearchModeFromString(s string) (SearchMode, error) {
 
 func (s SearchMode) Ptr() *SearchMode {
 	return &s
+}
+
+var (
+	searchOrderableTestsResponseFieldCandidates = big.NewInt(1 << 0)
+)
+
+type SearchOrderableTestsResponse struct {
+	Candidates map[string][]*PerLabCandidate `json:"candidates,omitempty" url:"candidates,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SearchOrderableTestsResponse) GetCandidates() map[string][]*PerLabCandidate {
+	if s == nil {
+		return nil
+	}
+	return s.Candidates
+}
+
+func (s *SearchOrderableTestsResponse) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SearchOrderableTestsResponse) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetCandidates sets the Candidates field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SearchOrderableTestsResponse) SetCandidates(candidates map[string][]*PerLabCandidate) {
+	s.Candidates = candidates
+	s.require(searchOrderableTestsResponseFieldCandidates)
+}
+
+func (s *SearchOrderableTestsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler SearchOrderableTestsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SearchOrderableTestsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SearchOrderableTestsResponse) MarshalJSON() ([]byte, error) {
+	type embed SearchOrderableTestsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SearchOrderableTestsResponse) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }

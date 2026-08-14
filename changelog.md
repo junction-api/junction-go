@@ -1,3 +1,18 @@
+## v1.3.0 - 2026-08-14
+
+### Added
+
+* **Orderable-test search** — added `compendium.Client.SearchOrderableTests()` and the related request and response types.
+* **Unmatched lab-result management** — added methods for listing, testing, reviewing, accepting, and resolving unmatched results, together with match-review webhook types.
+* **Lab-test pricing** — added pricing types and optional pricing fields on marker and paginated lab-test requests.
+* **Provider and lab coverage** — added Google Health provider and OAuth values and the MTL lab value.
+* **Lab metadata** — added optional source interpretation, lab logo URL, and lab-location website fields.
+* **Request controls** — added `WithoutRetries()`, `WithMaxStreamReconnectAttempts()`, and `WithoutStreamReconnection()` options.
+
+### Beta
+
+* **Aggregate and lab-report states** — added the result-table resource and processing-error parsing state without affecting the stable-surface SemVer calculation.
+
 ## v1.2.0 - 2026-06-05
 ### Added
 * **`AlignExpr`** — new public symbol

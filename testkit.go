@@ -102,7 +102,7 @@ var (
 )
 
 type RegisterTestkitRequest struct {
-	// The user ID of the patient.
+	// The user ID of the patient. If it differs from the user currently associated with the unregistered testkit order, the order is rebound to this user at registration time. The user must exist on the same team as the order. If omitted, the order's existing user is kept.
 	UserId          *string                       `json:"user_id,omitempty" url:"-"`
 	SampleId        string                        `json:"sample_id" url:"-"`
 	PatientDetails  *PatientDetailsWithValidation `json:"patient_details" url:"-"`

@@ -27,8 +27,9 @@ func NewClient(options *core.RequestOptions) *Client {
 		baseURL:         options.BaseURL,
 		caller: internal.NewCaller(
 			&internal.CallerParams{
-				Client:      options.HTTPClient,
-				MaxAttempts: options.MaxAttempts,
+				Client:         options.HTTPClient,
+				MaxAttempts:    options.MaxAttempts,
+				DisableRetries: options.DisableRetries,
 			},
 		),
 	}
@@ -735,6 +736,116 @@ func (c *Client) UpdateOnSiteCollectionOrderDrawCompleted(
 	opts ...option.RequestOption,
 ) (*junctiongo.PostOrderResponse, error) {
 	response, err := c.WithRawResponse.UpdateOnSiteCollectionOrderDrawCompleted(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) ListUnmatchedResultTestCases(
+	ctx context.Context,
+	opts ...option.RequestOption,
+) (*junctiongo.ListUnmatchedResultTestCasesResponse, error) {
+	response, err := c.WithRawResponse.ListUnmatchedResultTestCases(
+		ctx,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) CreateUnmatchedResultTest(
+	ctx context.Context,
+	request *junctiongo.CreateUnmatchedResultTestBody,
+	opts ...option.RequestOption,
+) (*junctiongo.CreateUnmatchedResultTestResponse, error) {
+	response, err := c.WithRawResponse.CreateUnmatchedResultTest(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) GetUnmatchedResultTest(
+	ctx context.Context,
+	request *junctiongo.GetUnmatchedResultTestLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.GetUnmatchedResultTestResponse, error) {
+	response, err := c.WithRawResponse.GetUnmatchedResultTest(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) ListUnmatchedResults(
+	ctx context.Context,
+	request *junctiongo.ListUnmatchedResultsLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.ListUnmatchedResultResponse, error) {
+	response, err := c.WithRawResponse.ListUnmatchedResults(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) GetUnmatchedResult(
+	ctx context.Context,
+	request *junctiongo.GetUnmatchedResultLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.GetUnmatchedResultResponse, error) {
+	response, err := c.WithRawResponse.GetUnmatchedResult(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) AcceptUnmatchedResult(
+	ctx context.Context,
+	request *junctiongo.AcceptUnmatchedResultBody,
+	opts ...option.RequestOption,
+) (*junctiongo.ClientFacingOrder, error) {
+	response, err := c.WithRawResponse.AcceptUnmatchedResult(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) ResolveUnmatchedResult(
+	ctx context.Context,
+	request *junctiongo.ResolveUnmatchedResultBody,
+	opts ...option.RequestOption,
+) (*junctiongo.UnmatchedResult, error) {
+	response, err := c.WithRawResponse.ResolveUnmatchedResult(
 		ctx,
 		request,
 		opts...,

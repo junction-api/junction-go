@@ -939,10 +939,11 @@ func (p *ParsingJob) String() string {
 type ParsingJobFailureReason string
 
 const (
-	ParsingJobFailureReasonInvalidInput ParsingJobFailureReason = "invalid_input"
-	ParsingJobFailureReasonLowQuality   ParsingJobFailureReason = "low_quality"
-	ParsingJobFailureReasonNotEnglish   ParsingJobFailureReason = "not_english"
-	ParsingJobFailureReasonTooManyPages ParsingJobFailureReason = "too_many_pages"
+	ParsingJobFailureReasonInvalidInput    ParsingJobFailureReason = "invalid_input"
+	ParsingJobFailureReasonLowQuality      ParsingJobFailureReason = "low_quality"
+	ParsingJobFailureReasonNotEnglish      ParsingJobFailureReason = "not_english"
+	ParsingJobFailureReasonTooManyPages    ParsingJobFailureReason = "too_many_pages"
+	ParsingJobFailureReasonProcessingError ParsingJobFailureReason = "processing_error"
 )
 
 func NewParsingJobFailureReasonFromString(s string) (ParsingJobFailureReason, error) {
@@ -955,6 +956,8 @@ func NewParsingJobFailureReasonFromString(s string) (ParsingJobFailureReason, er
 		return ParsingJobFailureReasonNotEnglish, nil
 	case "too_many_pages":
 		return ParsingJobFailureReasonTooManyPages, nil
+	case "processing_error":
+		return ParsingJobFailureReasonProcessingError, nil
 	}
 	var t ParsingJobFailureReason
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

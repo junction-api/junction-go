@@ -434,12 +434,13 @@ var (
 	biomarkerResultFieldIsAboveMaxRange      = big.NewInt(1 << 10)
 	biomarkerResultFieldIsBelowMinRange      = big.NewInt(1 << 11)
 	biomarkerResultFieldInterpretation       = big.NewInt(1 << 12)
-	biomarkerResultFieldLoinc                = big.NewInt(1 << 13)
-	biomarkerResultFieldLoincSlug            = big.NewInt(1 << 14)
-	biomarkerResultFieldProviderId           = big.NewInt(1 << 15)
-	biomarkerResultFieldSourceMarkers        = big.NewInt(1 << 16)
-	biomarkerResultFieldPerformingLaboratory = big.NewInt(1 << 17)
-	biomarkerResultFieldSourceSampleId       = big.NewInt(1 << 18)
+	biomarkerResultFieldSourceInterpretation = big.NewInt(1 << 13)
+	biomarkerResultFieldLoinc                = big.NewInt(1 << 14)
+	biomarkerResultFieldLoincSlug            = big.NewInt(1 << 15)
+	biomarkerResultFieldProviderId           = big.NewInt(1 << 16)
+	biomarkerResultFieldSourceMarkers        = big.NewInt(1 << 17)
+	biomarkerResultFieldPerformingLaboratory = big.NewInt(1 << 18)
+	biomarkerResultFieldSourceSampleId       = big.NewInt(1 << 19)
 )
 
 type BiomarkerResult struct {
@@ -457,6 +458,7 @@ type BiomarkerResult struct {
 	IsAboveMaxRange      *bool                  `json:"is_above_max_range,omitempty" url:"is_above_max_range,omitempty"`
 	IsBelowMinRange      *bool                  `json:"is_below_min_range,omitempty" url:"is_below_min_range,omitempty"`
 	Interpretation       *string                `json:"interpretation,omitempty" url:"interpretation,omitempty"`
+	SourceInterpretation *string                `json:"source_interpretation,omitempty" url:"source_interpretation,omitempty"`
 	Loinc                *string                `json:"loinc,omitempty" url:"loinc,omitempty"`
 	LoincSlug            *string                `json:"loinc_slug,omitempty" url:"loinc_slug,omitempty"`
 	ProviderId           *string                `json:"provider_id,omitempty" url:"provider_id,omitempty"`
@@ -560,6 +562,13 @@ func (b *BiomarkerResult) GetInterpretation() *string {
 		return nil
 	}
 	return b.Interpretation
+}
+
+func (b *BiomarkerResult) GetSourceInterpretation() *string {
+	if b == nil {
+		return nil
+	}
+	return b.SourceInterpretation
 }
 
 func (b *BiomarkerResult) GetLoinc() *string {
@@ -707,6 +716,13 @@ func (b *BiomarkerResult) SetIsBelowMinRange(isBelowMinRange *bool) {
 func (b *BiomarkerResult) SetInterpretation(interpretation *string) {
 	b.Interpretation = interpretation
 	b.require(biomarkerResultFieldInterpretation)
+}
+
+// SetSourceInterpretation sets the SourceInterpretation field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (b *BiomarkerResult) SetSourceInterpretation(sourceInterpretation *string) {
+	b.SourceInterpretation = sourceInterpretation
+	b.require(biomarkerResultFieldSourceInterpretation)
 }
 
 // SetLoinc sets the Loinc field and marks it as non-optional;
@@ -12963,6 +12979,7 @@ var (
 	clientFacingLabFieldZipcode           = big.NewInt(1 << 5)
 	clientFacingLabFieldCollectionMethods = big.NewInt(1 << 6)
 	clientFacingLabFieldSampleTypes       = big.NewInt(1 << 7)
+	clientFacingLabFieldLogoUrl           = big.NewInt(1 << 8)
 )
 
 type ClientFacingLab struct {
@@ -12974,6 +12991,7 @@ type ClientFacingLab struct {
 	Zipcode           string                    `json:"zipcode" url:"zipcode"`
 	CollectionMethods []LabTestCollectionMethod `json:"collection_methods" url:"collection_methods"`
 	SampleTypes       []LabTestSampleType       `json:"sample_types" url:"sample_types"`
+	LogoUrl           *string                   `json:"logo_url,omitempty" url:"logo_url,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -13036,6 +13054,13 @@ func (c *ClientFacingLab) GetSampleTypes() []LabTestSampleType {
 		return nil
 	}
 	return c.SampleTypes
+}
+
+func (c *ClientFacingLab) GetLogoUrl() *string {
+	if c == nil {
+		return nil
+	}
+	return c.LogoUrl
 }
 
 func (c *ClientFacingLab) GetExtraProperties() map[string]interface{} {
@@ -13106,6 +13131,13 @@ func (c *ClientFacingLab) SetCollectionMethods(collectionMethods []LabTestCollec
 func (c *ClientFacingLab) SetSampleTypes(sampleTypes []LabTestSampleType) {
 	c.SampleTypes = sampleTypes
 	c.require(clientFacingLabFieldSampleTypes)
+}
+
+// SetLogoUrl sets the LogoUrl field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingLab) SetLogoUrl(logoUrl *string) {
+	c.LogoUrl = logoUrl
+	c.require(clientFacingLabFieldLogoUrl)
 }
 
 func (c *ClientFacingLab) UnmarshalJSON(data []byte) error {
@@ -14377,6 +14409,238 @@ func (c *ClientFacingMarker) MarshalJSON() ([]byte, error) {
 }
 
 func (c *ClientFacingMarker) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	clientFacingMatchReviewChangedFieldTeamId = big.NewInt(1 << 0)
+	clientFacingMatchReviewChangedFieldData   = big.NewInt(1 << 1)
+)
+
+type ClientFacingMatchReviewChanged struct {
+	TeamId string                     `json:"team_id" url:"team_id"`
+	Data   *MatchReviewWebhookPayload `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+	eventType      string
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *ClientFacingMatchReviewChanged) GetTeamId() string {
+	if c == nil {
+		return ""
+	}
+	return c.TeamId
+}
+
+func (c *ClientFacingMatchReviewChanged) GetData() *MatchReviewWebhookPayload {
+	if c == nil {
+		return nil
+	}
+	return c.Data
+}
+
+func (c *ClientFacingMatchReviewChanged) EventType() string {
+	return c.eventType
+}
+
+func (c *ClientFacingMatchReviewChanged) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *ClientFacingMatchReviewChanged) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetTeamId sets the TeamId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingMatchReviewChanged) SetTeamId(teamId string) {
+	c.TeamId = teamId
+	c.require(clientFacingMatchReviewChangedFieldTeamId)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingMatchReviewChanged) SetData(data *MatchReviewWebhookPayload) {
+	c.Data = data
+	c.require(clientFacingMatchReviewChangedFieldData)
+}
+
+func (c *ClientFacingMatchReviewChanged) UnmarshalJSON(data []byte) error {
+	type embed ClientFacingMatchReviewChanged
+	var unmarshaler = struct {
+		embed
+		EventType string `json:"event_type"`
+	}{
+		embed: embed(*c),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*c = ClientFacingMatchReviewChanged(unmarshaler.embed)
+	if unmarshaler.EventType != "labtest.match_review.created" {
+		return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", c, "labtest.match_review.created", unmarshaler.EventType)
+	}
+	c.eventType = unmarshaler.EventType
+	extraProperties, err := internal.ExtractExtraProperties(data, *c, "event_type")
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *ClientFacingMatchReviewChanged) MarshalJSON() ([]byte, error) {
+	type embed ClientFacingMatchReviewChanged
+	var marshaler = struct {
+		embed
+		EventType string `json:"event_type"`
+	}{
+		embed:     embed(*c),
+		EventType: "labtest.match_review.created",
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *ClientFacingMatchReviewChanged) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	clientFacingMatchReviewUpdatedFieldTeamId = big.NewInt(1 << 0)
+	clientFacingMatchReviewUpdatedFieldData   = big.NewInt(1 << 1)
+)
+
+type ClientFacingMatchReviewUpdated struct {
+	TeamId string                     `json:"team_id" url:"team_id"`
+	Data   *MatchReviewWebhookPayload `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+	eventType      string
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *ClientFacingMatchReviewUpdated) GetTeamId() string {
+	if c == nil {
+		return ""
+	}
+	return c.TeamId
+}
+
+func (c *ClientFacingMatchReviewUpdated) GetData() *MatchReviewWebhookPayload {
+	if c == nil {
+		return nil
+	}
+	return c.Data
+}
+
+func (c *ClientFacingMatchReviewUpdated) EventType() string {
+	return c.eventType
+}
+
+func (c *ClientFacingMatchReviewUpdated) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *ClientFacingMatchReviewUpdated) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetTeamId sets the TeamId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingMatchReviewUpdated) SetTeamId(teamId string) {
+	c.TeamId = teamId
+	c.require(clientFacingMatchReviewUpdatedFieldTeamId)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingMatchReviewUpdated) SetData(data *MatchReviewWebhookPayload) {
+	c.Data = data
+	c.require(clientFacingMatchReviewUpdatedFieldData)
+}
+
+func (c *ClientFacingMatchReviewUpdated) UnmarshalJSON(data []byte) error {
+	type embed ClientFacingMatchReviewUpdated
+	var unmarshaler = struct {
+		embed
+		EventType string `json:"event_type"`
+	}{
+		embed: embed(*c),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*c = ClientFacingMatchReviewUpdated(unmarshaler.embed)
+	if unmarshaler.EventType != "labtest.match_review.updated" {
+		return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", c, "labtest.match_review.updated", unmarshaler.EventType)
+	}
+	c.eventType = unmarshaler.EventType
+	extraProperties, err := internal.ExtractExtraProperties(data, *c, "event_type")
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *ClientFacingMatchReviewUpdated) MarshalJSON() ([]byte, error) {
+	type embed ClientFacingMatchReviewUpdated
+	var marshaler = struct {
+		embed
+		EventType string `json:"event_type"`
+	}{
+		embed:     embed(*c),
+		EventType: "labtest.match_review.updated",
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *ClientFacingMatchReviewUpdated) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -18735,6 +18999,7 @@ const (
 	ClientFacingResourceResult                     ClientFacingResource = "result"
 	ClientFacingResourceMatchReview                ClientFacingResource = "match_review"
 	ClientFacingResourceAppointment                ClientFacingResource = "appointment"
+	ClientFacingResourceResultTable                ClientFacingResource = "result_table"
 	ClientFacingResourceGlucose                    ClientFacingResource = "glucose"
 	ClientFacingResourceHeartrate                  ClientFacingResource = "heartrate"
 	ClientFacingResourceHrv                        ClientFacingResource = "hrv"
@@ -18819,6 +19084,8 @@ func NewClientFacingResourceFromString(s string) (ClientFacingResource, error) {
 		return ClientFacingResourceMatchReview, nil
 	case "appointment":
 		return ClientFacingResourceAppointment, nil
+	case "result_table":
+		return ClientFacingResourceResultTable, nil
 	case "glucose":
 		return ClientFacingResourceGlucose, nil
 	case "heartrate":
@@ -29621,6 +29888,7 @@ const (
 	LabsNexus        Labs = "nexus"
 	LabsMyUti        Labs = "my_uti"
 	LabsCrl          Labs = "crl"
+	LabsMtl          Labs = "mtl"
 )
 
 func NewLabsFromString(s string) (Labs, error) {
@@ -29653,6 +29921,8 @@ func NewLabsFromString(s string) (Labs, error) {
 		return LabsMyUti, nil
 	case "crl":
 		return LabsCrl, nil
+	case "mtl":
+		return LabsMtl, nil
 	}
 	var t Labs
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -29683,6 +29953,189 @@ func NewMarkerTypeFromString(s string) (MarkerType, error) {
 
 func (m MarkerType) Ptr() *MarkerType {
 	return &m
+}
+
+var (
+	matchReviewWebhookPayloadFieldId               = big.NewInt(1 << 0)
+	matchReviewWebhookPayloadFieldStatus           = big.NewInt(1 << 1)
+	matchReviewWebhookPayloadFieldDecisionCode     = big.NewInt(1 << 2)
+	matchReviewWebhookPayloadFieldSubReasonCodes   = big.NewInt(1 << 3)
+	matchReviewWebhookPayloadFieldResolutionAction = big.NewInt(1 << 4)
+	matchReviewWebhookPayloadFieldResolvedUserId   = big.NewInt(1 << 5)
+	matchReviewWebhookPayloadFieldResolvedOrderId  = big.NewInt(1 << 6)
+)
+
+type MatchReviewWebhookPayload struct {
+	Id string `json:"id" url:"id"`
+	// ℹ️ This enum is non-exhaustive.
+	Status MatchReviewStatus `json:"status" url:"status"`
+	// ℹ️ This enum is non-exhaustive.
+	DecisionCode   MatchDecisionCode    `json:"decision_code" url:"decision_code"`
+	SubReasonCodes []MatchSubReasonCode `json:"sub_reason_codes,omitempty" url:"sub_reason_codes,omitempty"`
+	// ℹ️ This enum is non-exhaustive.
+	ResolutionAction *MatchReviewResolutionAction `json:"resolution_action,omitempty" url:"resolution_action,omitempty"`
+	ResolvedUserId   *string                      `json:"resolved_user_id,omitempty" url:"resolved_user_id,omitempty"`
+	ResolvedOrderId  *string                      `json:"resolved_order_id,omitempty" url:"resolved_order_id,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (m *MatchReviewWebhookPayload) GetId() string {
+	if m == nil {
+		return ""
+	}
+	return m.Id
+}
+
+func (m *MatchReviewWebhookPayload) GetStatus() MatchReviewStatus {
+	if m == nil {
+		return ""
+	}
+	return m.Status
+}
+
+func (m *MatchReviewWebhookPayload) GetDecisionCode() MatchDecisionCode {
+	if m == nil {
+		return ""
+	}
+	return m.DecisionCode
+}
+
+func (m *MatchReviewWebhookPayload) GetSubReasonCodes() []MatchSubReasonCode {
+	if m == nil {
+		return nil
+	}
+	return m.SubReasonCodes
+}
+
+func (m *MatchReviewWebhookPayload) GetResolutionAction() *MatchReviewResolutionAction {
+	if m == nil {
+		return nil
+	}
+	return m.ResolutionAction
+}
+
+func (m *MatchReviewWebhookPayload) GetResolvedUserId() *string {
+	if m == nil {
+		return nil
+	}
+	return m.ResolvedUserId
+}
+
+func (m *MatchReviewWebhookPayload) GetResolvedOrderId() *string {
+	if m == nil {
+		return nil
+	}
+	return m.ResolvedOrderId
+}
+
+func (m *MatchReviewWebhookPayload) GetExtraProperties() map[string]interface{} {
+	if m == nil {
+		return nil
+	}
+	return m.extraProperties
+}
+
+func (m *MatchReviewWebhookPayload) require(field *big.Int) {
+	if m.explicitFields == nil {
+		m.explicitFields = big.NewInt(0)
+	}
+	m.explicitFields.Or(m.explicitFields, field)
+}
+
+// SetId sets the Id field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MatchReviewWebhookPayload) SetId(id string) {
+	m.Id = id
+	m.require(matchReviewWebhookPayloadFieldId)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MatchReviewWebhookPayload) SetStatus(status MatchReviewStatus) {
+	m.Status = status
+	m.require(matchReviewWebhookPayloadFieldStatus)
+}
+
+// SetDecisionCode sets the DecisionCode field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MatchReviewWebhookPayload) SetDecisionCode(decisionCode MatchDecisionCode) {
+	m.DecisionCode = decisionCode
+	m.require(matchReviewWebhookPayloadFieldDecisionCode)
+}
+
+// SetSubReasonCodes sets the SubReasonCodes field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MatchReviewWebhookPayload) SetSubReasonCodes(subReasonCodes []MatchSubReasonCode) {
+	m.SubReasonCodes = subReasonCodes
+	m.require(matchReviewWebhookPayloadFieldSubReasonCodes)
+}
+
+// SetResolutionAction sets the ResolutionAction field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MatchReviewWebhookPayload) SetResolutionAction(resolutionAction *MatchReviewResolutionAction) {
+	m.ResolutionAction = resolutionAction
+	m.require(matchReviewWebhookPayloadFieldResolutionAction)
+}
+
+// SetResolvedUserId sets the ResolvedUserId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MatchReviewWebhookPayload) SetResolvedUserId(resolvedUserId *string) {
+	m.ResolvedUserId = resolvedUserId
+	m.require(matchReviewWebhookPayloadFieldResolvedUserId)
+}
+
+// SetResolvedOrderId sets the ResolvedOrderId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MatchReviewWebhookPayload) SetResolvedOrderId(resolvedOrderId *string) {
+	m.ResolvedOrderId = resolvedOrderId
+	m.require(matchReviewWebhookPayloadFieldResolvedOrderId)
+}
+
+func (m *MatchReviewWebhookPayload) UnmarshalJSON(data []byte) error {
+	type unmarshaler MatchReviewWebhookPayload
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MatchReviewWebhookPayload(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+	m.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MatchReviewWebhookPayload) MarshalJSON() ([]byte, error) {
+	type embed MatchReviewWebhookPayload
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*m),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, m.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (m *MatchReviewWebhookPayload) String() string {
+	if m == nil {
+		return "<nil>"
+	}
+	if len(m.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(m.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 // ℹ️ This enum is non-exhaustive.
@@ -30134,8 +30587,7 @@ func (o OrderOrigin) Ptr() *OrderOrigin {
 	return &o
 }
 
-// Used in combination with OrderStatusDetail to represent the current order state.
-// OrderStatus is driven by a FSM whereas OrderStatusDetail is descriptive only. ℹ️ This enum is non-exhaustive.
+// ℹ️ This enum is non-exhaustive.
 type OrderStatus string
 
 const (
@@ -32219,6 +32671,7 @@ const (
 	ProvidersMyFitnessPalV2    Providers = "my_fitness_pal_v2"
 	ProvidersMapMyFitness      Providers = "map_my_fitness"
 	ProvidersRunkeeper         Providers = "runkeeper"
+	ProvidersGoogleHealth      Providers = "google_health"
 )
 
 func NewProvidersFromString(s string) (Providers, error) {
@@ -32303,6 +32756,8 @@ func NewProvidersFromString(s string) (Providers, error) {
 		return ProvidersMapMyFitness, nil
 	case "runkeeper":
 		return ProvidersRunkeeper, nil
+	case "google_health":
+		return ProvidersGoogleHealth, nil
 	}
 	var t Providers
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

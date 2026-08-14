@@ -20,9 +20,11 @@ var (
 type GetMenstrualCycleRequest struct {
 	UserId string `json:"-" url:"-"`
 	// Provider oura/strava etc
-	Provider  *string `json:"-" url:"provider,omitempty"`
-	StartDate string  `json:"-" url:"start_date"`
-	EndDate   *string `json:"-" url:"end_date,omitempty"`
+	Provider *string `json:"-" url:"provider,omitempty"`
+	// Start date in YYYY-MM-DD
+	StartDate string `json:"-" url:"start_date"`
+	// End date (inclusive) in YYYY-MM-DD
+	EndDate *string `json:"-" url:"end_date,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
