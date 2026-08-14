@@ -8,7 +8,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/junction-api/junction-go/v2/core"
+	"github.com/junction-api/junction-go/core"
 )
 
 // ErrorCodes maps HTTP status codes to error constructors.

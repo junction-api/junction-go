@@ -1,19 +1,17 @@
-## [v2.0.0] - 2026-08-14
-### Breaking Changes
-- **`LabReportResult.IsSensitive`** — field removed and replaced by **`LabReportResult.Sensitivity`** (`*LabReportResultSensitivity`); replace all `GetIsSensitive()`/`SetIsSensitive()` calls with `GetSensitivity()`/`SetSensitivity()`.
-- **`LabReportResultIsSensitive`** — type and **`NewLabReportResultIsSensitiveFromString()`** removed; use **`LabReportResultSensitivity`** and **`NewLabReportResultSensitivityFromString()`** instead.
+## v1.3.0 - 2026-08-14
 
 ### Added
-- **`compendium.Client.SearchOrderableTests()`** — new POST `/v3/compendium/search_orderable_tests` method accepting `SearchOrderableTestsBody` and returning `SearchOrderableTestsResponse`.
-- **`labtests.Client`** — new methods `ListUnmatchedResultTestCases()`, `CreateUnmatchedResultTest()`, `GetUnmatchedResultTest()`, `ListUnmatchedResults()`, `GetUnmatchedResult()`, `AcceptUnmatchedResult()`, and `ResolveUnmatchedResult()` for managing unmatched lab results and test cases.
-- **`ClientFacingMatchReviewChanged`** / **`ClientFacingMatchReviewUpdated`** — new webhook event types for match review lifecycle events, each carrying a **`MatchReviewWebhookPayload`**.
-- **`AlignExpr`** and related carry-fill types — new post-aggregation bucket alignment and carry-fill strategy types (`AlignExprCarry`, `CarryForwardExpr`, `CarryBackwardExpr`, `CarryNearestExpr`) plus a **`Query.Align`** field for CQ queries.
-- **New enum values and request options** — `ParsingJobFailureReasonTooManyPages`, `ParsingJobFailureReasonProcessingError`, `ClientFacingResourceResultTable`, `LabsMtl`, `OAuthProvidersGoogleHealth`, and `ProvidersGoogleHealth` added; **`WithoutRetries()`**, **`WithMaxStreamReconnectAttempts()`**, and **`WithoutStreamReconnection()`** added as `RequestOption` helpers.
 
-### Changed
-- **`DisableRetries`** — the `RequestOptions.DisableRetries` flag is now respected across all client packages, enabling per-request retry suppression on every endpoint.
-- **`BiomarkerResult.SourceInterpretation`** and **`ClientFacingLab.LogoUrl`** — new optional fields added to their respective types.
-- **`Micros`** godoc — corrected units for minerals (mg) and vitamins (biotin/folic acid as μg, vitamin E as mg).
+* **Orderable-test search** — added `compendium.Client.SearchOrderableTests()` and the related request and response types.
+* **Unmatched lab-result management** — added methods for listing, testing, reviewing, accepting, and resolving unmatched results, together with match-review webhook types.
+* **Lab-test pricing** — added pricing types and optional pricing fields on marker and paginated lab-test requests.
+* **Provider and lab coverage** — added Google Health provider and OAuth values and the MTL lab value.
+* **Lab metadata** — added optional source interpretation, lab logo URL, and lab-location website fields.
+* **Request controls** — added `WithoutRetries()`, `WithMaxStreamReconnectAttempts()`, and `WithoutStreamReconnection()` options.
+
+### Beta
+
+* **Aggregate and lab-report states** — added the result-table resource and processing-error parsing state without affecting the stable-surface SemVer calculation.
 
 ## v1.2.0 - 2026-06-05
 ### Added

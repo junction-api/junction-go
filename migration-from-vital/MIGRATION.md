@@ -31,13 +31,13 @@ import (
 **After:**
 
 ```bash
-go get github.com/junction-api/junction-go/v2
+go get github.com/junction-api/junction-go
 ```
 
 ```go
 import (
-    junctionclient "github.com/junction-api/junction-go/v2/client"
-    "github.com/junction-api/junction-go/v2/option"
+    junctionclient "github.com/junction-api/junction-go/client"
+    "github.com/junction-api/junction-go/option"
 )
 ```
 
@@ -79,8 +79,8 @@ c := client.NewClient(
 
 ```go
 import (
-    "github.com/junction-api/junction-go/v2/client"
-    "github.com/junction-api/junction-go/v2/option"
+    "github.com/junction-api/junction-go/client"
+    "github.com/junction-api/junction-go/option"
 )
 
 c := client.NewClient(
@@ -176,7 +176,7 @@ var k vital.ClientFacingUserKey
 ```go
 // AuthType and ManualProviders have no replacement — drop the references.
 // ClientFacingUserKey -> ClientFacingUser
-import junction "github.com/junction-api/junction-go/v2"
+import junction "github.com/junction-api/junction-go"
 
 var u junction.ClientFacingUser
 ```
