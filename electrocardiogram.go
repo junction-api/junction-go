@@ -18,9 +18,11 @@ var (
 )
 
 type GetElectrocardiogramRequest struct {
-	UserId    string  `json:"-" url:"-"`
-	StartDate string  `json:"-" url:"start_date"`
-	EndDate   *string `json:"-" url:"end_date,omitempty"`
+	UserId string `json:"-" url:"-"`
+	// Start date in YYYY-MM-DD
+	StartDate string `json:"-" url:"start_date"`
+	// End date (inclusive) in YYYY-MM-DD
+	EndDate *string `json:"-" url:"end_date,omitempty"`
 	// Provider oura/strava etc
 	Provider *string `json:"-" url:"provider,omitempty"`
 

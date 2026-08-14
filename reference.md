@@ -563,7 +563,7 @@ This endpoint generates an OAuth link for oauth provider
 
 ```go
 request := &junctiongo.GenerateOauthLinkLinkRequest{
-        OauthProvider: junctiongo.OAuthProvidersOura.Ptr(),
+        OauthProvider: junctiongo.OAuthProvidersOura,
     }
 client.Link.GenerateOauthLink(
         context.TODO(),
@@ -632,7 +632,7 @@ This connects auth providers that are password based.
 
 ```go
 request := &junctiongo.IndividualProviderData{
-        Provider: junctiongo.PasswordProvidersWhoop.Ptr(),
+        Provider: junctiongo.PasswordProvidersWhoop,
         Username: "username",
         Password: "password",
     }
@@ -727,7 +727,7 @@ This connects auth providers that are password based.
 
 ```go
 request := &junctiongo.CompletePasswordProviderMfaBody{
-        Provider: junctiongo.PasswordProvidersWhoop.Ptr(),
+        Provider: junctiongo.PasswordProvidersWhoop,
         MfaCode: "mfa_code",
     }
 client.Link.CompletePasswordProviderMfa(
@@ -1067,7 +1067,7 @@ client.Electrocardiogram.Get(
 <dl>
 <dd>
 
-**startDate:** `string` 
+**startDate:** `string` — Start date in YYYY-MM-DD
     
 </dd>
 </dl>
@@ -1075,7 +1075,7 @@ client.Electrocardiogram.Get(
 <dl>
 <dd>
 
-**endDate:** `*string` 
+**endDate:** `*string` — End date (inclusive) in YYYY-MM-DD
     
 </dd>
 </dl>
@@ -1160,7 +1160,7 @@ client.SleepCycle.Get(
 <dl>
 <dd>
 
-**startDate:** `string` 
+**startDate:** `string` — Start date in YYYY-MM-DD
     
 </dd>
 </dl>
@@ -1168,7 +1168,7 @@ client.SleepCycle.Get(
 <dl>
 <dd>
 
-**endDate:** `*string` 
+**endDate:** `*string` — End date (inclusive) in YYYY-MM-DD
     
 </dd>
 </dl>
@@ -2406,7 +2406,7 @@ client.MenstrualCycle.Get(
 <dl>
 <dd>
 
-**startDate:** `string` 
+**startDate:** `string` — Start date in YYYY-MM-DD
     
 </dd>
 </dl>
@@ -2414,7 +2414,7 @@ client.MenstrualCycle.Get(
 <dl>
 <dd>
 
-**endDate:** `*string` 
+**endDate:** `*string` — End date (inclusive) in YYYY-MM-DD
     
 </dd>
 </dl>
@@ -10367,7 +10367,7 @@ client.User.GetByClientUserId(
 ```go
 request := &junctiongo.DeregisterProviderUserRequest{
         UserId: "user_id",
-        Provider: junctiongo.ProvidersOura.Ptr(),
+        Provider: junctiongo.ProvidersOura,
     }
 client.User.DeregisterProvider(
         context.TODO(),
@@ -11926,6 +11926,9 @@ request := &junctiongo.GetMarkersLabTestsRequest{
         ALaCarteEnabled: junctiongo.Bool(
             true,
         ),
+        IncludePricing: junctiongo.Bool(
+            true,
+        ),
         LabAccountId: junctiongo.String(
             "lab_account_id",
         ),
@@ -11980,6 +11983,14 @@ client.LabTests.GetMarkers(
 <dd>
 
 **aLaCarteEnabled:** `*bool` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**includePricing:** `*bool` 
     
 </dd>
 </dl>
@@ -12335,6 +12346,12 @@ request := &junctiongo.GetPaginatedLabTestsRequest{
         NextCursor: junctiongo.String(
             "next_cursor",
         ),
+        IncludePricing: junctiongo.Bool(
+            true,
+        ),
+        LabAccountId: junctiongo.String(
+            "lab_account_id",
+        ),
         GenerationMethod: junctiongo.LabTestGenerationMethodFilterAuto.Ptr(),
         LabSlug: junctiongo.String(
             "lab_slug",
@@ -12384,7 +12401,23 @@ client.LabTests.GetPaginated(
 <dl>
 <dd>
 
-**nextCursor:** `*string` 
+**nextCursor:** `*string` — The cursor for fetching the next page, or `null` to fetch the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**includePricing:** `*bool` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**labAccountId:** `*string` — The lab account ID. This lab account is used to determine the availability of markers and lab tests.
     
 </dd>
 </dl>
@@ -15065,6 +15098,490 @@ client.LabTests.UpdateOnSiteCollectionOrderDrawCompleted(
 </dl>
 </details>
 
+<details><summary><code>client.LabTests.ListUnmatchedResultTestCases() -> *junctiongo.ListUnmatchedResultTestCasesResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+client.LabTests.ListUnmatchedResultTestCases(
+        context.TODO(),
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.CreateUnmatchedResultTest(request) -> *junctiongo.CreateUnmatchedResultTestResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.CreateUnmatchedResultTestBody{
+        IdempotencyKey: "X-Idempotency-Key",
+        Case: junctiongo.UnmatchedResultTestCaseMatchCompleted,
+        OrderSource: junctiongo.UnmatchedResultTestOrderSourceManaged,
+    }
+client.LabTests.CreateUnmatchedResultTest(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**idempotencyKey:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**case_:** `*junctiongo.UnmatchedResultTestCase` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**orderSource:** `*junctiongo.UnmatchedResultTestOrderSource` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**orders:** `map[string]*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**resultStatus:** `*junctiongo.ResultStatus` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**interpretation:** `*junctiongo.Interpretation` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**labTestId:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**wrongLabTestId:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.GetUnmatchedResultTest(RunId) -> *junctiongo.GetUnmatchedResultTestResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetUnmatchedResultTestLabTestsRequest{
+        RunId: "run_id",
+    }
+client.LabTests.GetUnmatchedResultTest(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**runId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.ListUnmatchedResults() -> *junctiongo.ListUnmatchedResultResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.ListUnmatchedResultsLabTestsRequest{
+        Limit: junctiongo.Int(
+            1,
+        ),
+        NextCursor: junctiongo.String(
+            "next_cursor",
+        ),
+        DecisionCode: junctiongo.MatchDecisionCodeMatchSampleId.Ptr(),
+        LabSlug: junctiongo.String(
+            "lab_slug",
+        ),
+        Status: junctiongo.MatchReviewStatusFilterPendingCustomerReview.Ptr(),
+        CreatedAtStart: junctiongo.String(
+            "created_at_start",
+        ),
+        CreatedAtEnd: junctiongo.String(
+            "created_at_end",
+        ),
+        SearchInput: junctiongo.String(
+            "search_input",
+        ),
+    }
+client.LabTests.ListUnmatchedResults(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**limit:** `*int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**nextCursor:** `*string` — The cursor for fetching the next page, or `null` to fetch the first page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**decisionCode:** `*junctiongo.MatchDecisionCode` — Filter by match decision code.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**labSlug:** `*string` — Filter by lab slug (e.g. `labcorp`, `quest`).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `*junctiongo.MatchReviewStatusFilter` — Filter by review status. `pending_customer_review` returns items awaiting your action; `pending_ops_review` returns items you have escalated for review.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**createdAtStart:** `*string` — Filter by result receipt date on or after this date (UTC, inclusive, YYYY-MM-DD).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**createdAtEnd:** `*string` — Filter by result receipt date on or before this date (UTC, inclusive, YYYY-MM-DD).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**searchInput:** `*string` — Search by patient first name, last name, or date of birth (e.g. `Alice`, `Smith`, or `1990-01-15`).
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.GetUnmatchedResult(RawResultId) -> *junctiongo.GetUnmatchedResultResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetUnmatchedResultLabTestsRequest{
+        RawResultId: "raw_result_id",
+    }
+client.LabTests.GetUnmatchedResult(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**rawResultId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.AcceptUnmatchedResult(RawResultId, request) -> *junctiongo.ClientFacingOrder</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.AcceptUnmatchedResultBody{
+        RawResultId: "raw_result_id",
+    }
+client.LabTests.AcceptUnmatchedResult(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**rawResultId:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**userId:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**orderId:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**note:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.ResolveUnmatchedResult(RawResultId, request) -> *junctiongo.UnmatchedResult</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.ResolveUnmatchedResultBody{
+        RawResultId: "raw_result_id",
+        Action: junctiongo.UnmatchedResultResolutionActionReject,
+    }
+client.LabTests.ResolveUnmatchedResult(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**rawResultId:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**action:** `*junctiongo.UnmatchedResultResolutionAction` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**note:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.LabTests.ValidateIcdCodes(request) -> *junctiongo.ValidateIcdCodesResponse</code></summary>
 <dl>
 <dd>
@@ -15270,6 +15787,72 @@ client.Compendium.Convert(
 <dd>
 
 **limit:** `*int` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Compendium.SearchOrderableTests(request) -> *junctiongo.SearchOrderableTestsResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.SearchOrderableTestsBody{
+        ProviderIds: []string{
+            "provider_ids",
+        },
+        TargetLab: junctiongo.CompendiumSearchLabsLabcorp,
+    }
+client.Compendium.SearchOrderableTests(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**providerIds:** `[]string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**targetLab:** `*junctiongo.CompendiumSearchLabs` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**perProviderLimit:** `*int` 
     
 </dd>
 </dl>
@@ -15533,7 +16116,7 @@ client.Testkit.Register(
 <dl>
 <dd>
 
-**userId:** `*string` — The user ID of the patient.
+**userId:** `*string` — The user ID of the patient. If it differs from the user currently associated with the unregistered testkit order, the order is rebound to this user at registration time. The user must exist on the same team as the order. If omitted, the order's existing user is kept.
     
 </dd>
 </dl>

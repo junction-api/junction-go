@@ -26,8 +26,9 @@ func NewClient(options *core.RequestOptions) *Client {
 		baseURL:         options.BaseURL,
 		caller: internal.NewCaller(
 			&internal.CallerParams{
-				Client:      options.HTTPClient,
-				MaxAttempts: options.MaxAttempts,
+				Client:         options.HTTPClient,
+				MaxAttempts:    options.MaxAttempts,
+				DisableRetries: options.DisableRetries,
 			},
 		),
 	}
@@ -55,6 +56,22 @@ func (c *Client) Convert(
 	opts ...option.RequestOption,
 ) (*junctiongo.ConvertCompendiumResponse, error) {
 	response, err := c.WithRawResponse.Convert(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) SearchOrderableTests(
+	ctx context.Context,
+	request *junctiongo.SearchOrderableTestsBody,
+	opts ...option.RequestOption,
+) (*junctiongo.SearchOrderableTestsResponse, error) {
+	response, err := c.WithRawResponse.SearchOrderableTests(
 		ctx,
 		request,
 		opts...,

@@ -1106,11 +1106,11 @@ var (
 )
 
 type Micros struct {
-	// Amount of each mineral in their respective units. Most minerals are measured in mg (milligrams), while sodium and potassium are in g (grams).
+	// Amount of each mineral in milligrams (mg).
 	Minerals map[string]*float64 `json:"minerals,omitempty" url:"minerals,omitempty"`
 	// Amount of each trace element in their respective units, most measured in μg (micrograms), while copper and manganese are in mg (milligrams).
 	TraceElements map[string]*float64 `json:"trace_elements,omitempty" url:"trace_elements,omitempty"`
-	// Amount of each vitamin in their respective units. A, B12, D and K in μg (micrograms), while B1, B2, B3, B5, B6, C and folic acid are in mg (milligrams).
+	// Amount of each vitamin in their respective units. A, B12, D, K, biotin and folic acid are in μg (micrograms), while B1, B2, B3, B5, B6, C and E are in mg (milligrams).
 	Vitamins map[string]*float64 `json:"vitamins,omitempty" url:"vitamins,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
