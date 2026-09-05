@@ -12312,6 +12312,81 @@ client.LabTests.GetLabs(
 </dl>
 </details>
 
+<details><summary><code>client.LabTests.EstimateOrderSetPricing(request) -> *junctiongo.EstimateOrderSetPricingResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.EstimateOrderSetPricingBody{
+        OrderSets: []*junctiongo.OrderSetRequest{
+            &junctiongo.OrderSetRequest{},
+        },
+        Modality: junctiongo.LabTestCollectionMethodTestkit,
+        UsState: "us_state",
+    }
+client.LabTests.EstimateOrderSetPricing(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**orderSets:** `[]*junctiongo.OrderSetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**modality:** `*junctiongo.LabTestCollectionMethod` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**usState:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**billing:** `*junctiongo.Billing` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.LabTests.GetPaginated() -> *junctiongo.LabTestResourcesResponse</code></summary>
 <dl>
 <dd>
@@ -16713,6 +16788,312 @@ client.LabReport.ParserGetJob(
 <dd>
 
 **jobId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Checkout
+<details><summary><code>client.Checkout.GetCheckoutSession(CheckoutSessionId) -> *junctiongo.CheckoutSession</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get the checkout session snapshot.
+
+In-flight sessions reflect live workflow state; terminal sessions are
+served from the persisted snapshot. A read arriving moments after session
+creation can 404 until the workflow's first persistence write commits.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetCheckoutSessionCheckoutRequest{
+        CheckoutSessionId: "checkout_session_id",
+    }
+client.Checkout.GetCheckoutSession(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**checkoutSessionId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.ConfirmCheckoutSession(CheckoutSessionId) -> *junctiongo.CheckoutSession</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Confirm the checkout session after completing payment.
+
+In-flight sessions verify payment against the channel (Stripe) and report
+order progress; terminal sessions return the persisted snapshot untouched.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.ConfirmCheckoutSessionCheckoutRequest{
+        CheckoutSessionId: "checkout_session_id",
+    }
+client.Checkout.ConfirmCheckoutSession(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**checkoutSessionId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.CreateQuote(request) -> *junctiongo.CheckoutQuote</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.CreateCheckoutQuoteBody{
+        OrderSet: &junctiongo.OrderSetRequest{},
+        Modality: junctiongo.LabTestCollectionMethodTestkit,
+        Priority: true,
+        UsState: "us_state",
+    }
+client.Checkout.CreateQuote(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**orderSet:** `*junctiongo.OrderSetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**modality:** `*junctiongo.LabTestCollectionMethod` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**priority:** `bool` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**usState:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.RefineQuote(QuoteId, request) -> *junctiongo.CheckoutQuote</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.RefineCheckoutQuoteBody{
+        QuoteId: "quote_id",
+    }
+client.Checkout.RefineQuote(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**quoteId:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**priority:** `*bool` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.GetQuote(QuoteId) -> *junctiongo.CheckoutQuote</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetQuoteCheckoutRequest{
+        QuoteId: "quote_id",
+    }
+client.Checkout.GetQuote(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**quoteId:** `string` 
     
 </dd>
 </dl>

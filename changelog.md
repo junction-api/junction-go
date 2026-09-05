@@ -1,3 +1,18 @@
+## [v2.0.0] - 2026-09-05
+### Breaking Changes
+- **`AddOnOrder`** — type and all associated methods (`GetMarkerIds`, `GetProviderIds`, `SetMarkerIds`, `SetProviderIds`, etc.) have been removed; remove any references to `AddOnOrder` and update `OrderSetRequest` usage accordingly.
+
+### Added
+- **`checkout.Client`** — new sub-client exposed as `Client.Checkout` with `GetCheckoutSession`, `ConfirmCheckoutSession`, `CreateQuote`, `RefineQuote`, and `GetQuote` methods for managing checkout sessions and quotes.
+- **`labtests.Client.EstimateOrderSetPricing()`** — new method (and corresponding `EstimateOrderSetPricingBody`/`EstimateOrderSetPricingResponse` types) for estimating order-set pricing before placing an order.
+- **`OrderSetPricing`**, **`LabChargePricingComponent`**, **`GenericPricingComponent`**, and related pricing condition types — new types for granular per-component and aggregate pricing breakdowns.
+- **`PricingComponentId`** — new non-exhaustive enum with constants for all charge types (`lab_charge`, `draw_charge`, `mobile_phlebotomy_charge`, `delivered_kit_charge`, etc.).
+- **`CheckoutSession`**, **`CheckoutQuote`**, **`WalkInCollectionNetworkSlug`**, **`ClientFacingCheckoutQuoteCreated`**, and **`BillingUpfrontPayment`** — new types and enum values supporting checkout, walk-in collection networks, and upfront-payment billing.
+- **`MatchReviewStatusPendingCustomerReviewInProgress`** — new `MatchReviewStatus` enum constant (`pending_customer_review:in_progress`).
+
+### Changed
+- **`PricingModifierMarkerPricingConditions`** — new optional `Keys []string` field added to expose condition property names including those unknown to the deserializer.
+
 ## v1.3.0 - 2026-08-14
 
 ### Added

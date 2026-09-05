@@ -4,7 +4,7 @@ package api
 
 import (
 	json "encoding/json"
-	core "github.com/junction-api/junction-go/core"
+	core "github.com/junction-api/junction-go/v2/core"
 )
 
 // Bad Request

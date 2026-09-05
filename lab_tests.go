@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/junction-api/junction-go/internal"
+	internal "github.com/junction-api/junction-go/v2/internal"
 	big "math/big"
 	time "time"
 )
@@ -781,6 +781,81 @@ func (c *CreateUnmatchedResultTestBody) MarshalJSON() ([]byte, error) {
 		embed: embed(*c),
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+var (
+	estimateOrderSetPricingBodyFieldOrderSets = big.NewInt(1 << 0)
+	estimateOrderSetPricingBodyFieldModality  = big.NewInt(1 << 1)
+	estimateOrderSetPricingBodyFieldUsState   = big.NewInt(1 << 2)
+	estimateOrderSetPricingBodyFieldBilling   = big.NewInt(1 << 3)
+)
+
+type EstimateOrderSetPricingBody struct {
+	OrderSets []*OrderSetRequest `json:"order_sets" url:"-"`
+	// ℹ️ This enum is non-exhaustive.
+	Modality LabTestCollectionMethod `json:"modality" url:"-"`
+	UsState  string                  `json:"us_state" url:"-"`
+	// ℹ️ This enum is non-exhaustive.
+	Billing *Billing `json:"billing,omitempty" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (e *EstimateOrderSetPricingBody) require(field *big.Int) {
+	if e.explicitFields == nil {
+		e.explicitFields = big.NewInt(0)
+	}
+	e.explicitFields.Or(e.explicitFields, field)
+}
+
+// SetOrderSets sets the OrderSets field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *EstimateOrderSetPricingBody) SetOrderSets(orderSets []*OrderSetRequest) {
+	e.OrderSets = orderSets
+	e.require(estimateOrderSetPricingBodyFieldOrderSets)
+}
+
+// SetModality sets the Modality field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *EstimateOrderSetPricingBody) SetModality(modality LabTestCollectionMethod) {
+	e.Modality = modality
+	e.require(estimateOrderSetPricingBodyFieldModality)
+}
+
+// SetUsState sets the UsState field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *EstimateOrderSetPricingBody) SetUsState(usState string) {
+	e.UsState = usState
+	e.require(estimateOrderSetPricingBodyFieldUsState)
+}
+
+// SetBilling sets the Billing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *EstimateOrderSetPricingBody) SetBilling(billing *Billing) {
+	e.Billing = billing
+	e.require(estimateOrderSetPricingBodyFieldBilling)
+}
+
+func (e *EstimateOrderSetPricingBody) UnmarshalJSON(data []byte) error {
+	type unmarshaler EstimateOrderSetPricingBody
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*e = EstimateOrderSetPricingBody(body)
+	return nil
+}
+
+func (e *EstimateOrderSetPricingBody) MarshalJSON() ([]byte, error) {
+	type embed EstimateOrderSetPricingBody
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*e),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, e.explicitFields)
 	return json.Marshal(explicitMarshaler)
 }
 
@@ -2642,106 +2717,6 @@ func (s *SimulateOrderProcessLabTestsRequest) UnmarshalJSON(data []byte) error {
 
 func (s *SimulateOrderProcessLabTestsRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(s.Body)
-}
-
-var (
-	addOnOrderFieldMarkerIds   = big.NewInt(1 << 0)
-	addOnOrderFieldProviderIds = big.NewInt(1 << 1)
-)
-
-type AddOnOrder struct {
-	MarkerIds   []int    `json:"marker_ids,omitempty" url:"marker_ids,omitempty"`
-	ProviderIds []string `json:"provider_ids,omitempty" url:"provider_ids,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (a *AddOnOrder) GetMarkerIds() []int {
-	if a == nil {
-		return nil
-	}
-	return a.MarkerIds
-}
-
-func (a *AddOnOrder) GetProviderIds() []string {
-	if a == nil {
-		return nil
-	}
-	return a.ProviderIds
-}
-
-func (a *AddOnOrder) GetExtraProperties() map[string]interface{} {
-	if a == nil {
-		return nil
-	}
-	return a.extraProperties
-}
-
-func (a *AddOnOrder) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
-	}
-	a.explicitFields.Or(a.explicitFields, field)
-}
-
-// SetMarkerIds sets the MarkerIds field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddOnOrder) SetMarkerIds(markerIds []int) {
-	a.MarkerIds = markerIds
-	a.require(addOnOrderFieldMarkerIds)
-}
-
-// SetProviderIds sets the ProviderIds field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddOnOrder) SetProviderIds(providerIds []string) {
-	a.ProviderIds = providerIds
-	a.require(addOnOrderFieldProviderIds)
-}
-
-func (a *AddOnOrder) UnmarshalJSON(data []byte) error {
-	type unmarshaler AddOnOrder
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*a = AddOnOrder(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *a)
-	if err != nil {
-		return err
-	}
-	a.extraProperties = extraProperties
-	a.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (a *AddOnOrder) MarshalJSON() ([]byte, error) {
-	type embed AddOnOrder
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*a),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, a.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (a *AddOnOrder) String() string {
-	if a == nil {
-		return "<nil>"
-	}
-	if len(a.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(a); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", a)
 }
 
 // ℹ️ This enum is non-exhaustive.
@@ -5153,6 +5128,122 @@ func (c *ClientFacingResult) String() string {
 }
 
 var (
+	componentPricingConditionsFieldUsState      = big.NewInt(1 << 0)
+	componentPricingConditionsFieldReflex       = big.NewInt(1 << 1)
+	componentPricingConditionsFieldCriticalCare = big.NewInt(1 << 2)
+)
+
+type ComponentPricingConditions struct {
+	UsState      *UsStatePricingCondition      `json:"us_state,omitempty" url:"us_state,omitempty"`
+	Reflex       *ReflexPricingCondition       `json:"reflex,omitempty" url:"reflex,omitempty"`
+	CriticalCare *CriticalCarePricingCondition `json:"critical_care,omitempty" url:"critical_care,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *ComponentPricingConditions) GetUsState() *UsStatePricingCondition {
+	if c == nil {
+		return nil
+	}
+	return c.UsState
+}
+
+func (c *ComponentPricingConditions) GetReflex() *ReflexPricingCondition {
+	if c == nil {
+		return nil
+	}
+	return c.Reflex
+}
+
+func (c *ComponentPricingConditions) GetCriticalCare() *CriticalCarePricingCondition {
+	if c == nil {
+		return nil
+	}
+	return c.CriticalCare
+}
+
+func (c *ComponentPricingConditions) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *ComponentPricingConditions) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetUsState sets the UsState field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ComponentPricingConditions) SetUsState(usState *UsStatePricingCondition) {
+	c.UsState = usState
+	c.require(componentPricingConditionsFieldUsState)
+}
+
+// SetReflex sets the Reflex field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ComponentPricingConditions) SetReflex(reflex *ReflexPricingCondition) {
+	c.Reflex = reflex
+	c.require(componentPricingConditionsFieldReflex)
+}
+
+// SetCriticalCare sets the CriticalCare field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ComponentPricingConditions) SetCriticalCare(criticalCare *CriticalCarePricingCondition) {
+	c.CriticalCare = criticalCare
+	c.require(componentPricingConditionsFieldCriticalCare)
+}
+
+func (c *ComponentPricingConditions) UnmarshalJSON(data []byte) error {
+	type unmarshaler ComponentPricingConditions
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = ComponentPricingConditions(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *ComponentPricingConditions) MarshalJSON() ([]byte, error) {
+	type embed ComponentPricingConditions
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *ComponentPricingConditions) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
 	createUnmatchedResultTestResponseFieldRunId  = big.NewInt(1 << 0)
 	createUnmatchedResultTestResponseFieldStatus = big.NewInt(1 << 1)
 )
@@ -5239,6 +5330,71 @@ func (c *CreateUnmatchedResultTestResponse) MarshalJSON() ([]byte, error) {
 }
 
 func (c *CreateUnmatchedResultTestResponse) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+type CriticalCarePricingCondition struct {
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CriticalCarePricingCondition) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CriticalCarePricingCondition) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+func (c *CriticalCarePricingCondition) UnmarshalJSON(data []byte) error {
+	type unmarshaler CriticalCarePricingCondition
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CriticalCarePricingCondition(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CriticalCarePricingCondition) MarshalJSON() ([]byte, error) {
+	type embed CriticalCarePricingCondition
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CriticalCarePricingCondition) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -5367,6 +5523,269 @@ func (d *DaySlots) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", d)
+}
+
+var (
+	estimateOrderSetPricingResponseFieldData = big.NewInt(1 << 0)
+)
+
+type EstimateOrderSetPricingResponse struct {
+	Data []*OrderSetPricing `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+	currency       string
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (e *EstimateOrderSetPricingResponse) GetData() []*OrderSetPricing {
+	if e == nil {
+		return nil
+	}
+	return e.Data
+}
+
+func (e *EstimateOrderSetPricingResponse) Currency() string {
+	return e.currency
+}
+
+func (e *EstimateOrderSetPricingResponse) GetExtraProperties() map[string]interface{} {
+	if e == nil {
+		return nil
+	}
+	return e.extraProperties
+}
+
+func (e *EstimateOrderSetPricingResponse) require(field *big.Int) {
+	if e.explicitFields == nil {
+		e.explicitFields = big.NewInt(0)
+	}
+	e.explicitFields.Or(e.explicitFields, field)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *EstimateOrderSetPricingResponse) SetData(data []*OrderSetPricing) {
+	e.Data = data
+	e.require(estimateOrderSetPricingResponseFieldData)
+}
+
+func (e *EstimateOrderSetPricingResponse) UnmarshalJSON(data []byte) error {
+	type embed EstimateOrderSetPricingResponse
+	var unmarshaler = struct {
+		embed
+		Currency string `json:"currency"`
+	}{
+		embed: embed(*e),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*e = EstimateOrderSetPricingResponse(unmarshaler.embed)
+	if unmarshaler.Currency != "USD" {
+		return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", e, "USD", unmarshaler.Currency)
+	}
+	e.currency = unmarshaler.Currency
+	extraProperties, err := internal.ExtractExtraProperties(data, *e, "currency")
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+	e.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *EstimateOrderSetPricingResponse) MarshalJSON() ([]byte, error) {
+	type embed EstimateOrderSetPricingResponse
+	var marshaler = struct {
+		embed
+		Currency string `json:"currency"`
+	}{
+		embed:    embed(*e),
+		Currency: "USD",
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, e.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (e *EstimateOrderSetPricingResponse) String() string {
+	if e == nil {
+		return "<nil>"
+	}
+	if len(e.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(e.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
+}
+
+var (
+	genericPricingComponentFieldId      = big.NewInt(1 << 0)
+	genericPricingComponentFieldPricing = big.NewInt(1 << 1)
+)
+
+type GenericPricingComponent struct {
+	// ℹ️ This enum is non-exhaustive.
+	Id      PricingComponentId              `json:"id" url:"id"`
+	Pricing *GenericPricingComponentPricing `json:"pricing" url:"pricing"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (g *GenericPricingComponent) GetId() PricingComponentId {
+	if g == nil {
+		return ""
+	}
+	return g.Id
+}
+
+func (g *GenericPricingComponent) GetPricing() *GenericPricingComponentPricing {
+	if g == nil {
+		return nil
+	}
+	return g.Pricing
+}
+
+func (g *GenericPricingComponent) GetExtraProperties() map[string]interface{} {
+	if g == nil {
+		return nil
+	}
+	return g.extraProperties
+}
+
+func (g *GenericPricingComponent) require(field *big.Int) {
+	if g.explicitFields == nil {
+		g.explicitFields = big.NewInt(0)
+	}
+	g.explicitFields.Or(g.explicitFields, field)
+}
+
+// SetId sets the Id field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GenericPricingComponent) SetId(id PricingComponentId) {
+	g.Id = id
+	g.require(genericPricingComponentFieldId)
+}
+
+// SetPricing sets the Pricing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GenericPricingComponent) SetPricing(pricing *GenericPricingComponentPricing) {
+	g.Pricing = pricing
+	g.require(genericPricingComponentFieldPricing)
+}
+
+func (g *GenericPricingComponent) UnmarshalJSON(data []byte) error {
+	type unmarshaler GenericPricingComponent
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GenericPricingComponent(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+	g.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GenericPricingComponent) MarshalJSON() ([]byte, error) {
+	type embed GenericPricingComponent
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*g),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (g *GenericPricingComponent) String() string {
+	if g == nil {
+		return "<nil>"
+	}
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
+}
+
+type GenericPricingComponentPricing struct {
+	SpecifiedPricingComponentPricingConditions *SpecifiedPricingComponentPricingConditions
+	UnspecifiedPricing                         *UnspecifiedPricing
+
+	typ string
+}
+
+func (g *GenericPricingComponentPricing) GetSpecifiedPricingComponentPricingConditions() *SpecifiedPricingComponentPricingConditions {
+	if g == nil {
+		return nil
+	}
+	return g.SpecifiedPricingComponentPricingConditions
+}
+
+func (g *GenericPricingComponentPricing) GetUnspecifiedPricing() *UnspecifiedPricing {
+	if g == nil {
+		return nil
+	}
+	return g.UnspecifiedPricing
+}
+
+func (g *GenericPricingComponentPricing) UnmarshalJSON(data []byte) error {
+	valueSpecifiedPricingComponentPricingConditions := new(SpecifiedPricingComponentPricingConditions)
+	if err := json.Unmarshal(data, &valueSpecifiedPricingComponentPricingConditions); err == nil {
+		g.typ = "SpecifiedPricingComponentPricingConditions"
+		g.SpecifiedPricingComponentPricingConditions = valueSpecifiedPricingComponentPricingConditions
+		return nil
+	}
+	valueUnspecifiedPricing := new(UnspecifiedPricing)
+	if err := json.Unmarshal(data, &valueUnspecifiedPricing); err == nil {
+		g.typ = "UnspecifiedPricing"
+		g.UnspecifiedPricing = valueUnspecifiedPricing
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, g)
+}
+
+func (g GenericPricingComponentPricing) MarshalJSON() ([]byte, error) {
+	if g.typ == "SpecifiedPricingComponentPricingConditions" || g.SpecifiedPricingComponentPricingConditions != nil {
+		return json.Marshal(g.SpecifiedPricingComponentPricingConditions)
+	}
+	if g.typ == "UnspecifiedPricing" || g.UnspecifiedPricing != nil {
+		return json.Marshal(g.UnspecifiedPricing)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", g)
+}
+
+type GenericPricingComponentPricingVisitor interface {
+	VisitSpecifiedPricingComponentPricingConditions(*SpecifiedPricingComponentPricingConditions) error
+	VisitUnspecifiedPricing(*UnspecifiedPricing) error
+}
+
+func (g *GenericPricingComponentPricing) Accept(visitor GenericPricingComponentPricingVisitor) error {
+	if g.typ == "SpecifiedPricingComponentPricingConditions" || g.SpecifiedPricingComponentPricingConditions != nil {
+		return visitor.VisitSpecifiedPricingComponentPricingConditions(g.SpecifiedPricingComponentPricingConditions)
+	}
+	if g.typ == "UnspecifiedPricing" || g.UnspecifiedPricing != nil {
+		return visitor.VisitUnspecifiedPricing(g.UnspecifiedPricing)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", g)
 }
 
 // Aggregated per-panel pricing, keyed by lab test ID.
@@ -6683,6 +7102,246 @@ func (i *IcdExcludesWarning) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", i)
+}
+
+var (
+	labChargePricingComponentFieldPricing         = big.NewInt(1 << 0)
+	labChargePricingComponentFieldMarkerBreakdown = big.NewInt(1 << 1)
+)
+
+type LabChargePricingComponent struct {
+	Pricing         *LabChargePricingComponentPricing                         `json:"pricing" url:"pricing"`
+	MarkerBreakdown map[string]*LabChargePricingComponentMarkerBreakdownValue `json:"marker_breakdown,omitempty" url:"marker_breakdown,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+	id             string
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *LabChargePricingComponent) GetPricing() *LabChargePricingComponentPricing {
+	if l == nil {
+		return nil
+	}
+	return l.Pricing
+}
+
+func (l *LabChargePricingComponent) GetMarkerBreakdown() map[string]*LabChargePricingComponentMarkerBreakdownValue {
+	if l == nil {
+		return nil
+	}
+	return l.MarkerBreakdown
+}
+
+func (l *LabChargePricingComponent) Id() string {
+	return l.id
+}
+
+func (l *LabChargePricingComponent) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *LabChargePricingComponent) require(field *big.Int) {
+	if l.explicitFields == nil {
+		l.explicitFields = big.NewInt(0)
+	}
+	l.explicitFields.Or(l.explicitFields, field)
+}
+
+// SetPricing sets the Pricing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabChargePricingComponent) SetPricing(pricing *LabChargePricingComponentPricing) {
+	l.Pricing = pricing
+	l.require(labChargePricingComponentFieldPricing)
+}
+
+// SetMarkerBreakdown sets the MarkerBreakdown field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabChargePricingComponent) SetMarkerBreakdown(markerBreakdown map[string]*LabChargePricingComponentMarkerBreakdownValue) {
+	l.MarkerBreakdown = markerBreakdown
+	l.require(labChargePricingComponentFieldMarkerBreakdown)
+}
+
+func (l *LabChargePricingComponent) UnmarshalJSON(data []byte) error {
+	type embed LabChargePricingComponent
+	var unmarshaler = struct {
+		embed
+		Id string `json:"id"`
+	}{
+		embed: embed(*l),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*l = LabChargePricingComponent(unmarshaler.embed)
+	if unmarshaler.Id != "lab_charge" {
+		return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", l, "lab_charge", unmarshaler.Id)
+	}
+	l.id = unmarshaler.Id
+	extraProperties, err := internal.ExtractExtraProperties(data, *l, "id")
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *LabChargePricingComponent) MarshalJSON() ([]byte, error) {
+	type embed LabChargePricingComponent
+	var marshaler = struct {
+		embed
+		Id string `json:"id"`
+	}{
+		embed: embed(*l),
+		Id:    "lab_charge",
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *LabChargePricingComponent) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+type LabChargePricingComponentMarkerBreakdownValue struct {
+	SpecifiedPricingMarkerPricingConditions *SpecifiedPricingMarkerPricingConditions
+	UnspecifiedPricing                      *UnspecifiedPricing
+
+	typ string
+}
+
+func (l *LabChargePricingComponentMarkerBreakdownValue) GetSpecifiedPricingMarkerPricingConditions() *SpecifiedPricingMarkerPricingConditions {
+	if l == nil {
+		return nil
+	}
+	return l.SpecifiedPricingMarkerPricingConditions
+}
+
+func (l *LabChargePricingComponentMarkerBreakdownValue) GetUnspecifiedPricing() *UnspecifiedPricing {
+	if l == nil {
+		return nil
+	}
+	return l.UnspecifiedPricing
+}
+
+func (l *LabChargePricingComponentMarkerBreakdownValue) UnmarshalJSON(data []byte) error {
+	valueSpecifiedPricingMarkerPricingConditions := new(SpecifiedPricingMarkerPricingConditions)
+	if err := json.Unmarshal(data, &valueSpecifiedPricingMarkerPricingConditions); err == nil {
+		l.typ = "SpecifiedPricingMarkerPricingConditions"
+		l.SpecifiedPricingMarkerPricingConditions = valueSpecifiedPricingMarkerPricingConditions
+		return nil
+	}
+	valueUnspecifiedPricing := new(UnspecifiedPricing)
+	if err := json.Unmarshal(data, &valueUnspecifiedPricing); err == nil {
+		l.typ = "UnspecifiedPricing"
+		l.UnspecifiedPricing = valueUnspecifiedPricing
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, l)
+}
+
+func (l LabChargePricingComponentMarkerBreakdownValue) MarshalJSON() ([]byte, error) {
+	if l.typ == "SpecifiedPricingMarkerPricingConditions" || l.SpecifiedPricingMarkerPricingConditions != nil {
+		return json.Marshal(l.SpecifiedPricingMarkerPricingConditions)
+	}
+	if l.typ == "UnspecifiedPricing" || l.UnspecifiedPricing != nil {
+		return json.Marshal(l.UnspecifiedPricing)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", l)
+}
+
+type LabChargePricingComponentMarkerBreakdownValueVisitor interface {
+	VisitSpecifiedPricingMarkerPricingConditions(*SpecifiedPricingMarkerPricingConditions) error
+	VisitUnspecifiedPricing(*UnspecifiedPricing) error
+}
+
+func (l *LabChargePricingComponentMarkerBreakdownValue) Accept(visitor LabChargePricingComponentMarkerBreakdownValueVisitor) error {
+	if l.typ == "SpecifiedPricingMarkerPricingConditions" || l.SpecifiedPricingMarkerPricingConditions != nil {
+		return visitor.VisitSpecifiedPricingMarkerPricingConditions(l.SpecifiedPricingMarkerPricingConditions)
+	}
+	if l.typ == "UnspecifiedPricing" || l.UnspecifiedPricing != nil {
+		return visitor.VisitUnspecifiedPricing(l.UnspecifiedPricing)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", l)
+}
+
+type LabChargePricingComponentPricing struct {
+	SpecifiedPricingComponentPricingConditions *SpecifiedPricingComponentPricingConditions
+	UnspecifiedPricing                         *UnspecifiedPricing
+
+	typ string
+}
+
+func (l *LabChargePricingComponentPricing) GetSpecifiedPricingComponentPricingConditions() *SpecifiedPricingComponentPricingConditions {
+	if l == nil {
+		return nil
+	}
+	return l.SpecifiedPricingComponentPricingConditions
+}
+
+func (l *LabChargePricingComponentPricing) GetUnspecifiedPricing() *UnspecifiedPricing {
+	if l == nil {
+		return nil
+	}
+	return l.UnspecifiedPricing
+}
+
+func (l *LabChargePricingComponentPricing) UnmarshalJSON(data []byte) error {
+	valueSpecifiedPricingComponentPricingConditions := new(SpecifiedPricingComponentPricingConditions)
+	if err := json.Unmarshal(data, &valueSpecifiedPricingComponentPricingConditions); err == nil {
+		l.typ = "SpecifiedPricingComponentPricingConditions"
+		l.SpecifiedPricingComponentPricingConditions = valueSpecifiedPricingComponentPricingConditions
+		return nil
+	}
+	valueUnspecifiedPricing := new(UnspecifiedPricing)
+	if err := json.Unmarshal(data, &valueUnspecifiedPricing); err == nil {
+		l.typ = "UnspecifiedPricing"
+		l.UnspecifiedPricing = valueUnspecifiedPricing
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, l)
+}
+
+func (l LabChargePricingComponentPricing) MarshalJSON() ([]byte, error) {
+	if l.typ == "SpecifiedPricingComponentPricingConditions" || l.SpecifiedPricingComponentPricingConditions != nil {
+		return json.Marshal(l.SpecifiedPricingComponentPricingConditions)
+	}
+	if l.typ == "UnspecifiedPricing" || l.UnspecifiedPricing != nil {
+		return json.Marshal(l.UnspecifiedPricing)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", l)
+}
+
+type LabChargePricingComponentPricingVisitor interface {
+	VisitSpecifiedPricingComponentPricingConditions(*SpecifiedPricingComponentPricingConditions) error
+	VisitUnspecifiedPricing(*UnspecifiedPricing) error
+}
+
+func (l *LabChargePricingComponentPricing) Accept(visitor LabChargePricingComponentPricingVisitor) error {
+	if l.typ == "SpecifiedPricingComponentPricingConditions" || l.SpecifiedPricingComponentPricingConditions != nil {
+		return visitor.VisitSpecifiedPricingComponentPricingConditions(l.SpecifiedPricingComponentPricingConditions)
+	}
+	if l.typ == "UnspecifiedPricing" || l.UnspecifiedPricing != nil {
+		return visitor.VisitUnspecifiedPricing(l.UnspecifiedPricing)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", l)
 }
 
 // ℹ️ This enum is non-exhaustive.
@@ -8712,10 +9371,11 @@ func (m MatchReviewResolutionAction) Ptr() *MatchReviewResolutionAction {
 type MatchReviewStatus string
 
 const (
-	MatchReviewStatusMatched               MatchReviewStatus = "matched"
-	MatchReviewStatusPendingCustomerReview MatchReviewStatus = "pending_customer_review"
-	MatchReviewStatusPendingOpsReview      MatchReviewStatus = "pending_ops_review"
-	MatchReviewStatusResolved              MatchReviewStatus = "resolved"
+	MatchReviewStatusMatched                         MatchReviewStatus = "matched"
+	MatchReviewStatusPendingCustomerReview           MatchReviewStatus = "pending_customer_review"
+	MatchReviewStatusPendingOpsReview                MatchReviewStatus = "pending_ops_review"
+	MatchReviewStatusPendingCustomerReviewInProgress MatchReviewStatus = "pending_customer_review:in_progress"
+	MatchReviewStatusResolved                        MatchReviewStatus = "resolved"
 )
 
 func NewMatchReviewStatusFromString(s string) (MatchReviewStatus, error) {
@@ -8726,6 +9386,8 @@ func NewMatchReviewStatusFromString(s string) (MatchReviewStatus, error) {
 		return MatchReviewStatusPendingCustomerReview, nil
 	case "pending_ops_review":
 		return MatchReviewStatusPendingOpsReview, nil
+	case "pending_customer_review:in_progress":
+		return MatchReviewStatusPendingCustomerReviewInProgress, nil
 	case "resolved":
 		return MatchReviewStatusResolved, nil
 	}
@@ -8790,15 +9452,13 @@ func (o OrderActivationType) Ptr() *OrderActivationType {
 }
 
 var (
-	orderSetRequestFieldLabTestIds   = big.NewInt(1 << 0)
-	orderSetRequestFieldAddOn        = big.NewInt(1 << 1)
-	orderSetRequestFieldLabAccountId = big.NewInt(1 << 2)
+	orderSetPricingFieldAggregatePricing = big.NewInt(1 << 0)
+	orderSetPricingFieldComponents       = big.NewInt(1 << 1)
 )
 
-type OrderSetRequest struct {
-	LabTestIds   []string    `json:"lab_test_ids,omitempty" url:"lab_test_ids,omitempty"`
-	AddOn        *AddOnOrder `json:"add_on,omitempty" url:"add_on,omitempty"`
-	LabAccountId *string     `json:"lab_account_id,omitempty" url:"lab_account_id,omitempty"`
+type OrderSetPricing struct {
+	AggregatePricing *OrderSetPricingAggregatePricing `json:"aggregate_pricing" url:"aggregate_pricing"`
+	Components       []*OrderSetPricingComponentsItem `json:"components" url:"components"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -8807,69 +9467,55 @@ type OrderSetRequest struct {
 	rawJSON         json.RawMessage
 }
 
-func (o *OrderSetRequest) GetLabTestIds() []string {
+func (o *OrderSetPricing) GetAggregatePricing() *OrderSetPricingAggregatePricing {
 	if o == nil {
 		return nil
 	}
-	return o.LabTestIds
+	return o.AggregatePricing
 }
 
-func (o *OrderSetRequest) GetAddOn() *AddOnOrder {
+func (o *OrderSetPricing) GetComponents() []*OrderSetPricingComponentsItem {
 	if o == nil {
 		return nil
 	}
-	return o.AddOn
+	return o.Components
 }
 
-func (o *OrderSetRequest) GetLabAccountId() *string {
-	if o == nil {
-		return nil
-	}
-	return o.LabAccountId
-}
-
-func (o *OrderSetRequest) GetExtraProperties() map[string]interface{} {
+func (o *OrderSetPricing) GetExtraProperties() map[string]interface{} {
 	if o == nil {
 		return nil
 	}
 	return o.extraProperties
 }
 
-func (o *OrderSetRequest) require(field *big.Int) {
+func (o *OrderSetPricing) require(field *big.Int) {
 	if o.explicitFields == nil {
 		o.explicitFields = big.NewInt(0)
 	}
 	o.explicitFields.Or(o.explicitFields, field)
 }
 
-// SetLabTestIds sets the LabTestIds field and marks it as non-optional;
+// SetAggregatePricing sets the AggregatePricing field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (o *OrderSetRequest) SetLabTestIds(labTestIds []string) {
-	o.LabTestIds = labTestIds
-	o.require(orderSetRequestFieldLabTestIds)
+func (o *OrderSetPricing) SetAggregatePricing(aggregatePricing *OrderSetPricingAggregatePricing) {
+	o.AggregatePricing = aggregatePricing
+	o.require(orderSetPricingFieldAggregatePricing)
 }
 
-// SetAddOn sets the AddOn field and marks it as non-optional;
+// SetComponents sets the Components field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (o *OrderSetRequest) SetAddOn(addOn *AddOnOrder) {
-	o.AddOn = addOn
-	o.require(orderSetRequestFieldAddOn)
+func (o *OrderSetPricing) SetComponents(components []*OrderSetPricingComponentsItem) {
+	o.Components = components
+	o.require(orderSetPricingFieldComponents)
 }
 
-// SetLabAccountId sets the LabAccountId field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (o *OrderSetRequest) SetLabAccountId(labAccountId *string) {
-	o.LabAccountId = labAccountId
-	o.require(orderSetRequestFieldLabAccountId)
-}
-
-func (o *OrderSetRequest) UnmarshalJSON(data []byte) error {
-	type unmarshaler OrderSetRequest
+func (o *OrderSetPricing) UnmarshalJSON(data []byte) error {
+	type unmarshaler OrderSetPricing
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*o = OrderSetRequest(value)
+	*o = OrderSetPricing(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *o)
 	if err != nil {
 		return err
@@ -8879,8 +9525,8 @@ func (o *OrderSetRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *OrderSetRequest) MarshalJSON() ([]byte, error) {
-	type embed OrderSetRequest
+func (o *OrderSetPricing) MarshalJSON() ([]byte, error) {
+	type embed OrderSetPricing
 	var marshaler = struct {
 		embed
 	}{
@@ -8890,7 +9536,7 @@ func (o *OrderSetRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (o *OrderSetRequest) String() string {
+func (o *OrderSetPricing) String() string {
 	if o == nil {
 		return "<nil>"
 	}
@@ -8903,6 +9549,130 @@ func (o *OrderSetRequest) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", o)
+}
+
+type OrderSetPricingAggregatePricing struct {
+	SpecifiedPricingComponentPricingConditions *SpecifiedPricingComponentPricingConditions
+	UnspecifiedPricing                         *UnspecifiedPricing
+
+	typ string
+}
+
+func (o *OrderSetPricingAggregatePricing) GetSpecifiedPricingComponentPricingConditions() *SpecifiedPricingComponentPricingConditions {
+	if o == nil {
+		return nil
+	}
+	return o.SpecifiedPricingComponentPricingConditions
+}
+
+func (o *OrderSetPricingAggregatePricing) GetUnspecifiedPricing() *UnspecifiedPricing {
+	if o == nil {
+		return nil
+	}
+	return o.UnspecifiedPricing
+}
+
+func (o *OrderSetPricingAggregatePricing) UnmarshalJSON(data []byte) error {
+	valueSpecifiedPricingComponentPricingConditions := new(SpecifiedPricingComponentPricingConditions)
+	if err := json.Unmarshal(data, &valueSpecifiedPricingComponentPricingConditions); err == nil {
+		o.typ = "SpecifiedPricingComponentPricingConditions"
+		o.SpecifiedPricingComponentPricingConditions = valueSpecifiedPricingComponentPricingConditions
+		return nil
+	}
+	valueUnspecifiedPricing := new(UnspecifiedPricing)
+	if err := json.Unmarshal(data, &valueUnspecifiedPricing); err == nil {
+		o.typ = "UnspecifiedPricing"
+		o.UnspecifiedPricing = valueUnspecifiedPricing
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, o)
+}
+
+func (o OrderSetPricingAggregatePricing) MarshalJSON() ([]byte, error) {
+	if o.typ == "SpecifiedPricingComponentPricingConditions" || o.SpecifiedPricingComponentPricingConditions != nil {
+		return json.Marshal(o.SpecifiedPricingComponentPricingConditions)
+	}
+	if o.typ == "UnspecifiedPricing" || o.UnspecifiedPricing != nil {
+		return json.Marshal(o.UnspecifiedPricing)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", o)
+}
+
+type OrderSetPricingAggregatePricingVisitor interface {
+	VisitSpecifiedPricingComponentPricingConditions(*SpecifiedPricingComponentPricingConditions) error
+	VisitUnspecifiedPricing(*UnspecifiedPricing) error
+}
+
+func (o *OrderSetPricingAggregatePricing) Accept(visitor OrderSetPricingAggregatePricingVisitor) error {
+	if o.typ == "SpecifiedPricingComponentPricingConditions" || o.SpecifiedPricingComponentPricingConditions != nil {
+		return visitor.VisitSpecifiedPricingComponentPricingConditions(o.SpecifiedPricingComponentPricingConditions)
+	}
+	if o.typ == "UnspecifiedPricing" || o.UnspecifiedPricing != nil {
+		return visitor.VisitUnspecifiedPricing(o.UnspecifiedPricing)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", o)
+}
+
+type OrderSetPricingComponentsItem struct {
+	LabChargePricingComponent *LabChargePricingComponent
+	GenericPricingComponent   *GenericPricingComponent
+
+	typ string
+}
+
+func (o *OrderSetPricingComponentsItem) GetLabChargePricingComponent() *LabChargePricingComponent {
+	if o == nil {
+		return nil
+	}
+	return o.LabChargePricingComponent
+}
+
+func (o *OrderSetPricingComponentsItem) GetGenericPricingComponent() *GenericPricingComponent {
+	if o == nil {
+		return nil
+	}
+	return o.GenericPricingComponent
+}
+
+func (o *OrderSetPricingComponentsItem) UnmarshalJSON(data []byte) error {
+	valueLabChargePricingComponent := new(LabChargePricingComponent)
+	if err := json.Unmarshal(data, &valueLabChargePricingComponent); err == nil {
+		o.typ = "LabChargePricingComponent"
+		o.LabChargePricingComponent = valueLabChargePricingComponent
+		return nil
+	}
+	valueGenericPricingComponent := new(GenericPricingComponent)
+	if err := json.Unmarshal(data, &valueGenericPricingComponent); err == nil {
+		o.typ = "GenericPricingComponent"
+		o.GenericPricingComponent = valueGenericPricingComponent
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, o)
+}
+
+func (o OrderSetPricingComponentsItem) MarshalJSON() ([]byte, error) {
+	if o.typ == "LabChargePricingComponent" || o.LabChargePricingComponent != nil {
+		return json.Marshal(o.LabChargePricingComponent)
+	}
+	if o.typ == "GenericPricingComponent" || o.GenericPricingComponent != nil {
+		return json.Marshal(o.GenericPricingComponent)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", o)
+}
+
+type OrderSetPricingComponentsItemVisitor interface {
+	VisitLabChargePricingComponent(*LabChargePricingComponent) error
+	VisitGenericPricingComponent(*GenericPricingComponent) error
+}
+
+func (o *OrderSetPricingComponentsItem) Accept(visitor OrderSetPricingComponentsItemVisitor) error {
+	if o.typ == "LabChargePricingComponent" || o.LabChargePricingComponent != nil {
+		return visitor.VisitLabChargePricingComponent(o.LabChargePricingComponent)
+	}
+	if o.typ == "GenericPricingComponent" || o.GenericPricingComponent != nil {
+		return visitor.VisitGenericPricingComponent(o.GenericPricingComponent)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", o)
 }
 
 var (
@@ -9530,15 +10300,243 @@ func (p *PhysicianCreateRequestSignatureImage) Accept(visitor PhysicianCreateReq
 	return fmt.Errorf("type %T does not include a non-empty union type", p)
 }
 
+// ℹ️ This enum is non-exhaustive.
+type PricingComponentId string
+
+const (
+	PricingComponentIdPlacedOrderCharge      PricingComponentId = "placed_order_charge"
+	PricingComponentIdRequisitionCharge      PricingComponentId = "requisition_charge"
+	PricingComponentIdDrawCharge             PricingComponentId = "draw_charge"
+	PricingComponentIdMobilePhlebotomyCharge PricingComponentId = "mobile_phlebotomy_charge"
+	PricingComponentIdDeliveredKitCharge     PricingComponentId = "delivered_kit_charge"
+	PricingComponentIdCompletedKitCharge     PricingComponentId = "completed_kit_charge"
+	PricingComponentIdCriticalCareCharge     PricingComponentId = "critical_care_charge"
+	PricingComponentIdLabCharge              PricingComponentId = "lab_charge"
+	PricingComponentIdLabPriorityCharge      PricingComponentId = "lab_priority_charge"
+)
+
+func NewPricingComponentIdFromString(s string) (PricingComponentId, error) {
+	switch s {
+	case "placed_order_charge":
+		return PricingComponentIdPlacedOrderCharge, nil
+	case "requisition_charge":
+		return PricingComponentIdRequisitionCharge, nil
+	case "draw_charge":
+		return PricingComponentIdDrawCharge, nil
+	case "mobile_phlebotomy_charge":
+		return PricingComponentIdMobilePhlebotomyCharge, nil
+	case "delivered_kit_charge":
+		return PricingComponentIdDeliveredKitCharge, nil
+	case "completed_kit_charge":
+		return PricingComponentIdCompletedKitCharge, nil
+	case "critical_care_charge":
+		return PricingComponentIdCriticalCareCharge, nil
+	case "lab_charge":
+		return PricingComponentIdLabCharge, nil
+	case "lab_priority_charge":
+		return PricingComponentIdLabPriorityCharge, nil
+	}
+	var t PricingComponentId
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PricingComponentId) Ptr() *PricingComponentId {
+	return &p
+}
+
+var (
+	pricingModifierComponentPricingConditionsFieldDeltaAmountMinor = big.NewInt(1 << 0)
+	pricingModifierComponentPricingConditionsFieldConditions       = big.NewInt(1 << 1)
+	pricingModifierComponentPricingConditionsFieldKeys             = big.NewInt(1 << 2)
+)
+
+type PricingModifierComponentPricingConditions struct {
+	// Amount delta in the smallest denomination of the currency, e.g. cents for USD.
+	DeltaAmountMinor *PricingModifierComponentPricingConditionsDeltaAmountMinor `json:"delta_amount_minor" url:"delta_amount_minor"`
+	Conditions       *ComponentPricingConditions                                `json:"conditions" url:"conditions"`
+	// Property names present in conditions, including names unknown to a deserializer.
+	Keys []string `json:"keys" url:"keys"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PricingModifierComponentPricingConditions) GetDeltaAmountMinor() *PricingModifierComponentPricingConditionsDeltaAmountMinor {
+	if p == nil {
+		return nil
+	}
+	return p.DeltaAmountMinor
+}
+
+func (p *PricingModifierComponentPricingConditions) GetConditions() *ComponentPricingConditions {
+	if p == nil {
+		return nil
+	}
+	return p.Conditions
+}
+
+func (p *PricingModifierComponentPricingConditions) GetKeys() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Keys
+}
+
+func (p *PricingModifierComponentPricingConditions) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PricingModifierComponentPricingConditions) require(field *big.Int) {
+	if p.explicitFields == nil {
+		p.explicitFields = big.NewInt(0)
+	}
+	p.explicitFields.Or(p.explicitFields, field)
+}
+
+// SetDeltaAmountMinor sets the DeltaAmountMinor field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PricingModifierComponentPricingConditions) SetDeltaAmountMinor(deltaAmountMinor *PricingModifierComponentPricingConditionsDeltaAmountMinor) {
+	p.DeltaAmountMinor = deltaAmountMinor
+	p.require(pricingModifierComponentPricingConditionsFieldDeltaAmountMinor)
+}
+
+// SetConditions sets the Conditions field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PricingModifierComponentPricingConditions) SetConditions(conditions *ComponentPricingConditions) {
+	p.Conditions = conditions
+	p.require(pricingModifierComponentPricingConditionsFieldConditions)
+}
+
+// SetKeys sets the Keys field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PricingModifierComponentPricingConditions) SetKeys(keys []string) {
+	p.Keys = keys
+	p.require(pricingModifierComponentPricingConditionsFieldKeys)
+}
+
+func (p *PricingModifierComponentPricingConditions) UnmarshalJSON(data []byte) error {
+	type unmarshaler PricingModifierComponentPricingConditions
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PricingModifierComponentPricingConditions(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PricingModifierComponentPricingConditions) MarshalJSON() ([]byte, error) {
+	type embed PricingModifierComponentPricingConditions
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PricingModifierComponentPricingConditions) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+// Amount delta in the smallest denomination of the currency, e.g. cents for USD.
+type PricingModifierComponentPricingConditionsDeltaAmountMinor struct {
+	Integer              int
+	PricingModifierRange *PricingModifierRange
+
+	typ string
+}
+
+func (p *PricingModifierComponentPricingConditionsDeltaAmountMinor) GetInteger() int {
+	if p == nil {
+		return 0
+	}
+	return p.Integer
+}
+
+func (p *PricingModifierComponentPricingConditionsDeltaAmountMinor) GetPricingModifierRange() *PricingModifierRange {
+	if p == nil {
+		return nil
+	}
+	return p.PricingModifierRange
+}
+
+func (p *PricingModifierComponentPricingConditionsDeltaAmountMinor) UnmarshalJSON(data []byte) error {
+	var valueInteger int
+	if err := json.Unmarshal(data, &valueInteger); err == nil {
+		p.typ = "Integer"
+		p.Integer = valueInteger
+		return nil
+	}
+	valuePricingModifierRange := new(PricingModifierRange)
+	if err := json.Unmarshal(data, &valuePricingModifierRange); err == nil {
+		p.typ = "PricingModifierRange"
+		p.PricingModifierRange = valuePricingModifierRange
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, p)
+}
+
+func (p PricingModifierComponentPricingConditionsDeltaAmountMinor) MarshalJSON() ([]byte, error) {
+	if p.typ == "Integer" || p.Integer != 0 {
+		return json.Marshal(p.Integer)
+	}
+	if p.typ == "PricingModifierRange" || p.PricingModifierRange != nil {
+		return json.Marshal(p.PricingModifierRange)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", p)
+}
+
+type PricingModifierComponentPricingConditionsDeltaAmountMinorVisitor interface {
+	VisitInteger(int) error
+	VisitPricingModifierRange(*PricingModifierRange) error
+}
+
+func (p *PricingModifierComponentPricingConditionsDeltaAmountMinor) Accept(visitor PricingModifierComponentPricingConditionsDeltaAmountMinorVisitor) error {
+	if p.typ == "Integer" || p.Integer != 0 {
+		return visitor.VisitInteger(p.Integer)
+	}
+	if p.typ == "PricingModifierRange" || p.PricingModifierRange != nil {
+		return visitor.VisitPricingModifierRange(p.PricingModifierRange)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", p)
+}
+
 var (
 	pricingModifierMarkerPricingConditionsFieldDeltaAmountMinor = big.NewInt(1 << 0)
 	pricingModifierMarkerPricingConditionsFieldConditions       = big.NewInt(1 << 1)
+	pricingModifierMarkerPricingConditionsFieldKeys             = big.NewInt(1 << 2)
 )
 
 type PricingModifierMarkerPricingConditions struct {
 	// Amount delta in the smallest denomination of the currency, e.g. cents for USD.
 	DeltaAmountMinor *PricingModifierMarkerPricingConditionsDeltaAmountMinor `json:"delta_amount_minor" url:"delta_amount_minor"`
 	Conditions       *MarkerPricingConditions                                `json:"conditions" url:"conditions"`
+	// Property names present in conditions, including names unknown to a deserializer.
+	Keys []string `json:"keys" url:"keys"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -9559,6 +10557,13 @@ func (p *PricingModifierMarkerPricingConditions) GetConditions() *MarkerPricingC
 		return nil
 	}
 	return p.Conditions
+}
+
+func (p *PricingModifierMarkerPricingConditions) GetKeys() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Keys
 }
 
 func (p *PricingModifierMarkerPricingConditions) GetExtraProperties() map[string]interface{} {
@@ -9587,6 +10592,13 @@ func (p *PricingModifierMarkerPricingConditions) SetDeltaAmountMinor(deltaAmount
 func (p *PricingModifierMarkerPricingConditions) SetConditions(conditions *MarkerPricingConditions) {
 	p.Conditions = conditions
 	p.require(pricingModifierMarkerPricingConditionsFieldConditions)
+}
+
+// SetKeys sets the Keys field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PricingModifierMarkerPricingConditions) SetKeys(keys []string) {
+	p.Keys = keys
+	p.require(pricingModifierMarkerPricingConditionsFieldKeys)
 }
 
 func (p *PricingModifierMarkerPricingConditions) UnmarshalJSON(data []byte) error {
@@ -10350,6 +11362,107 @@ func (s *SimulationFlags) MarshalJSON() ([]byte, error) {
 }
 
 func (s *SimulationFlags) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+var (
+	specifiedPricingComponentPricingConditionsFieldBaseAmountMinor = big.NewInt(1 << 0)
+	specifiedPricingComponentPricingConditionsFieldModifiers       = big.NewInt(1 << 1)
+)
+
+type SpecifiedPricingComponentPricingConditions struct {
+	// Amount chargeable in the smallest denomination of the currency, e.g. cents for USD.
+	BaseAmountMinor int                                          `json:"base_amount_minor" url:"base_amount_minor"`
+	Modifiers       []*PricingModifierComponentPricingConditions `json:"modifiers,omitempty" url:"modifiers,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SpecifiedPricingComponentPricingConditions) GetBaseAmountMinor() int {
+	if s == nil {
+		return 0
+	}
+	return s.BaseAmountMinor
+}
+
+func (s *SpecifiedPricingComponentPricingConditions) GetModifiers() []*PricingModifierComponentPricingConditions {
+	if s == nil {
+		return nil
+	}
+	return s.Modifiers
+}
+
+func (s *SpecifiedPricingComponentPricingConditions) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SpecifiedPricingComponentPricingConditions) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetBaseAmountMinor sets the BaseAmountMinor field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SpecifiedPricingComponentPricingConditions) SetBaseAmountMinor(baseAmountMinor int) {
+	s.BaseAmountMinor = baseAmountMinor
+	s.require(specifiedPricingComponentPricingConditionsFieldBaseAmountMinor)
+}
+
+// SetModifiers sets the Modifiers field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SpecifiedPricingComponentPricingConditions) SetModifiers(modifiers []*PricingModifierComponentPricingConditions) {
+	s.Modifiers = modifiers
+	s.require(specifiedPricingComponentPricingConditionsFieldModifiers)
+}
+
+func (s *SpecifiedPricingComponentPricingConditions) UnmarshalJSON(data []byte) error {
+	type unmarshaler SpecifiedPricingComponentPricingConditions
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SpecifiedPricingComponentPricingConditions(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SpecifiedPricingComponentPricingConditions) MarshalJSON() ([]byte, error) {
+	type embed SpecifiedPricingComponentPricingConditions
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SpecifiedPricingComponentPricingConditions) String() string {
 	if s == nil {
 		return "<nil>"
 	}
