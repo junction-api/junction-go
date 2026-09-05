@@ -6,6 +6,7 @@ import (
 	activity "github.com/junction-api/junction-go/activity"
 	aggregate "github.com/junction-api/junction-go/aggregate"
 	body "github.com/junction-api/junction-go/body"
+	checkout "github.com/junction-api/junction-go/checkout"
 	compendium "github.com/junction-api/junction-go/compendium"
 	core "github.com/junction-api/junction-go/core"
 	devices "github.com/junction-api/junction-go/devices"
@@ -60,6 +61,7 @@ type Client struct {
 	Insurance         *insurance.Client
 	Payor             *payor.Client
 	LabReport         *labreport.Client
+	Checkout          *checkout.Client
 	Aggregate         *aggregate.Client
 
 	options *core.RequestOptions
@@ -95,6 +97,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Insurance:         insurance.NewClient(options),
 		Payor:             payor.NewClient(options),
 		LabReport:         labreport.NewClient(options),
+		Checkout:          checkout.NewClient(options),
 		Aggregate:         aggregate.NewClient(options),
 		options:           options,
 		baseURL:           options.BaseURL,
