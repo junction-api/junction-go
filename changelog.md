@@ -1,3 +1,22 @@
+## [v2.0.0] - 2026-09-12
+### Breaking Changes
+- **`AddOnOrder`** — previously exported struct and its methods (`GetMarkerIds`, `GetProviderIds`, `SetMarkerIds`, `SetProviderIds`) have been removed as a standalone type; replace any direct references with the new `AddOnOrder` type reintroduced in the checkout/order-set workflow.
+- **`AggregateExprArgVisitor`**, **`QueryGroupByItemVisitor`**, **`QuerySelectItemVisitor`**, and **`UnnestExprUnnestVisitor`** — each interface now requires a new method `VisitReliabilityColumnExpr(*ReliabilityColumnExpr) error`; all existing implementations must add this method to compile.
+
+### Added
+- **`checkout.Client`** — new client package for managing checkout sessions and quotes, with `CreateCheckoutSession`, `GetCheckoutSession`, `ConfirmCheckoutSession`, `CreateQuote`, `RefineQuote`, and `GetQuote` methods; accessible via `client.Client.Checkout`.
+- **`labtests.Client.EstimateOrderSetPricing()`** — new method to estimate pricing for an order set, backed by a full pricing component hierarchy (`OrderSetPricing`, `LabChargePricingComponent`, `GenericPricingComponent`, etc.) and the `PricingComponentId` enum.
+- **`ReliabilityColumnExpr`** — new column expression type for querying data-reliability metrics, with a `ReliabilityColumnExprReliability` enum covering 15 reliability dimensions.
+- **`CheckoutQuote`**, **`CheckoutSession`**, and related request/response types — new types supporting the end-to-end checkout flow, including new enums `CheckoutSessionStatus`, `CheckoutQuoteLineItemCode`, and `WalkInCollectionNetworkSlug`.
+- **`IdempotencyKey`** and **`IdempotencyError`** — new optional fields on `CreateRegistrableTestkitOrderRequest` and forwarded as headers on `testkit.RawClient.CreateOrder` for idempotent order creation.
+
+### Changed
+- **`MatchReviewStatus`** — new enum value `MatchReviewStatusPendingCustomerReviewInProgress` (`pending_customer_review:in_progress`) added.
+- **`PricingModifierMarkerPricingConditions`** — new optional `Keys []string` field added, listing property names present in conditions.
+- **`IndexColumnExprIndex`** — new `"reliability"` constant (`IndexColumnExprIndexReliability`) added.
+- **`IsStale`** — new optional field on `UnmatchedResult` and `GetUnmatchedResultResponse` indicating whether an unmatched result is stale.
+- **`BillingUpfrontPayment`** — new `"upfront_payment"` constant added to the `Billing` enum.
+
 ## v1.3.0 - 2026-08-14
 
 ### Added

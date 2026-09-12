@@ -8,10 +8,10 @@ import (
 	io "io"
 	http "net/http"
 
-	junctiongo "github.com/junction-api/junction-go"
-	core "github.com/junction-api/junction-go/core"
-	internal "github.com/junction-api/junction-go/internal"
-	option "github.com/junction-api/junction-go/option"
+	junctiongo "github.com/junction-api/junction-go/v2"
+	core "github.com/junction-api/junction-go/v2/core"
+	internal "github.com/junction-api/junction-go/v2/internal"
+	option "github.com/junction-api/junction-go/v2/option"
 )
 
 type RawClient struct {
@@ -465,6 +465,50 @@ func (r *RawClient) GetLabs(
 		return nil, err
 	}
 	return &core.Response[[]*junctiongo.ClientFacingLab]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) EstimateOrderSetPricing(
+	ctx context.Context,
+	request *junctiongo.EstimateOrderSetPricingBody,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.EstimateOrderSetPricingResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := baseURL + "/v3/lab_test/estimate_order_set_pricing"
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	headers.Add("Content-Type", "application/json")
+	var response *junctiongo.EstimateOrderSetPricingResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPost,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.EstimateOrderSetPricingResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
