@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/junction-api/junction-go/internal"
+	internal "github.com/junction-api/junction-go/v2/internal"
 	io "io"
 	big "math/big"
 )

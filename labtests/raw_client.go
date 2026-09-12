@@ -8,10 +8,10 @@ import (
 	io "io"
 	http "net/http"
 
-	junctiongo "github.com/junction-api/junction-go"
-	core "github.com/junction-api/junction-go/core"
-	internal "github.com/junction-api/junction-go/internal"
-	option "github.com/junction-api/junction-go/option"
+	junctiongo "github.com/junction-api/junction-go/v2"
+	core "github.com/junction-api/junction-go/v2/core"
+	internal "github.com/junction-api/junction-go/v2/internal"
+	option "github.com/junction-api/junction-go/v2/option"
 )
 
 type RawClient struct {
