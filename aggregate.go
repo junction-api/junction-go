@@ -460,6 +460,7 @@ func (a *AggregateExpr) String() string {
 type AggregateExprArg struct {
 	SleepColumnExpr                *SleepColumnExpr
 	DerivedReadinessColumnExpr     *DerivedReadinessColumnExpr
+	ReliabilityColumnExpr          *ReliabilityColumnExpr
 	ActivityColumnExpr             *ActivityColumnExpr
 	WorkoutColumnExpr              *WorkoutColumnExpr
 	BodyColumnExpr                 *BodyColumnExpr
@@ -497,6 +498,13 @@ func (a *AggregateExprArg) GetDerivedReadinessColumnExpr() *DerivedReadinessColu
 		return nil
 	}
 	return a.DerivedReadinessColumnExpr
+}
+
+func (a *AggregateExprArg) GetReliabilityColumnExpr() *ReliabilityColumnExpr {
+	if a == nil {
+		return nil
+	}
+	return a.ReliabilityColumnExpr
 }
 
 func (a *AggregateExprArg) GetActivityColumnExpr() *ActivityColumnExpr {
@@ -659,6 +667,12 @@ func (a *AggregateExprArg) UnmarshalJSON(data []byte) error {
 		a.DerivedReadinessColumnExpr = valueDerivedReadinessColumnExpr
 		return nil
 	}
+	valueReliabilityColumnExpr := new(ReliabilityColumnExpr)
+	if err := json.Unmarshal(data, &valueReliabilityColumnExpr); err == nil {
+		a.typ = "ReliabilityColumnExpr"
+		a.ReliabilityColumnExpr = valueReliabilityColumnExpr
+		return nil
+	}
 	valueActivityColumnExpr := new(ActivityColumnExpr)
 	if err := json.Unmarshal(data, &valueActivityColumnExpr); err == nil {
 		a.typ = "ActivityColumnExpr"
@@ -795,6 +809,9 @@ func (a AggregateExprArg) MarshalJSON() ([]byte, error) {
 	if a.typ == "DerivedReadinessColumnExpr" || a.DerivedReadinessColumnExpr != nil {
 		return json.Marshal(a.DerivedReadinessColumnExpr)
 	}
+	if a.typ == "ReliabilityColumnExpr" || a.ReliabilityColumnExpr != nil {
+		return json.Marshal(a.ReliabilityColumnExpr)
+	}
 	if a.typ == "ActivityColumnExpr" || a.ActivityColumnExpr != nil {
 		return json.Marshal(a.ActivityColumnExpr)
 	}
@@ -864,6 +881,7 @@ func (a AggregateExprArg) MarshalJSON() ([]byte, error) {
 type AggregateExprArgVisitor interface {
 	VisitSleepColumnExpr(*SleepColumnExpr) error
 	VisitDerivedReadinessColumnExpr(*DerivedReadinessColumnExpr) error
+	VisitReliabilityColumnExpr(*ReliabilityColumnExpr) error
 	VisitActivityColumnExpr(*ActivityColumnExpr) error
 	VisitWorkoutColumnExpr(*WorkoutColumnExpr) error
 	VisitBodyColumnExpr(*BodyColumnExpr) error
@@ -893,6 +911,9 @@ func (a *AggregateExprArg) Accept(visitor AggregateExprArgVisitor) error {
 	}
 	if a.typ == "DerivedReadinessColumnExpr" || a.DerivedReadinessColumnExpr != nil {
 		return visitor.VisitDerivedReadinessColumnExpr(a.DerivedReadinessColumnExpr)
+	}
+	if a.typ == "ReliabilityColumnExpr" || a.ReliabilityColumnExpr != nil {
+		return visitor.VisitReliabilityColumnExpr(a.ReliabilityColumnExpr)
 	}
 	if a.typ == "ActivityColumnExpr" || a.ActivityColumnExpr != nil {
 		return visitor.VisitActivityColumnExpr(a.ActivityColumnExpr)
@@ -4078,6 +4099,7 @@ type IndexColumnExprIndex string
 const (
 	IndexColumnExprIndexSleep            IndexColumnExprIndex = "sleep"
 	IndexColumnExprIndexDerivedReadiness IndexColumnExprIndex = "derived_readiness"
+	IndexColumnExprIndexReliability      IndexColumnExprIndex = "reliability"
 	IndexColumnExprIndexActivity         IndexColumnExprIndex = "activity"
 	IndexColumnExprIndexWorkout          IndexColumnExprIndex = "workout"
 	IndexColumnExprIndexBody             IndexColumnExprIndex = "body"
@@ -4093,6 +4115,8 @@ func NewIndexColumnExprIndexFromString(s string) (IndexColumnExprIndex, error) {
 		return IndexColumnExprIndexSleep, nil
 	case "derived_readiness":
 		return IndexColumnExprIndexDerivedReadiness, nil
+	case "reliability":
+		return IndexColumnExprIndexReliability, nil
 	case "activity":
 		return IndexColumnExprIndexActivity, nil
 	case "workout":
@@ -6865,6 +6889,7 @@ type QueryGroupByItem struct {
 	DatePartExpr                   *DatePartExpr
 	SleepColumnExpr                *SleepColumnExpr
 	DerivedReadinessColumnExpr     *DerivedReadinessColumnExpr
+	ReliabilityColumnExpr          *ReliabilityColumnExpr
 	ActivityColumnExpr             *ActivityColumnExpr
 	WorkoutColumnExpr              *WorkoutColumnExpr
 	BodyColumnExpr                 *BodyColumnExpr
@@ -6915,6 +6940,13 @@ func (q *QueryGroupByItem) GetDerivedReadinessColumnExpr() *DerivedReadinessColu
 		return nil
 	}
 	return q.DerivedReadinessColumnExpr
+}
+
+func (q *QueryGroupByItem) GetReliabilityColumnExpr() *ReliabilityColumnExpr {
+	if q == nil {
+		return nil
+	}
+	return q.ReliabilityColumnExpr
 }
 
 func (q *QueryGroupByItem) GetActivityColumnExpr() *ActivityColumnExpr {
@@ -7082,6 +7114,12 @@ func (q *QueryGroupByItem) UnmarshalJSON(data []byte) error {
 		q.DerivedReadinessColumnExpr = valueDerivedReadinessColumnExpr
 		return nil
 	}
+	valueReliabilityColumnExpr := new(ReliabilityColumnExpr)
+	if err := json.Unmarshal(data, &valueReliabilityColumnExpr); err == nil {
+		q.typ = "ReliabilityColumnExpr"
+		q.ReliabilityColumnExpr = valueReliabilityColumnExpr
+		return nil
+	}
 	valueActivityColumnExpr := new(ActivityColumnExpr)
 	if err := json.Unmarshal(data, &valueActivityColumnExpr); err == nil {
 		q.typ = "ActivityColumnExpr"
@@ -7218,6 +7256,9 @@ func (q QueryGroupByItem) MarshalJSON() ([]byte, error) {
 	if q.typ == "DerivedReadinessColumnExpr" || q.DerivedReadinessColumnExpr != nil {
 		return json.Marshal(q.DerivedReadinessColumnExpr)
 	}
+	if q.typ == "ReliabilityColumnExpr" || q.ReliabilityColumnExpr != nil {
+		return json.Marshal(q.ReliabilityColumnExpr)
+	}
 	if q.typ == "ActivityColumnExpr" || q.ActivityColumnExpr != nil {
 		return json.Marshal(q.ActivityColumnExpr)
 	}
@@ -7286,6 +7327,7 @@ type QueryGroupByItemVisitor interface {
 	VisitDatePartExpr(*DatePartExpr) error
 	VisitSleepColumnExpr(*SleepColumnExpr) error
 	VisitDerivedReadinessColumnExpr(*DerivedReadinessColumnExpr) error
+	VisitReliabilityColumnExpr(*ReliabilityColumnExpr) error
 	VisitActivityColumnExpr(*ActivityColumnExpr) error
 	VisitWorkoutColumnExpr(*WorkoutColumnExpr) error
 	VisitBodyColumnExpr(*BodyColumnExpr) error
@@ -7320,6 +7362,9 @@ func (q *QueryGroupByItem) Accept(visitor QueryGroupByItemVisitor) error {
 	}
 	if q.typ == "DerivedReadinessColumnExpr" || q.DerivedReadinessColumnExpr != nil {
 		return visitor.VisitDerivedReadinessColumnExpr(q.DerivedReadinessColumnExpr)
+	}
+	if q.typ == "ReliabilityColumnExpr" || q.ReliabilityColumnExpr != nil {
+		return visitor.VisitReliabilityColumnExpr(q.ReliabilityColumnExpr)
 	}
 	if q.typ == "ActivityColumnExpr" || q.ActivityColumnExpr != nil {
 		return visitor.VisitActivityColumnExpr(q.ActivityColumnExpr)
@@ -7389,6 +7434,7 @@ type QuerySelectItem struct {
 	GroupKeyColumnExpr             *GroupKeyColumnExpr
 	SleepColumnExpr                *SleepColumnExpr
 	DerivedReadinessColumnExpr     *DerivedReadinessColumnExpr
+	ReliabilityColumnExpr          *ReliabilityColumnExpr
 	ActivityColumnExpr             *ActivityColumnExpr
 	WorkoutColumnExpr              *WorkoutColumnExpr
 	BodyColumnExpr                 *BodyColumnExpr
@@ -7441,6 +7487,13 @@ func (q *QuerySelectItem) GetDerivedReadinessColumnExpr() *DerivedReadinessColum
 		return nil
 	}
 	return q.DerivedReadinessColumnExpr
+}
+
+func (q *QuerySelectItem) GetReliabilityColumnExpr() *ReliabilityColumnExpr {
+	if q == nil {
+		return nil
+	}
+	return q.ReliabilityColumnExpr
 }
 
 func (q *QuerySelectItem) GetActivityColumnExpr() *ActivityColumnExpr {
@@ -7622,6 +7675,12 @@ func (q *QuerySelectItem) UnmarshalJSON(data []byte) error {
 		q.DerivedReadinessColumnExpr = valueDerivedReadinessColumnExpr
 		return nil
 	}
+	valueReliabilityColumnExpr := new(ReliabilityColumnExpr)
+	if err := json.Unmarshal(data, &valueReliabilityColumnExpr); err == nil {
+		q.typ = "ReliabilityColumnExpr"
+		q.ReliabilityColumnExpr = valueReliabilityColumnExpr
+		return nil
+	}
 	valueActivityColumnExpr := new(ActivityColumnExpr)
 	if err := json.Unmarshal(data, &valueActivityColumnExpr); err == nil {
 		q.typ = "ActivityColumnExpr"
@@ -7770,6 +7829,9 @@ func (q QuerySelectItem) MarshalJSON() ([]byte, error) {
 	if q.typ == "DerivedReadinessColumnExpr" || q.DerivedReadinessColumnExpr != nil {
 		return json.Marshal(q.DerivedReadinessColumnExpr)
 	}
+	if q.typ == "ReliabilityColumnExpr" || q.ReliabilityColumnExpr != nil {
+		return json.Marshal(q.ReliabilityColumnExpr)
+	}
 	if q.typ == "ActivityColumnExpr" || q.ActivityColumnExpr != nil {
 		return json.Marshal(q.ActivityColumnExpr)
 	}
@@ -7844,6 +7906,7 @@ type QuerySelectItemVisitor interface {
 	VisitGroupKeyColumnExpr(*GroupKeyColumnExpr) error
 	VisitSleepColumnExpr(*SleepColumnExpr) error
 	VisitDerivedReadinessColumnExpr(*DerivedReadinessColumnExpr) error
+	VisitReliabilityColumnExpr(*ReliabilityColumnExpr) error
 	VisitActivityColumnExpr(*ActivityColumnExpr) error
 	VisitWorkoutColumnExpr(*WorkoutColumnExpr) error
 	VisitBodyColumnExpr(*BodyColumnExpr) error
@@ -7880,6 +7943,9 @@ func (q *QuerySelectItem) Accept(visitor QuerySelectItemVisitor) error {
 	}
 	if q.typ == "DerivedReadinessColumnExpr" || q.DerivedReadinessColumnExpr != nil {
 		return visitor.VisitDerivedReadinessColumnExpr(q.DerivedReadinessColumnExpr)
+	}
+	if q.typ == "ReliabilityColumnExpr" || q.ReliabilityColumnExpr != nil {
+		return visitor.VisitReliabilityColumnExpr(q.ReliabilityColumnExpr)
 	}
 	if q.typ == "ActivityColumnExpr" || q.ActivityColumnExpr != nil {
 		return visitor.VisitActivityColumnExpr(q.ActivityColumnExpr)
@@ -8064,6 +8130,153 @@ func (r *RelativeTimeframe) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
+}
+
+var (
+	reliabilityColumnExprFieldReliability = big.NewInt(1 << 0)
+)
+
+type ReliabilityColumnExpr struct {
+	// ℹ️ This enum is non-exhaustive.
+	Reliability ReliabilityColumnExprReliability `json:"reliability" url:"reliability"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *ReliabilityColumnExpr) GetReliability() ReliabilityColumnExprReliability {
+	if r == nil {
+		return ""
+	}
+	return r.Reliability
+}
+
+func (r *ReliabilityColumnExpr) GetExtraProperties() map[string]interface{} {
+	if r == nil {
+		return nil
+	}
+	return r.extraProperties
+}
+
+func (r *ReliabilityColumnExpr) require(field *big.Int) {
+	if r.explicitFields == nil {
+		r.explicitFields = big.NewInt(0)
+	}
+	r.explicitFields.Or(r.explicitFields, field)
+}
+
+// SetReliability sets the Reliability field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReliabilityColumnExpr) SetReliability(reliability ReliabilityColumnExprReliability) {
+	r.Reliability = reliability
+	r.require(reliabilityColumnExprFieldReliability)
+}
+
+func (r *ReliabilityColumnExpr) UnmarshalJSON(data []byte) error {
+	type unmarshaler ReliabilityColumnExpr
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ReliabilityColumnExpr(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ReliabilityColumnExpr) MarshalJSON() ([]byte, error) {
+	type embed ReliabilityColumnExpr
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*r),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (r *ReliabilityColumnExpr) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+// ℹ️ This enum is non-exhaustive.
+type ReliabilityColumnExprReliability string
+
+const (
+	ReliabilityColumnExprReliabilitySourceProvider                  ReliabilityColumnExprReliability = "source_provider"
+	ReliabilityColumnExprReliabilitySourceType                      ReliabilityColumnExprReliability = "source_type"
+	ReliabilityColumnExprReliabilityResource                        ReliabilityColumnExprReliability = "resource"
+	ReliabilityColumnExprReliabilityWindowStartDate                 ReliabilityColumnExprReliability = "window_start_date"
+	ReliabilityColumnExprReliabilityWindowEndDate                   ReliabilityColumnExprReliability = "window_end_date"
+	ReliabilityColumnExprReliabilityWindowDurationDay               ReliabilityColumnExprReliability = "window_duration_day"
+	ReliabilityColumnExprReliabilityPresenceDayCount                ReliabilityColumnExprReliability = "presence_day_count"
+	ReliabilityColumnExprReliabilityPresenceCoverage                ReliabilityColumnExprReliability = "presence_coverage"
+	ReliabilityColumnExprReliabilityPresenceGapCount                ReliabilityColumnExprReliability = "presence_gap_count"
+	ReliabilityColumnExprReliabilityPresenceGapMaximumDay           ReliabilityColumnExprReliability = "presence_gap_maximum_day"
+	ReliabilityColumnExprReliabilityPresenceRecencyDay              ReliabilityColumnExprReliability = "presence_recency_day"
+	ReliabilityColumnExprReliabilityPresenceGapMeanDay              ReliabilityColumnExprReliability = "presence_gap_mean_day"
+	ReliabilityColumnExprReliabilityPresenceGapStandardDeviationDay ReliabilityColumnExprReliability = "presence_gap_standard_deviation_day"
+	ReliabilityColumnExprReliabilityReliabilityStatus               ReliabilityColumnExprReliability = "reliability_status"
+	ReliabilityColumnExprReliabilityConnectionStatus                ReliabilityColumnExprReliability = "connection_status"
+)
+
+func NewReliabilityColumnExprReliabilityFromString(s string) (ReliabilityColumnExprReliability, error) {
+	switch s {
+	case "source_provider":
+		return ReliabilityColumnExprReliabilitySourceProvider, nil
+	case "source_type":
+		return ReliabilityColumnExprReliabilitySourceType, nil
+	case "resource":
+		return ReliabilityColumnExprReliabilityResource, nil
+	case "window_start_date":
+		return ReliabilityColumnExprReliabilityWindowStartDate, nil
+	case "window_end_date":
+		return ReliabilityColumnExprReliabilityWindowEndDate, nil
+	case "window_duration_day":
+		return ReliabilityColumnExprReliabilityWindowDurationDay, nil
+	case "presence_day_count":
+		return ReliabilityColumnExprReliabilityPresenceDayCount, nil
+	case "presence_coverage":
+		return ReliabilityColumnExprReliabilityPresenceCoverage, nil
+	case "presence_gap_count":
+		return ReliabilityColumnExprReliabilityPresenceGapCount, nil
+	case "presence_gap_maximum_day":
+		return ReliabilityColumnExprReliabilityPresenceGapMaximumDay, nil
+	case "presence_recency_day":
+		return ReliabilityColumnExprReliabilityPresenceRecencyDay, nil
+	case "presence_gap_mean_day":
+		return ReliabilityColumnExprReliabilityPresenceGapMeanDay, nil
+	case "presence_gap_standard_deviation_day":
+		return ReliabilityColumnExprReliabilityPresenceGapStandardDeviationDay, nil
+	case "reliability_status":
+		return ReliabilityColumnExprReliabilityReliabilityStatus, nil
+	case "connection_status":
+		return ReliabilityColumnExprReliabilityConnectionStatus, nil
+	}
+	var t ReliabilityColumnExprReliability
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r ReliabilityColumnExprReliability) Ptr() *ReliabilityColumnExprReliability {
+	return &r
 }
 
 // A subquery that produces a single scalar value per row.
@@ -8991,6 +9204,7 @@ func (u *UnnestExpr) String() string {
 type UnnestExprUnnest struct {
 	SleepColumnExpr                *SleepColumnExpr
 	DerivedReadinessColumnExpr     *DerivedReadinessColumnExpr
+	ReliabilityColumnExpr          *ReliabilityColumnExpr
 	ActivityColumnExpr             *ActivityColumnExpr
 	WorkoutColumnExpr              *WorkoutColumnExpr
 	BodyColumnExpr                 *BodyColumnExpr
@@ -9026,6 +9240,13 @@ func (u *UnnestExprUnnest) GetDerivedReadinessColumnExpr() *DerivedReadinessColu
 		return nil
 	}
 	return u.DerivedReadinessColumnExpr
+}
+
+func (u *UnnestExprUnnest) GetReliabilityColumnExpr() *ReliabilityColumnExpr {
+	if u == nil {
+		return nil
+	}
+	return u.ReliabilityColumnExpr
 }
 
 func (u *UnnestExprUnnest) GetActivityColumnExpr() *ActivityColumnExpr {
@@ -9174,6 +9395,12 @@ func (u *UnnestExprUnnest) UnmarshalJSON(data []byte) error {
 		u.DerivedReadinessColumnExpr = valueDerivedReadinessColumnExpr
 		return nil
 	}
+	valueReliabilityColumnExpr := new(ReliabilityColumnExpr)
+	if err := json.Unmarshal(data, &valueReliabilityColumnExpr); err == nil {
+		u.typ = "ReliabilityColumnExpr"
+		u.ReliabilityColumnExpr = valueReliabilityColumnExpr
+		return nil
+	}
 	valueActivityColumnExpr := new(ActivityColumnExpr)
 	if err := json.Unmarshal(data, &valueActivityColumnExpr); err == nil {
 		u.typ = "ActivityColumnExpr"
@@ -9298,6 +9525,9 @@ func (u UnnestExprUnnest) MarshalJSON() ([]byte, error) {
 	if u.typ == "DerivedReadinessColumnExpr" || u.DerivedReadinessColumnExpr != nil {
 		return json.Marshal(u.DerivedReadinessColumnExpr)
 	}
+	if u.typ == "ReliabilityColumnExpr" || u.ReliabilityColumnExpr != nil {
+		return json.Marshal(u.ReliabilityColumnExpr)
+	}
 	if u.typ == "ActivityColumnExpr" || u.ActivityColumnExpr != nil {
 		return json.Marshal(u.ActivityColumnExpr)
 	}
@@ -9361,6 +9591,7 @@ func (u UnnestExprUnnest) MarshalJSON() ([]byte, error) {
 type UnnestExprUnnestVisitor interface {
 	VisitSleepColumnExpr(*SleepColumnExpr) error
 	VisitDerivedReadinessColumnExpr(*DerivedReadinessColumnExpr) error
+	VisitReliabilityColumnExpr(*ReliabilityColumnExpr) error
 	VisitActivityColumnExpr(*ActivityColumnExpr) error
 	VisitWorkoutColumnExpr(*WorkoutColumnExpr) error
 	VisitBodyColumnExpr(*BodyColumnExpr) error
@@ -9388,6 +9619,9 @@ func (u *UnnestExprUnnest) Accept(visitor UnnestExprUnnestVisitor) error {
 	}
 	if u.typ == "DerivedReadinessColumnExpr" || u.DerivedReadinessColumnExpr != nil {
 		return visitor.VisitDerivedReadinessColumnExpr(u.DerivedReadinessColumnExpr)
+	}
+	if u.typ == "ReliabilityColumnExpr" || u.ReliabilityColumnExpr != nil {
+		return visitor.VisitReliabilityColumnExpr(u.ReliabilityColumnExpr)
 	}
 	if u.typ == "ActivityColumnExpr" || u.ActivityColumnExpr != nil {
 		return visitor.VisitActivityColumnExpr(u.ActivityColumnExpr)

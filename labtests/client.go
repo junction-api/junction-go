@@ -183,6 +183,22 @@ func (c *Client) GetLabs(
 	return response.Body, nil
 }
 
+func (c *Client) EstimateOrderSetPricing(
+	ctx context.Context,
+	request *junctiongo.EstimateOrderSetPricingBody,
+	opts ...option.RequestOption,
+) (*junctiongo.EstimateOrderSetPricingResponse, error) {
+	response, err := c.WithRawResponse.EstimateOrderSetPricing(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // GET lab tests the team has access to as a paginated list.
 func (c *Client) GetPaginated(
 	ctx context.Context,
