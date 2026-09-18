@@ -11,6 +11,106 @@ import (
 )
 
 var (
+	addOnOrderFieldMarkerIds   = big.NewInt(1 << 0)
+	addOnOrderFieldProviderIds = big.NewInt(1 << 1)
+)
+
+type AddOnOrder struct {
+	MarkerIds   []int    `json:"marker_ids,omitempty" url:"marker_ids,omitempty"`
+	ProviderIds []string `json:"provider_ids,omitempty" url:"provider_ids,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (a *AddOnOrder) GetMarkerIds() []int {
+	if a == nil {
+		return nil
+	}
+	return a.MarkerIds
+}
+
+func (a *AddOnOrder) GetProviderIds() []string {
+	if a == nil {
+		return nil
+	}
+	return a.ProviderIds
+}
+
+func (a *AddOnOrder) GetExtraProperties() map[string]interface{} {
+	if a == nil {
+		return nil
+	}
+	return a.extraProperties
+}
+
+func (a *AddOnOrder) require(field *big.Int) {
+	if a.explicitFields == nil {
+		a.explicitFields = big.NewInt(0)
+	}
+	a.explicitFields.Or(a.explicitFields, field)
+}
+
+// SetMarkerIds sets the MarkerIds field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AddOnOrder) SetMarkerIds(markerIds []int) {
+	a.MarkerIds = markerIds
+	a.require(addOnOrderFieldMarkerIds)
+}
+
+// SetProviderIds sets the ProviderIds field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AddOnOrder) SetProviderIds(providerIds []string) {
+	a.ProviderIds = providerIds
+	a.require(addOnOrderFieldProviderIds)
+}
+
+func (a *AddOnOrder) UnmarshalJSON(data []byte) error {
+	type unmarshaler AddOnOrder
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AddOnOrder(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+	a.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AddOnOrder) MarshalJSON() ([]byte, error) {
+	type embed AddOnOrder
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*a),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, a.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (a *AddOnOrder) String() string {
+	if a == nil {
+		return "<nil>"
+	}
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
+var (
 	addressFieldFirstLine   = big.NewInt(1 << 0)
 	addressFieldSecondLine  = big.NewInt(1 << 1)
 	addressFieldCountry     = big.NewInt(1 << 2)
@@ -398,6 +498,7 @@ const (
 	BillingCommercialInsurance    Billing = "commercial_insurance"
 	BillingPatientBillPassthrough Billing = "patient_bill_passthrough"
 	BillingPatientBill            Billing = "patient_bill"
+	BillingUpfrontPayment         Billing = "upfront_payment"
 )
 
 func NewBillingFromString(s string) (Billing, error) {
@@ -410,6 +511,8 @@ func NewBillingFromString(s string) (Billing, error) {
 		return BillingPatientBillPassthrough, nil
 	case "patient_bill":
 		return BillingPatientBill, nil
+	case "upfront_payment":
+		return BillingUpfrontPayment, nil
 	}
 	var t Billing
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -5339,6 +5442,122 @@ func (c *ClientFacingCarbohydratesHistoricalPullCompleted) MarshalJSON() ([]byte
 }
 
 func (c *ClientFacingCarbohydratesHistoricalPullCompleted) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	clientFacingCheckoutQuoteCreatedFieldTeamId = big.NewInt(1 << 0)
+	clientFacingCheckoutQuoteCreatedFieldData   = big.NewInt(1 << 1)
+)
+
+type ClientFacingCheckoutQuoteCreated struct {
+	TeamId string         `json:"team_id" url:"team_id"`
+	Data   *CheckoutQuote `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+	eventType      string
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *ClientFacingCheckoutQuoteCreated) GetTeamId() string {
+	if c == nil {
+		return ""
+	}
+	return c.TeamId
+}
+
+func (c *ClientFacingCheckoutQuoteCreated) GetData() *CheckoutQuote {
+	if c == nil {
+		return nil
+	}
+	return c.Data
+}
+
+func (c *ClientFacingCheckoutQuoteCreated) EventType() string {
+	return c.eventType
+}
+
+func (c *ClientFacingCheckoutQuoteCreated) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *ClientFacingCheckoutQuoteCreated) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetTeamId sets the TeamId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingCheckoutQuoteCreated) SetTeamId(teamId string) {
+	c.TeamId = teamId
+	c.require(clientFacingCheckoutQuoteCreatedFieldTeamId)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingCheckoutQuoteCreated) SetData(data *CheckoutQuote) {
+	c.Data = data
+	c.require(clientFacingCheckoutQuoteCreatedFieldData)
+}
+
+func (c *ClientFacingCheckoutQuoteCreated) UnmarshalJSON(data []byte) error {
+	type embed ClientFacingCheckoutQuoteCreated
+	var unmarshaler = struct {
+		embed
+		EventType string `json:"event_type"`
+	}{
+		embed: embed(*c),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*c = ClientFacingCheckoutQuoteCreated(unmarshaler.embed)
+	if unmarshaler.EventType != "checkout.quote.created" {
+		return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", c, "checkout.quote.created", unmarshaler.EventType)
+	}
+	c.eventType = unmarshaler.EventType
+	extraProperties, err := internal.ExtractExtraProperties(data, *c, "event_type")
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *ClientFacingCheckoutQuoteCreated) MarshalJSON() ([]byte, error) {
+	type embed ClientFacingCheckoutQuoteCreated
+	var marshaler = struct {
+		embed
+		EventType string `json:"event_type"`
+	}{
+		embed:     embed(*c),
+		EventType: "checkout.quote.created",
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *ClientFacingCheckoutQuoteCreated) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -30585,6 +30804,122 @@ func NewOrderOriginFromString(s string) (OrderOrigin, error) {
 
 func (o OrderOrigin) Ptr() *OrderOrigin {
 	return &o
+}
+
+var (
+	orderSetRequestFieldLabTestIds   = big.NewInt(1 << 0)
+	orderSetRequestFieldAddOn        = big.NewInt(1 << 1)
+	orderSetRequestFieldLabAccountId = big.NewInt(1 << 2)
+)
+
+type OrderSetRequest struct {
+	LabTestIds   []string    `json:"lab_test_ids,omitempty" url:"lab_test_ids,omitempty"`
+	AddOn        *AddOnOrder `json:"add_on,omitempty" url:"add_on,omitempty"`
+	LabAccountId *string     `json:"lab_account_id,omitempty" url:"lab_account_id,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (o *OrderSetRequest) GetLabTestIds() []string {
+	if o == nil {
+		return nil
+	}
+	return o.LabTestIds
+}
+
+func (o *OrderSetRequest) GetAddOn() *AddOnOrder {
+	if o == nil {
+		return nil
+	}
+	return o.AddOn
+}
+
+func (o *OrderSetRequest) GetLabAccountId() *string {
+	if o == nil {
+		return nil
+	}
+	return o.LabAccountId
+}
+
+func (o *OrderSetRequest) GetExtraProperties() map[string]interface{} {
+	if o == nil {
+		return nil
+	}
+	return o.extraProperties
+}
+
+func (o *OrderSetRequest) require(field *big.Int) {
+	if o.explicitFields == nil {
+		o.explicitFields = big.NewInt(0)
+	}
+	o.explicitFields.Or(o.explicitFields, field)
+}
+
+// SetLabTestIds sets the LabTestIds field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (o *OrderSetRequest) SetLabTestIds(labTestIds []string) {
+	o.LabTestIds = labTestIds
+	o.require(orderSetRequestFieldLabTestIds)
+}
+
+// SetAddOn sets the AddOn field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (o *OrderSetRequest) SetAddOn(addOn *AddOnOrder) {
+	o.AddOn = addOn
+	o.require(orderSetRequestFieldAddOn)
+}
+
+// SetLabAccountId sets the LabAccountId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (o *OrderSetRequest) SetLabAccountId(labAccountId *string) {
+	o.LabAccountId = labAccountId
+	o.require(orderSetRequestFieldLabAccountId)
+}
+
+func (o *OrderSetRequest) UnmarshalJSON(data []byte) error {
+	type unmarshaler OrderSetRequest
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*o = OrderSetRequest(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *o)
+	if err != nil {
+		return err
+	}
+	o.extraProperties = extraProperties
+	o.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (o *OrderSetRequest) MarshalJSON() ([]byte, error) {
+	type embed OrderSetRequest
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*o),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, o.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (o *OrderSetRequest) String() string {
+	if o == nil {
+		return "<nil>"
+	}
+	if len(o.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(o.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(o); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", o)
 }
 
 // ℹ️ This enum is non-exhaustive.
