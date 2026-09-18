@@ -1,3 +1,16 @@
+## [v2.0.0] - 2026-09-18
+### Breaking Changes
+- **`AddOnOrder`** — struct removed; replace any references to `AddOnOrder`, `AddOnOrder.MarkerIds`, or `AddOnOrder.ProviderIds` with the new `OrderSetRequest` type.
+- **`AggregateExprArgVisitor`**, **`QueryGroupByItemVisitor`**, **`QuerySelectItemVisitor`**, and **`UnnestExprUnnestVisitor`** — each interface gains a new required method `VisitReliabilityColumnExpr(*ReliabilityColumnExpr) error`; add this method to all existing implementations.
+
+### Added
+- **`checkout.Client`** — new sub-client (via `client.Client.Checkout`) for managing checkout sessions (`CreateCheckoutSession`, `GetCheckoutSession`, `ConfirmCheckoutSession`) and quotes (`CreateQuote`, `RefineQuote`, `GetQuote`).
+- **`labtests.Client.EstimateOrderSetPricing()`** — new method for estimating order-set pricing via `POST /v3/lab_test/estimate_order_set_pricing`, backed by `EstimateOrderSetPricingBody` and `EstimateOrderSetPricingResponse`.
+- **`ReliabilityColumnExpr`** and **`ReliabilityColumnExprReliability`** — new expression type and 15-value enum for querying data-reliability columns in aggregate, group-by, select, and unnest contexts.
+- **`CheckoutQuote`**, **`CheckoutSession`**, and supporting types — new response, request, and enum types for the checkout quote and session workflows, including `CheckoutSessionStatus`, `CheckoutSessionPaymentMethod`, and `WalkInCollectionNetworkSlug`.
+- **Idempotency support** — `IdempotencyKey` and `IdempotencyError` fields added to `CreateRegistrableTestkitOrderRequest`; `testkit.RawClient.CreateOrder` now forwards `X-Idempotency-Key` and `X-Idempotency-Error` headers.
+- See full changelog for all changes
+
 ## v1.3.0 - 2026-08-14
 
 ### Added
