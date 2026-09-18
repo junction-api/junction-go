@@ -60,8 +60,8 @@ func (r *RequestOptions) ToHeader() http.Header {
 func (r *RequestOptions) cloneHeader() http.Header {
 	headers := r.HTTPHeader.Clone()
 	headers.Set("X-Fern-Language", "Go")
-	headers.Set("X-Fern-SDK-Name", "github.com/junction-api/junction-go")
-	headers.Set("X-Fern-SDK-Version", "v1.3.0")
+	headers.Set("X-Fern-SDK-Name", "github.com/junction-api/junction-go/v2")
+	headers.Set("X-Fern-SDK-Version", "v2.0.0")
 	headers.Set("User-Agent", "github.com/junction-api/junction-go/0.0.0-fern-placeholder")
 	return headers
 }

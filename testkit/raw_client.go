@@ -6,10 +6,10 @@ import (
 	context "context"
 	http "net/http"
 
-	junctiongo "github.com/junction-api/junction-go"
-	core "github.com/junction-api/junction-go/core"
-	internal "github.com/junction-api/junction-go/internal"
-	option "github.com/junction-api/junction-go/option"
+	junctiongo "github.com/junction-api/junction-go/v2"
+	core "github.com/junction-api/junction-go/v2/core"
+	internal "github.com/junction-api/junction-go/v2/internal"
+	option "github.com/junction-api/junction-go/v2/option"
 )
 
 type RawClient struct {
@@ -92,6 +92,12 @@ func (r *RawClient) CreateOrder(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
+	if request.IdempotencyKey != nil {
+		headers.Add("X-Idempotency-Key", *request.IdempotencyKey)
+	}
+	if request.IdempotencyError != nil {
+		headers.Add("X-Idempotency-Error", *request.IdempotencyError)
+	}
 	headers.Add("Content-Type", "application/json")
 	var response *junctiongo.PostOrderResponse
 	raw, err := r.caller.Call(
