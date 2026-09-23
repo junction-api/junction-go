@@ -699,6 +699,39 @@ func TestGettersAggregateExprArg(t *testing.T) {
 		_ = obj.GetDerivedReadinessColumnExpr() // Should return zero value
 	})
 
+	t.Run("GetReliabilityColumnExpr", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AggregateExprArg{}
+		var expected *ReliabilityColumnExpr
+		obj.ReliabilityColumnExpr = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetReliabilityColumnExpr(), "getter should return the property value")
+	})
+
+	t.Run("GetReliabilityColumnExpr_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &AggregateExprArg{}
+		obj.ReliabilityColumnExpr = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetReliabilityColumnExpr(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetReliabilityColumnExpr_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *AggregateExprArg
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetReliabilityColumnExpr() // Should return zero value
+	})
+
 	t.Run("GetActivityColumnExpr", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -5951,6 +5984,39 @@ func TestGettersQueryGroupByItem(t *testing.T) {
 		_ = obj.GetDerivedReadinessColumnExpr() // Should return zero value
 	})
 
+	t.Run("GetReliabilityColumnExpr", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &QueryGroupByItem{}
+		var expected *ReliabilityColumnExpr
+		obj.ReliabilityColumnExpr = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetReliabilityColumnExpr(), "getter should return the property value")
+	})
+
+	t.Run("GetReliabilityColumnExpr_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &QueryGroupByItem{}
+		obj.ReliabilityColumnExpr = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetReliabilityColumnExpr(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetReliabilityColumnExpr_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *QueryGroupByItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetReliabilityColumnExpr() // Should return zero value
+	})
+
 	t.Run("GetActivityColumnExpr", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -6744,6 +6810,39 @@ func TestGettersQuerySelectItem(t *testing.T) {
 			}
 		}()
 		_ = obj.GetDerivedReadinessColumnExpr() // Should return zero value
+	})
+
+	t.Run("GetReliabilityColumnExpr", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &QuerySelectItem{}
+		var expected *ReliabilityColumnExpr
+		obj.ReliabilityColumnExpr = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetReliabilityColumnExpr(), "getter should return the property value")
+	})
+
+	t.Run("GetReliabilityColumnExpr_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &QuerySelectItem{}
+		obj.ReliabilityColumnExpr = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetReliabilityColumnExpr(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetReliabilityColumnExpr_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *QuerySelectItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetReliabilityColumnExpr() // Should return zero value
 	})
 
 	t.Run("GetActivityColumnExpr", func(t *testing.T) {
@@ -7617,6 +7716,77 @@ func TestSettersMarkExplicitRelativeTimeframe(t *testing.T) {
 
 }
 
+func TestSettersReliabilityColumnExpr(t *testing.T) {
+	t.Run("SetReliability", func(t *testing.T) {
+		obj := &ReliabilityColumnExpr{}
+		var fernTestValueReliability ReliabilityColumnExprReliability
+		obj.SetReliability(fernTestValueReliability)
+		assert.Equal(t, fernTestValueReliability, obj.Reliability)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersReliabilityColumnExpr(t *testing.T) {
+	t.Run("GetReliability", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ReliabilityColumnExpr{}
+		var expected ReliabilityColumnExprReliability
+		obj.Reliability = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetReliability(), "getter should return the property value")
+	})
+
+	t.Run("GetReliability_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ReliabilityColumnExpr
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetReliability() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitReliabilityColumnExpr(t *testing.T) {
+	t.Run("SetReliability_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ReliabilityColumnExpr{}
+		var fernTestValueReliability ReliabilityColumnExprReliability
+
+		// Act
+		obj.SetReliability(fernTestValueReliability)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
 func TestSettersScalarOutputSubqueryExpr(t *testing.T) {
 	t.Run("SetSelect", func(t *testing.T) {
 		obj := &ScalarOutputSubqueryExpr{}
@@ -8401,6 +8571,39 @@ func TestGettersUnnestExprUnnest(t *testing.T) {
 			}
 		}()
 		_ = obj.GetDerivedReadinessColumnExpr() // Should return zero value
+	})
+
+	t.Run("GetReliabilityColumnExpr", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UnnestExprUnnest{}
+		var expected *ReliabilityColumnExpr
+		obj.ReliabilityColumnExpr = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetReliabilityColumnExpr(), "getter should return the property value")
+	})
+
+	t.Run("GetReliabilityColumnExpr_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UnnestExprUnnest{}
+		obj.ReliabilityColumnExpr = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetReliabilityColumnExpr(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetReliabilityColumnExpr_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UnnestExprUnnest
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetReliabilityColumnExpr() // Should return zero value
 	})
 
 	t.Run("GetActivityColumnExpr", func(t *testing.T) {
@@ -10733,6 +10936,39 @@ func TestJSONMarshalingRelativeTimeframe(t *testing.T) {
 
 }
 
+func TestJSONMarshalingReliabilityColumnExpr(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ReliabilityColumnExpr{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled ReliabilityColumnExpr
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj ReliabilityColumnExpr
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj ReliabilityColumnExpr
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
 func TestJSONMarshalingScalarOutputSubqueryExpr(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
@@ -11733,6 +11969,22 @@ func TestStringRelativeTimeframe(t *testing.T) {
 	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *RelativeTimeframe
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestStringReliabilityColumnExpr(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &ReliabilityColumnExpr{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ReliabilityColumnExpr
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
 	})
@@ -12801,6 +13053,13 @@ func TestEnumIndexColumnExprIndex(t *testing.T) {
 		val, err := NewIndexColumnExprIndexFromString("derived_readiness")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, IndexColumnExprIndex("derived_readiness"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_reliability", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewIndexColumnExprIndexFromString("reliability")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, IndexColumnExprIndex("reliability"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_activity", func(t *testing.T) {
@@ -14255,6 +14514,126 @@ func TestEnumProfileColumnExprProfile(t *testing.T) {
 
 	t.Run("Ptr", func(t *testing.T) {
 		val, err := NewProfileColumnExprProfileFromString("height_centimeter")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumReliabilityColumnExprReliability(t *testing.T) {
+	t.Run("NewFromString_source_provider", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("source_provider")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("source_provider"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_source_type", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("source_type")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("source_type"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_resource", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("resource")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("resource"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_window_start_date", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("window_start_date")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("window_start_date"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_window_end_date", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("window_end_date")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("window_end_date"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_window_duration_day", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("window_duration_day")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("window_duration_day"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_presence_day_count", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("presence_day_count")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("presence_day_count"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_presence_coverage", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("presence_coverage")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("presence_coverage"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_presence_gap_count", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("presence_gap_count")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("presence_gap_count"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_presence_gap_maximum_day", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("presence_gap_maximum_day")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("presence_gap_maximum_day"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_presence_recency_day", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("presence_recency_day")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("presence_recency_day"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_presence_gap_mean_day", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("presence_gap_mean_day")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("presence_gap_mean_day"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_presence_gap_standard_deviation_day", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("presence_gap_standard_deviation_day")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("presence_gap_standard_deviation_day"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_reliability_status", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("reliability_status")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("reliability_status"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_connection_status", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewReliabilityColumnExprReliabilityFromString("connection_status")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ReliabilityColumnExprReliability("connection_status"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewReliabilityColumnExprReliabilityFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewReliabilityColumnExprReliabilityFromString("source_provider")
 		assert.NoError(t, err)
 		ptr := val.Ptr()
 		assert.NotNil(t, ptr)
@@ -16055,6 +16434,29 @@ func TestExtraPropertiesRelativeTimeframe(t *testing.T) {
 	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *RelativeTimeframe
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
+func TestExtraPropertiesReliabilityColumnExpr(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &ReliabilityColumnExpr{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ReliabilityColumnExpr
 		extraProps := obj.GetExtraProperties()
 		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
 	})

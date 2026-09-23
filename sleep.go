@@ -769,14 +769,12 @@ func (c *ClientFacingSleep) String() string {
 var (
 	clientFacingSleepStreamFieldHrv             = big.NewInt(1 << 0)
 	clientFacingSleepStreamFieldHeartrate       = big.NewInt(1 << 1)
-	clientFacingSleepStreamFieldHypnogram       = big.NewInt(1 << 2)
-	clientFacingSleepStreamFieldRespiratoryRate = big.NewInt(1 << 3)
+	clientFacingSleepStreamFieldRespiratoryRate = big.NewInt(1 << 2)
 )
 
 type ClientFacingSleepStream struct {
 	Hrv             []*ClientFacingHrvTimeseries             `json:"hrv,omitempty" url:"hrv,omitempty"`
 	Heartrate       []*ClientFacingHeartRateTimeseries       `json:"heartrate,omitempty" url:"heartrate,omitempty"`
-	Hypnogram       []*ClientFacingHypnogramTimeseries       `json:"hypnogram,omitempty" url:"hypnogram,omitempty"`
 	RespiratoryRate []*ClientFacingRespiratoryRateTimeseries `json:"respiratory_rate,omitempty" url:"respiratory_rate,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
@@ -798,13 +796,6 @@ func (c *ClientFacingSleepStream) GetHeartrate() []*ClientFacingHeartRateTimeser
 		return nil
 	}
 	return c.Heartrate
-}
-
-func (c *ClientFacingSleepStream) GetHypnogram() []*ClientFacingHypnogramTimeseries {
-	if c == nil {
-		return nil
-	}
-	return c.Hypnogram
 }
 
 func (c *ClientFacingSleepStream) GetRespiratoryRate() []*ClientFacingRespiratoryRateTimeseries {
@@ -840,13 +831,6 @@ func (c *ClientFacingSleepStream) SetHrv(hrv []*ClientFacingHrvTimeseries) {
 func (c *ClientFacingSleepStream) SetHeartrate(heartrate []*ClientFacingHeartRateTimeseries) {
 	c.Heartrate = heartrate
 	c.require(clientFacingSleepStreamFieldHeartrate)
-}
-
-// SetHypnogram sets the Hypnogram field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *ClientFacingSleepStream) SetHypnogram(hypnogram []*ClientFacingHypnogramTimeseries) {
-	c.Hypnogram = hypnogram
-	c.require(clientFacingSleepStreamFieldHypnogram)
 }
 
 // SetRespiratoryRate sets the RespiratoryRate field and marks it as non-optional;

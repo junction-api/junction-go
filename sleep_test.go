@@ -2487,14 +2487,6 @@ func TestSettersClientFacingSleepStream(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
-	t.Run("SetHypnogram", func(t *testing.T) {
-		obj := &ClientFacingSleepStream{}
-		var fernTestValueHypnogram []*ClientFacingHypnogramTimeseries
-		obj.SetHypnogram(fernTestValueHypnogram)
-		assert.Equal(t, fernTestValueHypnogram, obj.Hypnogram)
-		assert.NotNil(t, obj.explicitFields)
-	})
-
 	t.Run("SetRespiratoryRate", func(t *testing.T) {
 		obj := &ClientFacingSleepStream{}
 		var fernTestValueRespiratoryRate []*ClientFacingRespiratoryRateTimeseries
@@ -2572,39 +2564,6 @@ func TestGettersClientFacingSleepStream(t *testing.T) {
 		_ = obj.GetHeartrate() // Should return zero value
 	})
 
-	t.Run("GetHypnogram", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &ClientFacingSleepStream{}
-		var expected []*ClientFacingHypnogramTimeseries
-		obj.Hypnogram = expected
-
-		// Act & Assert
-		assert.Equal(t, expected, obj.GetHypnogram(), "getter should return the property value")
-	})
-
-	t.Run("GetHypnogram_NilValue", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &ClientFacingSleepStream{}
-		obj.Hypnogram = nil
-
-		// Act & Assert
-		assert.Nil(t, obj.GetHypnogram(), "getter should return nil when property is nil")
-	})
-
-	t.Run("GetHypnogram_NilReceiver", func(t *testing.T) {
-		t.Parallel()
-		var obj *ClientFacingSleepStream
-		// Should not panic - getters should handle nil receiver gracefully
-		defer func() {
-			if r := recover(); r != nil {
-				t.Errorf("Getter panicked on nil receiver: %v", r)
-			}
-		}()
-		_ = obj.GetHypnogram() // Should return zero value
-	})
-
 	t.Run("GetRespiratoryRate", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -2680,37 +2639,6 @@ func TestSettersMarkExplicitClientFacingSleepStream(t *testing.T) {
 
 		// Act
 		obj.SetHeartrate(fernTestValueHeartrate)
-
-		// Assert - object with explicitly set field can be marshaled/unmarshaled
-		bytes, err := json.Marshal(obj)
-		require.NoError(t, err, "marshaling should succeed for test setup")
-
-		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
-		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
-		if len(bytes) > 0 && bytes[0] == '{' {
-			// JSON object - unmarshal into map
-			var unmarshaled map[string]interface{}
-			err = json.Unmarshal(bytes, &unmarshaled)
-			require.NoError(t, err, "unmarshaling should succeed for test verification")
-		} else {
-			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
-			var unmarshaled interface{}
-			err = json.Unmarshal(bytes, &unmarshaled)
-			require.NoError(t, err, "unmarshaling should succeed for test verification")
-		}
-
-		// Note: This does not explicitly assert the presence of a specific JSON field
-		// It verifies that setting a field via setter allows successful JSON round-trip
-	})
-
-	t.Run("SetHypnogram_MarksExplicit", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &ClientFacingSleepStream{}
-		var fernTestValueHypnogram []*ClientFacingHypnogramTimeseries
-
-		// Act
-		obj.SetHypnogram(fernTestValueHypnogram)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)

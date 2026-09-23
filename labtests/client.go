@@ -183,6 +183,22 @@ func (c *Client) GetLabs(
 	return response.Body, nil
 }
 
+func (c *Client) EstimateOrderSetPricing(
+	ctx context.Context,
+	request *junctiongo.EstimateOrderSetPricingBody,
+	opts ...option.RequestOption,
+) (*junctiongo.EstimateOrderSetPricingResponse, error) {
+	response, err := c.WithRawResponse.EstimateOrderSetPricing(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // GET lab tests the team has access to as a paginated list.
 func (c *Client) GetPaginated(
 	ctx context.Context,
@@ -558,6 +574,23 @@ func (c *Client) GetPscAppointment(
 	opts ...option.RequestOption,
 ) (*junctiongo.ClientFacingAppointment, error) {
 	response, err := c.WithRawResponse.GetPscAppointment(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// Get current estimates and immutable ETA update history for an order.
+func (c *Client) GetOrderTracking(
+	ctx context.Context,
+	request *junctiongo.GetOrderTrackingLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.OrderTracking, error) {
+	response, err := c.WithRawResponse.GetOrderTracking(
 		ctx,
 		request,
 		opts...,

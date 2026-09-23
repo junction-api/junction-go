@@ -6227,106 +6227,6 @@ client.Vitals.IggGrouped(
 </dl>
 </details>
 
-<details><summary><code>client.Vitals.HypnogramGrouped(UserId) -> *junctiongo.GroupedHypnogramResponse</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.HypnogramGroupedVitalsRequest{
-        UserId: "user_id",
-        Cursor: junctiongo.String(
-            "cursor",
-        ),
-        NextCursor: junctiongo.String(
-            "next_cursor",
-        ),
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.HypnogramGrouped(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**cursor:** `*string` — The cursor for fetching the next page, or `null` to fetch the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**nextCursor:** `*string` — The cursor for fetching the next page, or `null` to fetch the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.Vitals.HrvGrouped(UserId) -> *junctiongo.GroupedHrvResponse</code></summary>
 <dl>
 <dd>
@@ -7492,2112 +7392,6 @@ client.Vitals.BloodPressureGrouped(
 <dd>
 
 **nextCursor:** `*string` — The cursor for fetching the next page, or `null` to fetch the first page.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Vo2Max(UserId) -> []*junctiongo.ClientFacingVo2MaxTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.Vo2MaxVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Vo2Max(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.StressLevel(UserId) -> []*junctiongo.ClientFacingStressLevelTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.StressLevelVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.StressLevel(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.MindfulnessMinutes(UserId) -> []*junctiongo.ClientFacingMindfulnessMinutesTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.MindfulnessMinutesVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.MindfulnessMinutes(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Caffeine(UserId) -> []*junctiongo.ClientFacingCaffeineTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.CaffeineVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Caffeine(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Water(UserId) -> []*junctiongo.ClientFacingWaterTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.WaterVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Water(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Steps(UserId) -> []*junctiongo.ClientFacingStepsTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.StepsVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Steps(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.FloorsClimbed(UserId) -> []*junctiongo.ClientFacingFloorsClimbedTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.FloorsClimbedVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.FloorsClimbed(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Distance(UserId) -> []*junctiongo.ClientFacingDistanceTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.DistanceVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Distance(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.CaloriesBasal(UserId) -> []*junctiongo.ClientFacingCaloriesBasalTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.CaloriesBasalVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.CaloriesBasal(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.CaloriesActive(UserId) -> []*junctiongo.ClientFacingCaloriesActiveTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.CaloriesActiveVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.CaloriesActive(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.RespiratoryRate(UserId) -> []*junctiongo.ClientFacingRespiratoryRateTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.RespiratoryRateVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.RespiratoryRate(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Ige(UserId) -> []*junctiongo.ClientFacingIgeTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.IgeVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Ige(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Igg(UserId) -> []*junctiongo.ClientFacingIggTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.IggVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Igg(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Hypnogram(UserId) -> []*junctiongo.ClientFacingHypnogramTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.HypnogramVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Hypnogram(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Hrv(UserId) -> []*junctiongo.ClientFacingHrvTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.HrvVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Hrv(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Heartrate(UserId) -> []*junctiongo.ClientFacingHeartRateTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.HeartrateVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Heartrate(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Glucose(UserId) -> []*junctiongo.ClientFacingGlucoseTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.GlucoseVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Glucose(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.CholesterolTriglycerides(UserId) -> []*junctiongo.ClientFacingCholesterolTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.CholesterolTriglyceridesVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.CholesterolTriglycerides(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.CholesterolTotal(UserId) -> []*junctiongo.ClientFacingCholesterolTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.CholesterolTotalVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.CholesterolTotal(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.CholesterolLdl(UserId) -> []*junctiongo.ClientFacingCholesterolTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.CholesterolLdlVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.CholesterolLdl(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.CholesterolHdl(UserId) -> []*junctiongo.ClientFacingCholesterolTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.CholesterolHdlVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.CholesterolHdl(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.Cholesterol(UserId) -> []*junctiongo.ClientFacingCholesterolTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.CholesterolVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.Cholesterol(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.BodyWeight(UserId) -> []*junctiongo.ClientFacingBodyWeightTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.BodyWeightVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.BodyWeight(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.BodyFat(UserId) -> []*junctiongo.ClientFacingBodyFatTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.BodyFatVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.BodyFat(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.BloodOxygen(UserId) -> []*junctiongo.ClientFacingBloodOxygenTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.BloodOxygenVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.BloodOxygen(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.ElectrocardiogramVoltage(UserId) -> []*junctiongo.ClientFacingElectrocardiogramVoltageTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.ElectrocardiogramVoltageVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.ElectrocardiogramVoltage(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider:** `*string` — Provider oura/strava etc
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**startDate:** `string` — Date from in YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 00:00:00
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**endDate:** `*string` — Date to YYYY-MM-DD or ISO formatted date time. If a date is provided without a time, the time will be set to 23:59:59
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.Vitals.BloodPressure(UserId) -> []*junctiongo.ClientFacingBloodPressureTimeseries</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```go
-request := &junctiongo.BloodPressureVitalsRequest{
-        UserId: "user_id",
-        Provider: junctiongo.String(
-            "provider",
-        ),
-        StartDate: "start_date",
-        EndDate: junctiongo.String(
-            "end_date",
-        ),
-    }
-client.Vitals.BloodPressure(
-        context.TODO(),
-        request,
-    )
-}
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**userId:** `string` 
     
 </dd>
 </dl>
@@ -12312,6 +10106,81 @@ client.LabTests.GetLabs(
 </dl>
 </details>
 
+<details><summary><code>client.LabTests.EstimateOrderSetPricing(request) -> *junctiongo.EstimateOrderSetPricingResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.EstimateOrderSetPricingBody{
+        OrderSets: []*junctiongo.OrderSetRequest{
+            &junctiongo.OrderSetRequest{},
+        },
+        Modality: junctiongo.LabTestCollectionMethodTestkit,
+        UsState: "us_state",
+    }
+client.LabTests.EstimateOrderSetPricing(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**orderSets:** `[]*junctiongo.OrderSetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**modality:** `*junctiongo.LabTestCollectionMethod` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**usState:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**billing:** `*junctiongo.Billing` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.LabTests.GetPaginated() -> *junctiongo.LabTestResourcesResponse</code></summary>
 <dl>
 <dd>
@@ -14188,6 +12057,67 @@ request := &junctiongo.GetPscAppointmentLabTestsRequest{
         OrderId: "order_id",
     }
 client.LabTests.GetPscAppointment(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**orderId:** `string` — Your Order ID.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.GetOrderTracking(OrderId) -> *junctiongo.OrderTracking</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get current estimates and immutable ETA update history for an order.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetOrderTrackingLabTestsRequest{
+        OrderId: "order_id",
+    }
+client.LabTests.GetOrderTracking(
         context.TODO(),
         request,
     )
@@ -16235,6 +14165,22 @@ client.Testkit.CreateOrder(
 <dl>
 <dd>
 
+**idempotencyKey:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**idempotencyError:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **userId:** `string` 
     
 </dd>
@@ -16713,6 +14659,437 @@ client.LabReport.ParserGetJob(
 <dd>
 
 **jobId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Checkout
+<details><summary><code>client.Checkout.CreateCheckoutSession(request) -> *junctiongo.CheckoutSession</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a checkout session for a quote.
+
+Retries carrying the same X-Idempotency-Key attach to the existing session
+and return its identifiers; omitting the key deliberately creates a fresh
+attempt. The session expires at the quote's expiry or 24 hours after
+creation, whichever comes first.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.CreateCheckoutSessionBody{
+        QuoteId: "quote_id",
+        UserId: "user_id",
+        Payment: &junctiongo.CheckoutSessionPayment{
+            Method: junctiongo.CheckoutSessionPaymentMethodCheckoutSession,
+        },
+        PatientDetails: &junctiongo.PatientDetailsWithValidation{
+            FirstName: "first_name",
+            LastName: "last_name",
+            Dob: "dob",
+            Gender: junctiongo.GenderFemale,
+            PhoneNumber: "phone_number",
+            Email: "email",
+        },
+        PatientAddress: &junctiongo.PatientAddressWithValidation{
+            FirstLine: "first_line",
+            City: "city",
+            State: "state",
+            Zip: "zip",
+            Country: "country",
+        },
+    }
+client.Checkout.CreateCheckoutSession(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**idempotencyKey:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**quoteId:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**userId:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payment:** `*junctiongo.CheckoutSessionPayment` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**patientDetails:** `*junctiongo.PatientDetailsWithValidation` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**patientAddress:** `*junctiongo.PatientAddressWithValidation` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.GetCheckoutSession(CheckoutSessionId) -> *junctiongo.CheckoutSession</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get the checkout session snapshot.
+
+In-flight sessions reflect live workflow state; terminal sessions are
+served from the persisted snapshot. A read arriving moments after session
+creation can 404 until the workflow's first persistence write commits.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetCheckoutSessionCheckoutRequest{
+        CheckoutSessionId: "checkout_session_id",
+    }
+client.Checkout.GetCheckoutSession(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**checkoutSessionId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.ConfirmCheckoutSession(CheckoutSessionId) -> *junctiongo.CheckoutSession</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Confirm the checkout session after completing payment.
+
+In-flight sessions verify payment against the channel (Stripe) and report
+order progress; terminal sessions return the persisted snapshot untouched.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.ConfirmCheckoutSessionCheckoutRequest{
+        CheckoutSessionId: "checkout_session_id",
+    }
+client.Checkout.ConfirmCheckoutSession(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**checkoutSessionId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.CreateQuote(request) -> *junctiongo.CheckoutQuote</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.CreateCheckoutQuoteBody{
+        OrderSet: &junctiongo.OrderSetRequest{},
+        Modality: junctiongo.LabTestCollectionMethodTestkit,
+        Priority: true,
+        UsState: "us_state",
+    }
+client.Checkout.CreateQuote(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**orderSet:** `*junctiongo.OrderSetRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**modality:** `*junctiongo.LabTestCollectionMethod` — ℹ️ This enum is non-exhaustive.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**priority:** `bool` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**usState:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.RefineQuote(QuoteId, request) -> *junctiongo.CheckoutQuote</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.RefineCheckoutQuoteBody{
+        QuoteId: "quote_id",
+    }
+client.Checkout.RefineQuote(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**quoteId:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**priority:** `*bool` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Checkout.GetQuote(QuoteId) -> *junctiongo.CheckoutQuote</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetQuoteCheckoutRequest{
+        QuoteId: "quote_id",
+    }
+client.Checkout.GetQuote(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**quoteId:** `string` 
     
 </dd>
 </dl>

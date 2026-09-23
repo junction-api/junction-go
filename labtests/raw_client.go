@@ -471,6 +471,50 @@ func (r *RawClient) GetLabs(
 	}, nil
 }
 
+func (r *RawClient) EstimateOrderSetPricing(
+	ctx context.Context,
+	request *junctiongo.EstimateOrderSetPricingBody,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.EstimateOrderSetPricingResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := baseURL + "/v3/lab_test/estimate_order_set_pricing"
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	headers.Add("Content-Type", "application/json")
+	var response *junctiongo.EstimateOrderSetPricingResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPost,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.EstimateOrderSetPricingResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) GetPaginated(
 	ctx context.Context,
 	request *junctiongo.GetPaginatedLabTestsRequest,
@@ -1550,6 +1594,51 @@ func (r *RawClient) GetPscAppointment(
 		return nil, err
 	}
 	return &core.Response[*junctiongo.ClientFacingAppointment]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) GetOrderTracking(
+	ctx context.Context,
+	request *junctiongo.GetOrderTrackingLabTestsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.OrderTracking], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v3/order/%v/tracking",
+		request.OrderId,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *junctiongo.OrderTracking
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.OrderTracking]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
