@@ -1,4 +1,26 @@
-## [v1.3.1] - 2026-09-23
+## v2.0.0 - 2026-09-24
+
+### Added
+
+* **Checkout** — added quote and checkout-session clients and request types, with checkout webhook types.
+* **Order pricing and tracking** — added order-set pricing estimates and order tracking, with pricing and tracking types and an order-tracking webhook type.
+* **Test-kit idempotency** — added optional idempotency controls when creating a test-kit order.
+* **Result and status details** — added stale-result indicators and expanded order-status values.
+
+### Changed
+
+* **Module path** — import v2 from `github.com/junction-api/junction-go/v2`; update all SDK imports to include `/v2`.
+* **Order-set request types** — `OrderSetRequest` and `AddOnOrder` now live in the root package rather than `labtests`.
+
+### Removed
+
+* **Legacy timeseries methods** — removed the non-grouped `vitals` methods (including `Steps()` and `Heartrate()`) and their request types. Use the corresponding `*Grouped()` methods and handle their paginated grouped responses.
+* **Hypnogram timeseries** — removed `Hypnogram()`, `HypnogramGrouped()`, their types, and the sleep-stream hypnogram field. Use sleep-cycle summaries and events.
+* **Deprecated event fields** — removed `ClientFacingSource.Name`, `Logo`, and `Slug`; `ProviderConnectionCreated.Source`; and `HistoricalPullCompleted.IsFinal`. Use source context, `ProviderConnectionCreated.Provider`, and the completed event itself.
+
+### Beta
+
+* **Horizon AI device reliability** — added reliability columns for query selection, grouping, and aggregate expressions.
 
 ## v1.3.0 - 2026-08-14
 
