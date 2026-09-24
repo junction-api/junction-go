@@ -5,24 +5,28 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/junction-api/junction-go/internal"
+	internal "github.com/junction-api/junction-go/v2/internal"
 	big "math/big"
 )
 
 var (
-	createRegistrableTestkitOrderRequestFieldUserId          = big.NewInt(1 << 0)
-	createRegistrableTestkitOrderRequestFieldLabTestId       = big.NewInt(1 << 1)
-	createRegistrableTestkitOrderRequestFieldShippingDetails = big.NewInt(1 << 2)
-	createRegistrableTestkitOrderRequestFieldPassthrough     = big.NewInt(1 << 3)
-	createRegistrableTestkitOrderRequestFieldLabAccountId    = big.NewInt(1 << 4)
+	createRegistrableTestkitOrderRequestFieldIdempotencyKey   = big.NewInt(1 << 0)
+	createRegistrableTestkitOrderRequestFieldIdempotencyError = big.NewInt(1 << 1)
+	createRegistrableTestkitOrderRequestFieldUserId           = big.NewInt(1 << 2)
+	createRegistrableTestkitOrderRequestFieldLabTestId        = big.NewInt(1 << 3)
+	createRegistrableTestkitOrderRequestFieldShippingDetails  = big.NewInt(1 << 4)
+	createRegistrableTestkitOrderRequestFieldPassthrough      = big.NewInt(1 << 5)
+	createRegistrableTestkitOrderRequestFieldLabAccountId     = big.NewInt(1 << 6)
 )
 
 type CreateRegistrableTestkitOrderRequest struct {
-	UserId          string                         `json:"user_id" url:"-"`
-	LabTestId       string                         `json:"lab_test_id" url:"-"`
-	ShippingDetails *ShippingAddressWithValidation `json:"shipping_details" url:"-"`
-	Passthrough     *string                        `json:"passthrough,omitempty" url:"-"`
-	LabAccountId    *string                        `json:"lab_account_id,omitempty" url:"-"`
+	IdempotencyKey   *string                        `json:"-" url:"-"`
+	IdempotencyError *string                        `json:"-" url:"-"`
+	UserId           string                         `json:"user_id" url:"-"`
+	LabTestId        string                         `json:"lab_test_id" url:"-"`
+	ShippingDetails  *ShippingAddressWithValidation `json:"shipping_details" url:"-"`
+	Passthrough      *string                        `json:"passthrough,omitempty" url:"-"`
+	LabAccountId     *string                        `json:"lab_account_id,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -33,6 +37,20 @@ func (c *CreateRegistrableTestkitOrderRequest) require(field *big.Int) {
 		c.explicitFields = big.NewInt(0)
 	}
 	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetIdempotencyKey sets the IdempotencyKey field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateRegistrableTestkitOrderRequest) SetIdempotencyKey(idempotencyKey *string) {
+	c.IdempotencyKey = idempotencyKey
+	c.require(createRegistrableTestkitOrderRequestFieldIdempotencyKey)
+}
+
+// SetIdempotencyError sets the IdempotencyError field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateRegistrableTestkitOrderRequest) SetIdempotencyError(idempotencyError *string) {
+	c.IdempotencyError = idempotencyError
+	c.require(createRegistrableTestkitOrderRequestFieldIdempotencyError)
 }
 
 // SetUserId sets the UserId field and marks it as non-optional;

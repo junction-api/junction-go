@@ -6,10 +6,10 @@ import (
 	context "context"
 	io "io"
 
-	junctiongo "github.com/junction-api/junction-go"
-	core "github.com/junction-api/junction-go/core"
-	internal "github.com/junction-api/junction-go/internal"
-	option "github.com/junction-api/junction-go/option"
+	junctiongo "github.com/junction-api/junction-go/v2"
+	core "github.com/junction-api/junction-go/v2/core"
+	internal "github.com/junction-api/junction-go/v2/internal"
+	option "github.com/junction-api/junction-go/v2/option"
 )
 
 type Client struct {
@@ -175,6 +175,22 @@ func (c *Client) GetLabs(
 ) ([]*junctiongo.ClientFacingLab, error) {
 	response, err := c.WithRawResponse.GetLabs(
 		ctx,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) EstimateOrderSetPricing(
+	ctx context.Context,
+	request *junctiongo.EstimateOrderSetPricingBody,
+	opts ...option.RequestOption,
+) (*junctiongo.EstimateOrderSetPricingResponse, error) {
+	response, err := c.WithRawResponse.EstimateOrderSetPricing(
+		ctx,
+		request,
 		opts...,
 	)
 	if err != nil {
@@ -558,6 +574,23 @@ func (c *Client) GetPscAppointment(
 	opts ...option.RequestOption,
 ) (*junctiongo.ClientFacingAppointment, error) {
 	response, err := c.WithRawResponse.GetPscAppointment(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// Get current estimates and immutable ETA update history for an order.
+func (c *Client) GetOrderTracking(
+	ctx context.Context,
+	request *junctiongo.GetOrderTrackingLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.OrderTracking, error) {
+	response, err := c.WithRawResponse.GetOrderTracking(
 		ctx,
 		request,
 		opts...,
