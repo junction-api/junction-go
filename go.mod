@@ -1,4 +1,4 @@
-module github.com/junction-api/junction-go/v2
+module github.com/junction-api/junction-go
 
 go 1.21
 

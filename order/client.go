@@ -5,10 +5,10 @@ package order
 import (
 	context "context"
 
-	junctiongo "github.com/junction-api/junction-go/v2"
-	core "github.com/junction-api/junction-go/v2/core"
-	internal "github.com/junction-api/junction-go/v2/internal"
-	option "github.com/junction-api/junction-go/v2/option"
+	junctiongo "github.com/junction-api/junction-go"
+	core "github.com/junction-api/junction-go/core"
+	internal "github.com/junction-api/junction-go/internal"
+	option "github.com/junction-api/junction-go/option"
 )
 
 type Client struct {
