@@ -1,3 +1,12 @@
+## [v2.1.0] - 2026-09-30
+### Added
+
+- **`labtests.Client.ListPromotions()`** — lists lab test promotions from sandbox to production, returning a slice of `LabTestPromotion`.
+- **`labtests.Client.GetPromotionSource()`** — retrieves the sandbox source details for a promoted lab test as a `LabTestPromotionSource`.
+- **`LabTestPromotion`** and **`LabTestPromotionSource`** — new types representing a promotion record and its sandbox source metadata.
+- **`CheckoutSessionAppointment`** — new type for holding a PSC slot during checkout; attach it via the new optional `Appointment` field on `CreateCheckoutSessionBody`.
+- **`SourceSandboxLabTestId`** — new optional field added to both `CreateLabTestRequest` and `ClientFacingLabTest` to link sandbox-originated lab tests.
+
 ## v2.0.0 - 2026-09-24
 
 ### Added

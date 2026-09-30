@@ -9535,6 +9535,14 @@ client.LabTests.Create(
     
 </dd>
 </dl>
+
+<dl>
+<dd>
+
+**sourceSandboxLabTestId:** `*string` 
+    
+</dd>
+</dl>
 </dd>
 </dl>
 
@@ -10106,6 +10114,57 @@ client.LabTests.GetLabs(
 </dl>
 </details>
 
+<details><summary><code>client.LabTests.ListPromotions() -> []*junctiongo.LabTestPromotion</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.ListPromotionsLabTestsRequest{
+        SourceSandboxLabTestIds: []*string{
+            junctiongo.String(
+                "source_sandbox_lab_test_ids",
+            ),
+        },
+    }
+client.LabTests.ListPromotions(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**sourceSandboxLabTestIds:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.LabTests.EstimateOrderSetPricing(request) -> *junctiongo.EstimateOrderSetPricingResponse</code></summary>
 <dl>
 <dd>
@@ -10387,6 +10446,53 @@ request := &junctiongo.GetLabTestCollectionInstructionPdfLabTestsRequest{
         LabTestId: "lab_test_id",
     }
 client.LabTests.GetLabTestCollectionInstructionPdf(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**labTestId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.GetPromotionSource(LabTestId) -> *junctiongo.LabTestPromotionSource</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetPromotionSourceLabTestsRequest{
+        LabTestId: "lab_test_id",
+    }
+client.LabTests.GetPromotionSource(
         context.TODO(),
         request,
     )
@@ -14785,6 +14891,14 @@ client.Checkout.CreateCheckoutSession(
 <dd>
 
 **patientAddress:** `*junctiongo.PatientAddressWithValidation` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**appointment:** `*junctiongo.CheckoutSessionAppointment` 
     
 </dd>
 </dl>
