@@ -6,10 +6,10 @@ import (
 	context "context"
 	io "io"
 
-	junctiongo "github.com/junction-api/junction-go/v2"
-	core "github.com/junction-api/junction-go/v2/core"
-	internal "github.com/junction-api/junction-go/v2/internal"
-	option "github.com/junction-api/junction-go/v2/option"
+	junctiongo "github.com/junction-api/junction-go"
+	core "github.com/junction-api/junction-go/core"
+	internal "github.com/junction-api/junction-go/internal"
+	option "github.com/junction-api/junction-go/option"
 )
 
 type Client struct {
@@ -183,6 +183,22 @@ func (c *Client) GetLabs(
 	return response.Body, nil
 }
 
+func (c *Client) ListPromotions(
+	ctx context.Context,
+	request *junctiongo.ListPromotionsLabTestsRequest,
+	opts ...option.RequestOption,
+) ([]*junctiongo.LabTestPromotion, error) {
+	response, err := c.WithRawResponse.ListPromotions(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 func (c *Client) EstimateOrderSetPricing(
 	ctx context.Context,
 	request *junctiongo.EstimateOrderSetPricingBody,
@@ -222,6 +238,22 @@ func (c *Client) GetLabTestCollectionInstructionPdf(
 	opts ...option.RequestOption,
 ) (io.Reader, error) {
 	response, err := c.WithRawResponse.GetLabTestCollectionInstructionPdf(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) GetPromotionSource(
+	ctx context.Context,
+	request *junctiongo.GetPromotionSourceLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.LabTestPromotionSource, error) {
+	response, err := c.WithRawResponse.GetPromotionSource(
 		ctx,
 		request,
 		opts...,

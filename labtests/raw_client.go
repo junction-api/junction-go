@@ -8,10 +8,10 @@ import (
 	io "io"
 	http "net/http"
 
-	junctiongo "github.com/junction-api/junction-go/v2"
-	core "github.com/junction-api/junction-go/v2/core"
-	internal "github.com/junction-api/junction-go/v2/internal"
-	option "github.com/junction-api/junction-go/v2/option"
+	junctiongo "github.com/junction-api/junction-go"
+	core "github.com/junction-api/junction-go/core"
+	internal "github.com/junction-api/junction-go/internal"
+	option "github.com/junction-api/junction-go/option"
 )
 
 type RawClient struct {
@@ -471,6 +471,55 @@ func (r *RawClient) GetLabs(
 	}, nil
 }
 
+func (r *RawClient) ListPromotions(
+	ctx context.Context,
+	request *junctiongo.ListPromotionsLabTestsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[[]*junctiongo.LabTestPromotion], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := baseURL + "/v3/lab_test_promotion"
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response []*junctiongo.LabTestPromotion
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[[]*junctiongo.LabTestPromotion]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) EstimateOrderSetPricing(
 	ctx context.Context,
 	request *junctiongo.EstimateOrderSetPricingBody,
@@ -603,6 +652,51 @@ func (r *RawClient) GetLabTestCollectionInstructionPdf(
 		return nil, err
 	}
 	return &core.Response[io.Reader]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) GetPromotionSource(
+	ctx context.Context,
+	request *junctiongo.GetPromotionSourceLabTestsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.LabTestPromotionSource], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v3/lab_test/%v/promotion_source",
+		request.LabTestId,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *junctiongo.LabTestPromotionSource
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.LabTestPromotionSource]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

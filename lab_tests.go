@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/junction-api/junction-go/v2/internal"
+	internal "github.com/junction-api/junction-go/internal"
 	big "math/big"
 	time "time"
 )
@@ -340,14 +340,15 @@ func (v *VitalCoreClientsLabTestGetlabsSchemaAppointmentCancelRequest) MarshalJS
 }
 
 var (
-	createLabTestRequestFieldMarkerIds    = big.NewInt(1 << 0)
-	createLabTestRequestFieldProviderIds  = big.NewInt(1 << 1)
-	createLabTestRequestFieldName         = big.NewInt(1 << 2)
-	createLabTestRequestFieldMethod       = big.NewInt(1 << 3)
-	createLabTestRequestFieldDescription  = big.NewInt(1 << 4)
-	createLabTestRequestFieldFasting      = big.NewInt(1 << 5)
-	createLabTestRequestFieldLabAccountId = big.NewInt(1 << 6)
-	createLabTestRequestFieldLabSlug      = big.NewInt(1 << 7)
+	createLabTestRequestFieldMarkerIds              = big.NewInt(1 << 0)
+	createLabTestRequestFieldProviderIds            = big.NewInt(1 << 1)
+	createLabTestRequestFieldName                   = big.NewInt(1 << 2)
+	createLabTestRequestFieldMethod                 = big.NewInt(1 << 3)
+	createLabTestRequestFieldDescription            = big.NewInt(1 << 4)
+	createLabTestRequestFieldFasting                = big.NewInt(1 << 5)
+	createLabTestRequestFieldLabAccountId           = big.NewInt(1 << 6)
+	createLabTestRequestFieldLabSlug                = big.NewInt(1 << 7)
+	createLabTestRequestFieldSourceSandboxLabTestId = big.NewInt(1 << 8)
 )
 
 type CreateLabTestRequest struct {
@@ -360,7 +361,8 @@ type CreateLabTestRequest struct {
 	Fasting      *bool                   `json:"fasting,omitempty" url:"-"`
 	LabAccountId *string                 `json:"lab_account_id,omitempty" url:"-"`
 	// ℹ️ This enum is non-exhaustive.
-	LabSlug *Labs `json:"lab_slug,omitempty" url:"-"`
+	LabSlug                *Labs   `json:"lab_slug,omitempty" url:"-"`
+	SourceSandboxLabTestId *string `json:"source_sandbox_lab_test_id,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -427,6 +429,13 @@ func (c *CreateLabTestRequest) SetLabAccountId(labAccountId *string) {
 func (c *CreateLabTestRequest) SetLabSlug(labSlug *Labs) {
 	c.LabSlug = labSlug
 	c.require(createLabTestRequestFieldLabSlug)
+}
+
+// SetSourceSandboxLabTestId sets the SourceSandboxLabTestId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateLabTestRequest) SetSourceSandboxLabTestId(sourceSandboxLabTestId *string) {
+	c.SourceSandboxLabTestId = sourceSandboxLabTestId
+	c.require(createLabTestRequestFieldSourceSandboxLabTestId)
 }
 
 func (c *CreateLabTestRequest) UnmarshalJSON(data []byte) error {
@@ -1960,6 +1969,31 @@ func (g *GetPhlebotomyAppointmentAvailabilityLabTestsRequest) MarshalJSON() ([]b
 }
 
 var (
+	getPromotionSourceLabTestsRequestFieldLabTestId = big.NewInt(1 << 0)
+)
+
+type GetPromotionSourceLabTestsRequest struct {
+	LabTestId string `json:"-" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (g *GetPromotionSourceLabTestsRequest) require(field *big.Int) {
+	if g.explicitFields == nil {
+		g.explicitFields = big.NewInt(0)
+	}
+	g.explicitFields.Or(g.explicitFields, field)
+}
+
+// SetLabTestId sets the LabTestId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetPromotionSourceLabTestsRequest) SetLabTestId(labTestId string) {
+	g.LabTestId = labTestId
+	g.require(getPromotionSourceLabTestsRequestFieldLabTestId)
+}
+
+var (
 	getPscAppointmentLabTestsRequestFieldOrderId = big.NewInt(1 << 0)
 )
 
@@ -2370,6 +2404,31 @@ func (i *ImportOrderBody) MarshalJSON() ([]byte, error) {
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, i.explicitFields)
 	return json.Marshal(explicitMarshaler)
+}
+
+var (
+	listPromotionsLabTestsRequestFieldSourceSandboxLabTestIds = big.NewInt(1 << 0)
+)
+
+type ListPromotionsLabTestsRequest struct {
+	SourceSandboxLabTestIds []*string `json:"-" url:"source_sandbox_lab_test_ids,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (l *ListPromotionsLabTestsRequest) require(field *big.Int) {
+	if l.explicitFields == nil {
+		l.explicitFields = big.NewInt(0)
+	}
+	l.explicitFields.Or(l.explicitFields, field)
+}
+
+// SetSourceSandboxLabTestIds sets the SourceSandboxLabTestIds field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListPromotionsLabTestsRequest) SetSourceSandboxLabTestIds(sourceSandboxLabTestIds []*string) {
+	l.SourceSandboxLabTestIds = sourceSandboxLabTestIds
+	l.require(listPromotionsLabTestsRequestFieldSourceSandboxLabTestIds)
 }
 
 var (
@@ -7943,6 +8002,305 @@ func (l *LabTestPanelPricingPricing) Accept(visitor LabTestPanelPricingPricingVi
 		return visitor.VisitUnspecifiedPricing(l.UnspecifiedPricing)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", l)
+}
+
+var (
+	labTestPromotionFieldSourceSandboxLabTestId = big.NewInt(1 << 0)
+	labTestPromotionFieldProductionLabTestId    = big.NewInt(1 << 1)
+	labTestPromotionFieldStatus                 = big.NewInt(1 << 2)
+)
+
+type LabTestPromotion struct {
+	SourceSandboxLabTestId string `json:"source_sandbox_lab_test_id" url:"source_sandbox_lab_test_id"`
+	ProductionLabTestId    string `json:"production_lab_test_id" url:"production_lab_test_id"`
+	// ℹ️ This enum is non-exhaustive.
+	Status LabTestStatus `json:"status" url:"status"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *LabTestPromotion) GetSourceSandboxLabTestId() string {
+	if l == nil {
+		return ""
+	}
+	return l.SourceSandboxLabTestId
+}
+
+func (l *LabTestPromotion) GetProductionLabTestId() string {
+	if l == nil {
+		return ""
+	}
+	return l.ProductionLabTestId
+}
+
+func (l *LabTestPromotion) GetStatus() LabTestStatus {
+	if l == nil {
+		return ""
+	}
+	return l.Status
+}
+
+func (l *LabTestPromotion) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *LabTestPromotion) require(field *big.Int) {
+	if l.explicitFields == nil {
+		l.explicitFields = big.NewInt(0)
+	}
+	l.explicitFields.Or(l.explicitFields, field)
+}
+
+// SetSourceSandboxLabTestId sets the SourceSandboxLabTestId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotion) SetSourceSandboxLabTestId(sourceSandboxLabTestId string) {
+	l.SourceSandboxLabTestId = sourceSandboxLabTestId
+	l.require(labTestPromotionFieldSourceSandboxLabTestId)
+}
+
+// SetProductionLabTestId sets the ProductionLabTestId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotion) SetProductionLabTestId(productionLabTestId string) {
+	l.ProductionLabTestId = productionLabTestId
+	l.require(labTestPromotionFieldProductionLabTestId)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotion) SetStatus(status LabTestStatus) {
+	l.Status = status
+	l.require(labTestPromotionFieldStatus)
+}
+
+func (l *LabTestPromotion) UnmarshalJSON(data []byte) error {
+	type unmarshaler LabTestPromotion
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = LabTestPromotion(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *LabTestPromotion) MarshalJSON() ([]byte, error) {
+	type embed LabTestPromotion
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *LabTestPromotion) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	labTestPromotionSourceFieldName                   = big.NewInt(1 << 0)
+	labTestPromotionSourceFieldDescription            = big.NewInt(1 << 1)
+	labTestPromotionSourceFieldMethod                 = big.NewInt(1 << 2)
+	labTestPromotionSourceFieldFasting                = big.NewInt(1 << 3)
+	labTestPromotionSourceFieldLabSlug                = big.NewInt(1 << 4)
+	labTestPromotionSourceFieldProviderIds            = big.NewInt(1 << 5)
+	labTestPromotionSourceFieldSourceSandboxLabTestId = big.NewInt(1 << 6)
+)
+
+type LabTestPromotionSource struct {
+	Name        string `json:"name" url:"name"`
+	Description string `json:"description" url:"description"`
+	// ℹ️ This enum is non-exhaustive.
+	Method  LabTestCollectionMethod `json:"method" url:"method"`
+	Fasting bool                    `json:"fasting" url:"fasting"`
+	// ℹ️ This enum is non-exhaustive.
+	LabSlug                Labs     `json:"lab_slug" url:"lab_slug"`
+	ProviderIds            []string `json:"provider_ids" url:"provider_ids"`
+	SourceSandboxLabTestId string   `json:"source_sandbox_lab_test_id" url:"source_sandbox_lab_test_id"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *LabTestPromotionSource) GetName() string {
+	if l == nil {
+		return ""
+	}
+	return l.Name
+}
+
+func (l *LabTestPromotionSource) GetDescription() string {
+	if l == nil {
+		return ""
+	}
+	return l.Description
+}
+
+func (l *LabTestPromotionSource) GetMethod() LabTestCollectionMethod {
+	if l == nil {
+		return ""
+	}
+	return l.Method
+}
+
+func (l *LabTestPromotionSource) GetFasting() bool {
+	if l == nil {
+		return false
+	}
+	return l.Fasting
+}
+
+func (l *LabTestPromotionSource) GetLabSlug() Labs {
+	if l == nil {
+		return ""
+	}
+	return l.LabSlug
+}
+
+func (l *LabTestPromotionSource) GetProviderIds() []string {
+	if l == nil {
+		return nil
+	}
+	return l.ProviderIds
+}
+
+func (l *LabTestPromotionSource) GetSourceSandboxLabTestId() string {
+	if l == nil {
+		return ""
+	}
+	return l.SourceSandboxLabTestId
+}
+
+func (l *LabTestPromotionSource) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *LabTestPromotionSource) require(field *big.Int) {
+	if l.explicitFields == nil {
+		l.explicitFields = big.NewInt(0)
+	}
+	l.explicitFields.Or(l.explicitFields, field)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotionSource) SetName(name string) {
+	l.Name = name
+	l.require(labTestPromotionSourceFieldName)
+}
+
+// SetDescription sets the Description field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotionSource) SetDescription(description string) {
+	l.Description = description
+	l.require(labTestPromotionSourceFieldDescription)
+}
+
+// SetMethod sets the Method field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotionSource) SetMethod(method LabTestCollectionMethod) {
+	l.Method = method
+	l.require(labTestPromotionSourceFieldMethod)
+}
+
+// SetFasting sets the Fasting field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotionSource) SetFasting(fasting bool) {
+	l.Fasting = fasting
+	l.require(labTestPromotionSourceFieldFasting)
+}
+
+// SetLabSlug sets the LabSlug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotionSource) SetLabSlug(labSlug Labs) {
+	l.LabSlug = labSlug
+	l.require(labTestPromotionSourceFieldLabSlug)
+}
+
+// SetProviderIds sets the ProviderIds field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotionSource) SetProviderIds(providerIds []string) {
+	l.ProviderIds = providerIds
+	l.require(labTestPromotionSourceFieldProviderIds)
+}
+
+// SetSourceSandboxLabTestId sets the SourceSandboxLabTestId field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *LabTestPromotionSource) SetSourceSandboxLabTestId(sourceSandboxLabTestId string) {
+	l.SourceSandboxLabTestId = sourceSandboxLabTestId
+	l.require(labTestPromotionSourceFieldSourceSandboxLabTestId)
+}
+
+func (l *LabTestPromotionSource) UnmarshalJSON(data []byte) error {
+	type unmarshaler LabTestPromotionSource
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = LabTestPromotionSource(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *LabTestPromotionSource) MarshalJSON() ([]byte, error) {
+	type embed LabTestPromotionSource
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *LabTestPromotionSource) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
 }
 
 var (

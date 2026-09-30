@@ -3,8 +3,8 @@
 package api
 
 import (
-	core "github.com/junction-api/junction-go/v2/core"
-	internal "github.com/junction-api/junction-go/v2/internal"
+	core "github.com/junction-api/junction-go/core"
+	internal "github.com/junction-api/junction-go/internal"
 )
 
 var ErrorCodes internal.ErrorCodes = internal.ErrorCodes{

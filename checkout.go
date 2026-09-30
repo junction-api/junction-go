@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/junction-api/junction-go/v2/internal"
+	internal "github.com/junction-api/junction-go/internal"
 	big "math/big"
 	time "time"
 )
@@ -42,6 +42,7 @@ var (
 	createCheckoutSessionBodyFieldPayment        = big.NewInt(1 << 3)
 	createCheckoutSessionBodyFieldPatientDetails = big.NewInt(1 << 4)
 	createCheckoutSessionBodyFieldPatientAddress = big.NewInt(1 << 5)
+	createCheckoutSessionBodyFieldAppointment    = big.NewInt(1 << 6)
 )
 
 type CreateCheckoutSessionBody struct {
@@ -51,6 +52,7 @@ type CreateCheckoutSessionBody struct {
 	Payment        *CheckoutSessionPayment       `json:"payment" url:"-"`
 	PatientDetails *PatientDetailsWithValidation `json:"patient_details" url:"-"`
 	PatientAddress *PatientAddressWithValidation `json:"patient_address" url:"-"`
+	Appointment    *CheckoutSessionAppointment   `json:"appointment,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -103,6 +105,13 @@ func (c *CreateCheckoutSessionBody) SetPatientDetails(patientDetails *PatientDet
 func (c *CreateCheckoutSessionBody) SetPatientAddress(patientAddress *PatientAddressWithValidation) {
 	c.PatientAddress = patientAddress
 	c.require(createCheckoutSessionBodyFieldPatientAddress)
+}
+
+// SetAppointment sets the Appointment field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateCheckoutSessionBody) SetAppointment(appointment *CheckoutSessionAppointment) {
+	c.Appointment = appointment
+	c.require(createCheckoutSessionBodyFieldAppointment)
 }
 
 func (c *CreateCheckoutSessionBody) UnmarshalJSON(data []byte) error {
@@ -954,6 +963,127 @@ func (c *CheckoutSession) MarshalJSON() ([]byte, error) {
 }
 
 func (c *CheckoutSession) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// A PSC slot held with the collection network while the patient pays; it
+// becomes the order's appointment once payment creates the order.
+var (
+	checkoutSessionAppointmentFieldBookingKey                          = big.NewInt(1 << 0)
+	checkoutSessionAppointmentFieldAppointmentNotes                    = big.NewInt(1 << 1)
+	checkoutSessionAppointmentFieldAsyncConfirmationTimeoutMillisecond = big.NewInt(1 << 2)
+)
+
+type CheckoutSessionAppointment struct {
+	// Slot token from the PSC appointment availability endpoint. The slot must start after the session's payment deadline and, when the quote lists collection networks, belong to one of them.
+	BookingKey string `json:"booking_key" url:"booking_key"`
+	// Notes stored on the appointment once it is attached to the order.
+	AppointmentNotes string `json:"appointment_notes" url:"appointment_notes"`
+	// How long the hold keeps retrying with the collection network before it is reported as failed.
+	AsyncConfirmationTimeoutMillisecond *int `json:"async_confirmation_timeout_millisecond,omitempty" url:"async_confirmation_timeout_millisecond,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CheckoutSessionAppointment) GetBookingKey() string {
+	if c == nil {
+		return ""
+	}
+	return c.BookingKey
+}
+
+func (c *CheckoutSessionAppointment) GetAppointmentNotes() string {
+	if c == nil {
+		return ""
+	}
+	return c.AppointmentNotes
+}
+
+func (c *CheckoutSessionAppointment) GetAsyncConfirmationTimeoutMillisecond() *int {
+	if c == nil {
+		return nil
+	}
+	return c.AsyncConfirmationTimeoutMillisecond
+}
+
+func (c *CheckoutSessionAppointment) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CheckoutSessionAppointment) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetBookingKey sets the BookingKey field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CheckoutSessionAppointment) SetBookingKey(bookingKey string) {
+	c.BookingKey = bookingKey
+	c.require(checkoutSessionAppointmentFieldBookingKey)
+}
+
+// SetAppointmentNotes sets the AppointmentNotes field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CheckoutSessionAppointment) SetAppointmentNotes(appointmentNotes string) {
+	c.AppointmentNotes = appointmentNotes
+	c.require(checkoutSessionAppointmentFieldAppointmentNotes)
+}
+
+// SetAsyncConfirmationTimeoutMillisecond sets the AsyncConfirmationTimeoutMillisecond field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CheckoutSessionAppointment) SetAsyncConfirmationTimeoutMillisecond(asyncConfirmationTimeoutMillisecond *int) {
+	c.AsyncConfirmationTimeoutMillisecond = asyncConfirmationTimeoutMillisecond
+	c.require(checkoutSessionAppointmentFieldAsyncConfirmationTimeoutMillisecond)
+}
+
+func (c *CheckoutSessionAppointment) UnmarshalJSON(data []byte) error {
+	type unmarshaler CheckoutSessionAppointment
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CheckoutSessionAppointment(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CheckoutSessionAppointment) MarshalJSON() ([]byte, error) {
+	type embed CheckoutSessionAppointment
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CheckoutSessionAppointment) String() string {
 	if c == nil {
 		return "<nil>"
 	}
