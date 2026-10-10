@@ -37,9 +37,9 @@ package example
 import (
     context "context"
 
-    junctiongo "github.com/junction-api/junction-go"
-    client "github.com/junction-api/junction-go/client"
-    option "github.com/junction-api/junction-go/option"
+    junctiongo "github.com/junction-api/junction-go/v3"
+    client "github.com/junction-api/junction-go/v3/client"
+    option "github.com/junction-api/junction-go/v3/option"
 )
 
 func do() {
