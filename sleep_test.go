@@ -492,6 +492,46 @@ func TestSettersClientFacingSleep(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetStageAsleepSecond", func(t *testing.T) {
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageAsleepSecond *int
+		obj.SetStageAsleepSecond(fernTestValueStageAsleepSecond)
+		assert.Equal(t, fernTestValueStageAsleepSecond, obj.StageAsleepSecond)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetStageAwakeSecond", func(t *testing.T) {
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageAwakeSecond *int
+		obj.SetStageAwakeSecond(fernTestValueStageAwakeSecond)
+		assert.Equal(t, fernTestValueStageAwakeSecond, obj.StageAwakeSecond)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetStageLightSecond", func(t *testing.T) {
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageLightSecond *int
+		obj.SetStageLightSecond(fernTestValueStageLightSecond)
+		assert.Equal(t, fernTestValueStageLightSecond, obj.StageLightSecond)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetStageRemSecond", func(t *testing.T) {
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageRemSecond *int
+		obj.SetStageRemSecond(fernTestValueStageRemSecond)
+		assert.Equal(t, fernTestValueStageRemSecond, obj.StageRemSecond)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetStageDeepSecond", func(t *testing.T) {
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageDeepSecond *int
+		obj.SetStageDeepSecond(fernTestValueStageDeepSecond)
+		assert.Equal(t, fernTestValueStageDeepSecond, obj.StageDeepSecond)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetScore", func(t *testing.T) {
 		obj := &ClientFacingSleep{}
 		var fernTestValueScore *int
@@ -961,6 +1001,171 @@ func TestGettersClientFacingSleep(t *testing.T) {
 			}
 		}()
 		_ = obj.GetDeep() // Should return zero value
+	})
+
+	t.Run("GetStageAsleepSecond", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var expected *int
+		obj.StageAsleepSecond = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetStageAsleepSecond(), "getter should return the property value")
+	})
+
+	t.Run("GetStageAsleepSecond_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		obj.StageAsleepSecond = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetStageAsleepSecond(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetStageAsleepSecond_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ClientFacingSleep
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetStageAsleepSecond() // Should return zero value
+	})
+
+	t.Run("GetStageAwakeSecond", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var expected *int
+		obj.StageAwakeSecond = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetStageAwakeSecond(), "getter should return the property value")
+	})
+
+	t.Run("GetStageAwakeSecond_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		obj.StageAwakeSecond = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetStageAwakeSecond(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetStageAwakeSecond_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ClientFacingSleep
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetStageAwakeSecond() // Should return zero value
+	})
+
+	t.Run("GetStageLightSecond", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var expected *int
+		obj.StageLightSecond = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetStageLightSecond(), "getter should return the property value")
+	})
+
+	t.Run("GetStageLightSecond_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		obj.StageLightSecond = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetStageLightSecond(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetStageLightSecond_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ClientFacingSleep
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetStageLightSecond() // Should return zero value
+	})
+
+	t.Run("GetStageRemSecond", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var expected *int
+		obj.StageRemSecond = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetStageRemSecond(), "getter should return the property value")
+	})
+
+	t.Run("GetStageRemSecond_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		obj.StageRemSecond = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetStageRemSecond(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetStageRemSecond_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ClientFacingSleep
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetStageRemSecond() // Should return zero value
+	})
+
+	t.Run("GetStageDeepSecond", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var expected *int
+		obj.StageDeepSecond = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetStageDeepSecond(), "getter should return the property value")
+	})
+
+	t.Run("GetStageDeepSecond_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		obj.StageDeepSecond = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetStageDeepSecond(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetStageDeepSecond_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ClientFacingSleep
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetStageDeepSecond() // Should return zero value
 	})
 
 	t.Run("GetScore", func(t *testing.T) {
@@ -1918,6 +2123,161 @@ func TestSettersMarkExplicitClientFacingSleep(t *testing.T) {
 
 		// Act
 		obj.SetDeep(fernTestValueDeep)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetStageAsleepSecond_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageAsleepSecond *int
+
+		// Act
+		obj.SetStageAsleepSecond(fernTestValueStageAsleepSecond)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetStageAwakeSecond_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageAwakeSecond *int
+
+		// Act
+		obj.SetStageAwakeSecond(fernTestValueStageAwakeSecond)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetStageLightSecond_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageLightSecond *int
+
+		// Act
+		obj.SetStageLightSecond(fernTestValueStageLightSecond)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetStageRemSecond_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageRemSecond *int
+
+		// Act
+		obj.SetStageRemSecond(fernTestValueStageRemSecond)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetStageDeepSecond_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ClientFacingSleep{}
+		var fernTestValueStageDeepSecond *int
+
+		// Act
+		obj.SetStageDeepSecond(fernTestValueStageDeepSecond)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)

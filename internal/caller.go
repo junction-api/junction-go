@@ -12,7 +12,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/junction-api/junction-go/v2/core"
+	"github.com/junction-api/junction-go/core"
 )
 
 const (

@@ -10106,6 +10106,57 @@ client.LabTests.GetLabs(
 </dl>
 </details>
 
+<details><summary><code>client.LabTests.ListPromotions() -> []*junctiongo.LabTestPromotion</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.ListPromotionsLabTestsRequest{
+        SourceSandboxLabTestIds: []*string{
+            junctiongo.String(
+                "source_sandbox_lab_test_ids",
+            ),
+        },
+    }
+client.LabTests.ListPromotions(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**sourceSandboxLabTestIds:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.LabTests.EstimateOrderSetPricing(request) -> *junctiongo.EstimateOrderSetPricingResponse</code></summary>
 <dl>
 <dd>
@@ -10370,6 +10421,71 @@ client.LabTests.GetPaginated(
 </dl>
 </details>
 
+<details><summary><code>client.LabTests.GetLabTestCollectionInstructions(LabTestId) -> *junctiongo.GetLabTestCollectionInstructionsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get the tube count for an at-home phlebotomy lab test.
+
+Requires enable_approxdraw_labcorp for Labcorp and enable_approxdraw for
+other labs. Labcorp reuses a saved count or refreshes it with an eligible
+account. Other labs may also generate and store a collection-instructions PDF.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetLabTestCollectionInstructionsLabTestsRequest{
+        LabTestId: "lab_test_id",
+    }
+client.LabTests.GetLabTestCollectionInstructions(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**labTestId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.LabTests.GetLabTestCollectionInstructionPdf(LabTestId) -> string</code></summary>
 <dl>
 <dd>
@@ -10387,6 +10503,53 @@ request := &junctiongo.GetLabTestCollectionInstructionPdfLabTestsRequest{
         LabTestId: "lab_test_id",
     }
 client.LabTests.GetLabTestCollectionInstructionPdf(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**labTestId:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.GetPromotionSource(LabTestId) -> *junctiongo.LabTestPromotionSource</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.GetPromotionSourceLabTestsRequest{
+        LabTestId: "lab_test_id",
+    }
+client.LabTests.GetPromotionSource(
         context.TODO(),
         request,
     )
@@ -13294,7 +13457,7 @@ client.LabTests.ListUnmatchedResults(
 <dl>
 <dd>
 
-**status:** `*junctiongo.MatchReviewStatusFilter` — Filter by review status. `pending_customer_review` returns items awaiting your action; `pending_ops_review` returns items you have escalated for review.
+**status:** `*junctiongo.MatchReviewStatusFilter` — Filter by review status. `pending_customer_review` returns items awaiting your action; `pending_customer_review:in_progress` returns items your team is working on; `pending_ops_review` returns items you have escalated for review.
     
 </dd>
 </dl>
@@ -13330,7 +13493,7 @@ client.LabTests.ListUnmatchedResults(
 </dl>
 </details>
 
-<details><summary><code>client.LabTests.GetUnmatchedResult(RawResultId) -> *junctiongo.GetUnmatchedResultResponse</code></summary>
+<details><summary><code>client.LabTests.GetUnmatchedResult(RawResultId) -> *junctiongo.UnmatchedResult</code></summary>
 <dl>
 <dd>
 
@@ -13501,6 +13664,138 @@ client.LabTests.ResolveUnmatchedResult(
 <dd>
 
 **note:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.ListUnmatchedResultUpdates(RawResultId) -> *junctiongo.ListUnmatchedResultUpdatesResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.ListUnmatchedResultUpdatesLabTestsRequest{
+        RawResultId: "raw_result_id",
+        Limit: junctiongo.Int(
+            1,
+        ),
+        NextCursor: junctiongo.String(
+            "next_cursor",
+        ),
+    }
+client.LabTests.ListUnmatchedResultUpdates(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**rawResultId:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `*int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**nextCursor:** `*string` — The cursor for fetching the next page, or `null` to fetch the first page.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.LabTests.CreateUnmatchedResultUpdate(RawResultId, request) -> *junctiongo.UnmatchedResult</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &junctiongo.CreateUnmatchedResultUpdateBody{
+        RawResultId: "raw_result_id",
+    }
+client.LabTests.CreateUnmatchedResultUpdate(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**rawResultId:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**note:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `*junctiongo.UnmatchedResultUpdateStatus` — ℹ️ This enum is non-exhaustive.
     
 </dd>
 </dl>
@@ -14785,6 +15080,14 @@ client.Checkout.CreateCheckoutSession(
 <dd>
 
 **patientAddress:** `*junctiongo.PatientAddressWithValidation` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**appointment:** `*junctiongo.CheckoutSessionAppointment` 
     
 </dd>
 </dl>

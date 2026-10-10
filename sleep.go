@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/junction-api/junction-go/v2/internal"
+	internal "github.com/junction-api/junction-go/internal"
 	big "math/big"
 	time "time"
 )
@@ -161,23 +161,28 @@ var (
 	clientFacingSleepFieldLight                  = big.NewInt(1 << 11)
 	clientFacingSleepFieldRem                    = big.NewInt(1 << 12)
 	clientFacingSleepFieldDeep                   = big.NewInt(1 << 13)
-	clientFacingSleepFieldScore                  = big.NewInt(1 << 14)
-	clientFacingSleepFieldRecoveryReadinessScore = big.NewInt(1 << 15)
-	clientFacingSleepFieldHrLowest               = big.NewInt(1 << 16)
-	clientFacingSleepFieldHrAverage              = big.NewInt(1 << 17)
-	clientFacingSleepFieldHrResting              = big.NewInt(1 << 18)
-	clientFacingSleepFieldEfficiency             = big.NewInt(1 << 19)
-	clientFacingSleepFieldLatency                = big.NewInt(1 << 20)
-	clientFacingSleepFieldTemperatureDelta       = big.NewInt(1 << 21)
-	clientFacingSleepFieldSkinTemperature        = big.NewInt(1 << 22)
-	clientFacingSleepFieldHrDip                  = big.NewInt(1 << 23)
-	clientFacingSleepFieldState                  = big.NewInt(1 << 24)
-	clientFacingSleepFieldAverageHrv             = big.NewInt(1 << 25)
-	clientFacingSleepFieldRespiratoryRate        = big.NewInt(1 << 26)
-	clientFacingSleepFieldSource                 = big.NewInt(1 << 27)
-	clientFacingSleepFieldSleepStream            = big.NewInt(1 << 28)
-	clientFacingSleepFieldCreatedAt              = big.NewInt(1 << 29)
-	clientFacingSleepFieldUpdatedAt              = big.NewInt(1 << 30)
+	clientFacingSleepFieldStageAsleepSecond      = big.NewInt(1 << 14)
+	clientFacingSleepFieldStageAwakeSecond       = big.NewInt(1 << 15)
+	clientFacingSleepFieldStageLightSecond       = big.NewInt(1 << 16)
+	clientFacingSleepFieldStageRemSecond         = big.NewInt(1 << 17)
+	clientFacingSleepFieldStageDeepSecond        = big.NewInt(1 << 18)
+	clientFacingSleepFieldScore                  = big.NewInt(1 << 19)
+	clientFacingSleepFieldRecoveryReadinessScore = big.NewInt(1 << 20)
+	clientFacingSleepFieldHrLowest               = big.NewInt(1 << 21)
+	clientFacingSleepFieldHrAverage              = big.NewInt(1 << 22)
+	clientFacingSleepFieldHrResting              = big.NewInt(1 << 23)
+	clientFacingSleepFieldEfficiency             = big.NewInt(1 << 24)
+	clientFacingSleepFieldLatency                = big.NewInt(1 << 25)
+	clientFacingSleepFieldTemperatureDelta       = big.NewInt(1 << 26)
+	clientFacingSleepFieldSkinTemperature        = big.NewInt(1 << 27)
+	clientFacingSleepFieldHrDip                  = big.NewInt(1 << 28)
+	clientFacingSleepFieldState                  = big.NewInt(1 << 29)
+	clientFacingSleepFieldAverageHrv             = big.NewInt(1 << 30)
+	clientFacingSleepFieldRespiratoryRate        = big.NewInt(1 << 31)
+	clientFacingSleepFieldSource                 = big.NewInt(1 << 32)
+	clientFacingSleepFieldSleepStream            = big.NewInt(1 << 33)
+	clientFacingSleepFieldCreatedAt              = big.NewInt(1 << 34)
+	clientFacingSleepFieldUpdatedAt              = big.NewInt(1 << 35)
 )
 
 type ClientFacingSleep struct {
@@ -212,7 +217,12 @@ type ClientFacingSleep struct {
 	// Total amount of REM sleep registered during the sleep period, minutes::seconds
 	Rem int `json:"rem" url:"rem"`
 	// Total amount of deep (N3) sleep registered during the sleep period::seconds
-	Deep int `json:"deep" url:"deep"`
+	Deep              int  `json:"deep" url:"deep"`
+	StageAsleepSecond *int `json:"stage_asleep_second,omitempty" url:"stage_asleep_second,omitempty"`
+	StageAwakeSecond  *int `json:"stage_awake_second,omitempty" url:"stage_awake_second,omitempty"`
+	StageLightSecond  *int `json:"stage_light_second,omitempty" url:"stage_light_second,omitempty"`
+	StageRemSecond    *int `json:"stage_rem_second,omitempty" url:"stage_rem_second,omitempty"`
+	StageDeepSecond   *int `json:"stage_deep_second,omitempty" url:"stage_deep_second,omitempty"`
 	// A value between 1 and 100 representing how well the user slept. Currently only available for Withings, Oura, Whoop and Garmin::scalar
 	Score *int `json:"score,omitempty" url:"score,omitempty"`
 	// A value between 0 and 100 representing the provider's recovery/readiness proxy. Currently sourced from Oura readiness score, Whoop recovery score, and Ultrahuman recovery::scalar
@@ -348,6 +358,41 @@ func (c *ClientFacingSleep) GetDeep() int {
 		return 0
 	}
 	return c.Deep
+}
+
+func (c *ClientFacingSleep) GetStageAsleepSecond() *int {
+	if c == nil {
+		return nil
+	}
+	return c.StageAsleepSecond
+}
+
+func (c *ClientFacingSleep) GetStageAwakeSecond() *int {
+	if c == nil {
+		return nil
+	}
+	return c.StageAwakeSecond
+}
+
+func (c *ClientFacingSleep) GetStageLightSecond() *int {
+	if c == nil {
+		return nil
+	}
+	return c.StageLightSecond
+}
+
+func (c *ClientFacingSleep) GetStageRemSecond() *int {
+	if c == nil {
+		return nil
+	}
+	return c.StageRemSecond
+}
+
+func (c *ClientFacingSleep) GetStageDeepSecond() *int {
+	if c == nil {
+		return nil
+	}
+	return c.StageDeepSecond
 }
 
 func (c *ClientFacingSleep) GetScore() *int {
@@ -579,6 +624,41 @@ func (c *ClientFacingSleep) SetRem(rem int) {
 func (c *ClientFacingSleep) SetDeep(deep int) {
 	c.Deep = deep
 	c.require(clientFacingSleepFieldDeep)
+}
+
+// SetStageAsleepSecond sets the StageAsleepSecond field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingSleep) SetStageAsleepSecond(stageAsleepSecond *int) {
+	c.StageAsleepSecond = stageAsleepSecond
+	c.require(clientFacingSleepFieldStageAsleepSecond)
+}
+
+// SetStageAwakeSecond sets the StageAwakeSecond field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingSleep) SetStageAwakeSecond(stageAwakeSecond *int) {
+	c.StageAwakeSecond = stageAwakeSecond
+	c.require(clientFacingSleepFieldStageAwakeSecond)
+}
+
+// SetStageLightSecond sets the StageLightSecond field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingSleep) SetStageLightSecond(stageLightSecond *int) {
+	c.StageLightSecond = stageLightSecond
+	c.require(clientFacingSleepFieldStageLightSecond)
+}
+
+// SetStageRemSecond sets the StageRemSecond field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingSleep) SetStageRemSecond(stageRemSecond *int) {
+	c.StageRemSecond = stageRemSecond
+	c.require(clientFacingSleepFieldStageRemSecond)
+}
+
+// SetStageDeepSecond sets the StageDeepSecond field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientFacingSleep) SetStageDeepSecond(stageDeepSecond *int) {
+	c.StageDeepSecond = stageDeepSecond
+	c.require(clientFacingSleepFieldStageDeepSecond)
 }
 
 // SetScore sets the Score field and marks it as non-optional;

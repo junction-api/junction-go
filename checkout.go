@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/junction-api/junction-go/v2/internal"
+	internal "github.com/junction-api/junction-go/internal"
 	big "math/big"
 	time "time"
 )
@@ -42,6 +42,7 @@ var (
 	createCheckoutSessionBodyFieldPayment        = big.NewInt(1 << 3)
 	createCheckoutSessionBodyFieldPatientDetails = big.NewInt(1 << 4)
 	createCheckoutSessionBodyFieldPatientAddress = big.NewInt(1 << 5)
+	createCheckoutSessionBodyFieldAppointment    = big.NewInt(1 << 6)
 )
 
 type CreateCheckoutSessionBody struct {
@@ -51,6 +52,7 @@ type CreateCheckoutSessionBody struct {
 	Payment        *CheckoutSessionPayment       `json:"payment" url:"-"`
 	PatientDetails *PatientDetailsWithValidation `json:"patient_details" url:"-"`
 	PatientAddress *PatientAddressWithValidation `json:"patient_address" url:"-"`
+	Appointment    *CheckoutSessionAppointment   `json:"appointment,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -103,6 +105,13 @@ func (c *CreateCheckoutSessionBody) SetPatientDetails(patientDetails *PatientDet
 func (c *CreateCheckoutSessionBody) SetPatientAddress(patientAddress *PatientAddressWithValidation) {
 	c.PatientAddress = patientAddress
 	c.require(createCheckoutSessionBodyFieldPatientAddress)
+}
+
+// SetAppointment sets the Appointment field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateCheckoutSessionBody) SetAppointment(appointment *CheckoutSessionAppointment) {
+	c.Appointment = appointment
+	c.require(createCheckoutSessionBodyFieldAppointment)
 }
 
 func (c *CreateCheckoutSessionBody) UnmarshalJSON(data []byte) error {
@@ -716,20 +725,9 @@ func (c CheckoutQuoteLineItemCode) Ptr() *CheckoutQuoteLineItemCode {
 	return &c
 }
 
-// The checkout session snapshot. One schema is shared by the REST
-// endpoints and the `checkout.session.*` webhook bodies.
-//
-// Invariant on `payment_resource_url` / `payment_resource_client_secret`:
-// they are populated only on responses served from live workflow state over
-// the authenticated API while the session is unpaid, and are always `None`
-// everywhere else. In particular they are never populated in a webhook body
-// — the todo row, the logbook and the delivery pipeline all retain what they
-// are handed, so payment material must not enter any of them. Two things
-// hold that: `from_row` never sets the pair, and
-// `PublishCheckoutSessionEventTodoContext` strips it on validation, before
-// the event is persisted or recorded. Once the session leaves `unpaid`
-// they are `None` on every response, because the material is no longer
-// actionable.
+// A checkout session collects payment for a quote; once it is paid, the
+// order is created. The checkout session endpoints return this object, and
+// `checkout.session.*` webhooks carry it as `data`.
 var (
 	checkoutSessionFieldCheckoutSessionId           = big.NewInt(1 << 0)
 	checkoutSessionFieldStatus                      = big.NewInt(1 << 1)
@@ -746,16 +744,19 @@ var (
 type CheckoutSession struct {
 	CheckoutSessionId string `json:"checkout_session_id" url:"checkout_session_id"`
 	// ℹ️ This enum is non-exhaustive.
-	Status             CheckoutSessionStatus `json:"status" url:"status"`
-	PayBefore          time.Time             `json:"pay_before" url:"pay_before"`
-	PaymentResourceId  *string               `json:"payment_resource_id,omitempty" url:"payment_resource_id,omitempty"`
-	OrderId            *string               `json:"order_id,omitempty" url:"order_id,omitempty"`
-	OrderTransactionId *string               `json:"order_transaction_id,omitempty" url:"order_transaction_id,omitempty"`
+	Status    CheckoutSessionStatus `json:"status" url:"status"`
+	PayBefore time.Time             `json:"pay_before" url:"pay_before"`
+	// ID of the Stripe Checkout Session (`cs_...`) or PaymentIntent (`pi_...`) collecting payment. `null` until the payment resource is created.
+	PaymentResourceId  *string `json:"payment_resource_id,omitempty" url:"payment_resource_id,omitempty"`
+	OrderId            *string `json:"order_id,omitempty" url:"order_id,omitempty"`
+	OrderTransactionId *string `json:"order_transaction_id,omitempty" url:"order_transaction_id,omitempty"`
 	// ℹ️ This enum is non-exhaustive.
-	AppointmentHoldStatus       *CheckoutAppointmentHoldStatus `json:"appointment_hold_status,omitempty" url:"appointment_hold_status,omitempty"`
-	AppointmentId               *string                        `json:"appointment_id,omitempty" url:"appointment_id,omitempty"`
-	PaymentResourceUrl          *string                        `json:"payment_resource_url,omitempty" url:"payment_resource_url,omitempty"`
-	PaymentResourceClientSecret *string                        `json:"payment_resource_client_secret,omitempty" url:"payment_resource_client_secret,omitempty"`
+	AppointmentHoldStatus *CheckoutAppointmentHoldStatus `json:"appointment_hold_status,omitempty" url:"appointment_hold_status,omitempty"`
+	AppointmentId         *string                        `json:"appointment_id,omitempty" url:"appointment_id,omitempty"`
+	// Stripe-hosted payment page URL, for the `checkout_session` payment method. Returned only by the create, get and confirm endpoints while `status` is `unpaid`; always `null` in webhooks.
+	PaymentResourceUrl *string `json:"payment_resource_url,omitempty" url:"payment_resource_url,omitempty"`
+	// Client secret for confirming the Stripe PaymentIntent with Stripe.js, for the `payment_intent` payment method. Returned only by the create, get and confirm endpoints while `status` is `unpaid`; always `null` in webhooks.
+	PaymentResourceClientSecret *string `json:"payment_resource_client_secret,omitempty" url:"payment_resource_client_secret,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -954,6 +955,127 @@ func (c *CheckoutSession) MarshalJSON() ([]byte, error) {
 }
 
 func (c *CheckoutSession) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// A PSC slot held with the collection network while the patient pays; it
+// becomes the order's appointment once payment creates the order.
+var (
+	checkoutSessionAppointmentFieldBookingKey                          = big.NewInt(1 << 0)
+	checkoutSessionAppointmentFieldAppointmentNotes                    = big.NewInt(1 << 1)
+	checkoutSessionAppointmentFieldAsyncConfirmationTimeoutMillisecond = big.NewInt(1 << 2)
+)
+
+type CheckoutSessionAppointment struct {
+	// Slot token from the PSC appointment availability endpoint. The slot must start after the session's payment deadline and, when the quote lists collection networks, belong to one of them.
+	BookingKey string `json:"booking_key" url:"booking_key"`
+	// Notes stored on the appointment once it is attached to the order.
+	AppointmentNotes string `json:"appointment_notes" url:"appointment_notes"`
+	// How long the hold keeps retrying with the collection network before it is reported as failed.
+	AsyncConfirmationTimeoutMillisecond *int `json:"async_confirmation_timeout_millisecond,omitempty" url:"async_confirmation_timeout_millisecond,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CheckoutSessionAppointment) GetBookingKey() string {
+	if c == nil {
+		return ""
+	}
+	return c.BookingKey
+}
+
+func (c *CheckoutSessionAppointment) GetAppointmentNotes() string {
+	if c == nil {
+		return ""
+	}
+	return c.AppointmentNotes
+}
+
+func (c *CheckoutSessionAppointment) GetAsyncConfirmationTimeoutMillisecond() *int {
+	if c == nil {
+		return nil
+	}
+	return c.AsyncConfirmationTimeoutMillisecond
+}
+
+func (c *CheckoutSessionAppointment) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CheckoutSessionAppointment) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetBookingKey sets the BookingKey field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CheckoutSessionAppointment) SetBookingKey(bookingKey string) {
+	c.BookingKey = bookingKey
+	c.require(checkoutSessionAppointmentFieldBookingKey)
+}
+
+// SetAppointmentNotes sets the AppointmentNotes field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CheckoutSessionAppointment) SetAppointmentNotes(appointmentNotes string) {
+	c.AppointmentNotes = appointmentNotes
+	c.require(checkoutSessionAppointmentFieldAppointmentNotes)
+}
+
+// SetAsyncConfirmationTimeoutMillisecond sets the AsyncConfirmationTimeoutMillisecond field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CheckoutSessionAppointment) SetAsyncConfirmationTimeoutMillisecond(asyncConfirmationTimeoutMillisecond *int) {
+	c.AsyncConfirmationTimeoutMillisecond = asyncConfirmationTimeoutMillisecond
+	c.require(checkoutSessionAppointmentFieldAsyncConfirmationTimeoutMillisecond)
+}
+
+func (c *CheckoutSessionAppointment) UnmarshalJSON(data []byte) error {
+	type unmarshaler CheckoutSessionAppointment
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CheckoutSessionAppointment(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CheckoutSessionAppointment) MarshalJSON() ([]byte, error) {
+	type embed CheckoutSessionAppointment
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CheckoutSessionAppointment) String() string {
 	if c == nil {
 		return "<nil>"
 	}

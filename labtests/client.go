@@ -6,10 +6,10 @@ import (
 	context "context"
 	io "io"
 
-	junctiongo "github.com/junction-api/junction-go/v2"
-	core "github.com/junction-api/junction-go/v2/core"
-	internal "github.com/junction-api/junction-go/v2/internal"
-	option "github.com/junction-api/junction-go/v2/option"
+	junctiongo "github.com/junction-api/junction-go"
+	core "github.com/junction-api/junction-go/core"
+	internal "github.com/junction-api/junction-go/internal"
+	option "github.com/junction-api/junction-go/option"
 )
 
 type Client struct {
@@ -183,6 +183,22 @@ func (c *Client) GetLabs(
 	return response.Body, nil
 }
 
+func (c *Client) ListPromotions(
+	ctx context.Context,
+	request *junctiongo.ListPromotionsLabTestsRequest,
+	opts ...option.RequestOption,
+) ([]*junctiongo.LabTestPromotion, error) {
+	response, err := c.WithRawResponse.ListPromotions(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 func (c *Client) EstimateOrderSetPricing(
 	ctx context.Context,
 	request *junctiongo.EstimateOrderSetPricingBody,
@@ -216,12 +232,49 @@ func (c *Client) GetPaginated(
 	return response.Body, nil
 }
 
+// Get the tube count for an at-home phlebotomy lab test.
+//
+// Requires enable_approxdraw_labcorp for Labcorp and enable_approxdraw for
+// other labs. Labcorp reuses a saved count or refreshes it with an eligible
+// account. Other labs may also generate and store a collection-instructions PDF.
+func (c *Client) GetLabTestCollectionInstructions(
+	ctx context.Context,
+	request *junctiongo.GetLabTestCollectionInstructionsLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.GetLabTestCollectionInstructionsResponse, error) {
+	response, err := c.WithRawResponse.GetLabTestCollectionInstructions(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 func (c *Client) GetLabTestCollectionInstructionPdf(
 	ctx context.Context,
 	request *junctiongo.GetLabTestCollectionInstructionPdfLabTestsRequest,
 	opts ...option.RequestOption,
 ) (io.Reader, error) {
 	response, err := c.WithRawResponse.GetLabTestCollectionInstructionPdf(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) GetPromotionSource(
+	ctx context.Context,
+	request *junctiongo.GetPromotionSourceLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.LabTestPromotionSource, error) {
+	response, err := c.WithRawResponse.GetPromotionSource(
 		ctx,
 		request,
 		opts...,
@@ -845,7 +898,7 @@ func (c *Client) GetUnmatchedResult(
 	ctx context.Context,
 	request *junctiongo.GetUnmatchedResultLabTestsRequest,
 	opts ...option.RequestOption,
-) (*junctiongo.GetUnmatchedResultResponse, error) {
+) (*junctiongo.UnmatchedResult, error) {
 	response, err := c.WithRawResponse.GetUnmatchedResult(
 		ctx,
 		request,
@@ -879,6 +932,38 @@ func (c *Client) ResolveUnmatchedResult(
 	opts ...option.RequestOption,
 ) (*junctiongo.UnmatchedResult, error) {
 	response, err := c.WithRawResponse.ResolveUnmatchedResult(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) ListUnmatchedResultUpdates(
+	ctx context.Context,
+	request *junctiongo.ListUnmatchedResultUpdatesLabTestsRequest,
+	opts ...option.RequestOption,
+) (*junctiongo.ListUnmatchedResultUpdatesResponse, error) {
+	response, err := c.WithRawResponse.ListUnmatchedResultUpdates(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+func (c *Client) CreateUnmatchedResultUpdate(
+	ctx context.Context,
+	request *junctiongo.CreateUnmatchedResultUpdateBody,
+	opts ...option.RequestOption,
+) (*junctiongo.UnmatchedResult, error) {
+	response, err := c.WithRawResponse.CreateUnmatchedResultUpdate(
 		ctx,
 		request,
 		opts...,

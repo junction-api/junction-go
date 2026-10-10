@@ -8,10 +8,10 @@ import (
 	io "io"
 	http "net/http"
 
-	junctiongo "github.com/junction-api/junction-go/v2"
-	core "github.com/junction-api/junction-go/v2/core"
-	internal "github.com/junction-api/junction-go/v2/internal"
-	option "github.com/junction-api/junction-go/v2/option"
+	junctiongo "github.com/junction-api/junction-go"
+	core "github.com/junction-api/junction-go/core"
+	internal "github.com/junction-api/junction-go/internal"
+	option "github.com/junction-api/junction-go/option"
 )
 
 type RawClient struct {
@@ -471,6 +471,55 @@ func (r *RawClient) GetLabs(
 	}, nil
 }
 
+func (r *RawClient) ListPromotions(
+	ctx context.Context,
+	request *junctiongo.ListPromotionsLabTestsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[[]*junctiongo.LabTestPromotion], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := baseURL + "/v3/lab_test_promotion"
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response []*junctiongo.LabTestPromotion
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[[]*junctiongo.LabTestPromotion]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) EstimateOrderSetPricing(
 	ctx context.Context,
 	request *junctiongo.EstimateOrderSetPricingBody,
@@ -564,6 +613,51 @@ func (r *RawClient) GetPaginated(
 	}, nil
 }
 
+func (r *RawClient) GetLabTestCollectionInstructions(
+	ctx context.Context,
+	request *junctiongo.GetLabTestCollectionInstructionsLabTestsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.GetLabTestCollectionInstructionsResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v3/lab_test/%v/collection_instructions",
+		request.LabTestId,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *junctiongo.GetLabTestCollectionInstructionsResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.GetLabTestCollectionInstructionsResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) GetLabTestCollectionInstructionPdf(
 	ctx context.Context,
 	request *junctiongo.GetLabTestCollectionInstructionPdfLabTestsRequest,
@@ -603,6 +697,51 @@ func (r *RawClient) GetLabTestCollectionInstructionPdf(
 		return nil, err
 	}
 	return &core.Response[io.Reader]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) GetPromotionSource(
+	ctx context.Context,
+	request *junctiongo.GetPromotionSourceLabTestsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.LabTestPromotionSource], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v3/lab_test/%v/promotion_source",
+		request.LabTestId,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *junctiongo.LabTestPromotionSource
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.LabTestPromotionSource]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -2293,7 +2432,7 @@ func (r *RawClient) GetUnmatchedResult(
 	ctx context.Context,
 	request *junctiongo.GetUnmatchedResultLabTestsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*junctiongo.GetUnmatchedResultResponse], error) {
+) (*core.Response[*junctiongo.UnmatchedResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -2308,7 +2447,7 @@ func (r *RawClient) GetUnmatchedResult(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *junctiongo.GetUnmatchedResultResponse
+	var response *junctiongo.UnmatchedResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -2327,7 +2466,7 @@ func (r *RawClient) GetUnmatchedResult(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*junctiongo.GetUnmatchedResultResponse]{
+	return &core.Response[*junctiongo.UnmatchedResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -2394,6 +2533,105 @@ func (r *RawClient) ResolveUnmatchedResult(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v3/unmatched_result/%v/resolve",
+		request.RawResultId,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	headers.Add("Content-Type", "application/json")
+	var response *junctiongo.UnmatchedResult
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPost,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.UnmatchedResult]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) ListUnmatchedResultUpdates(
+	ctx context.Context,
+	request *junctiongo.ListUnmatchedResultUpdatesLabTestsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.ListUnmatchedResultUpdatesResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v3/unmatched_result/%v/update",
+		request.RawResultId,
+	)
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *junctiongo.ListUnmatchedResultUpdatesResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(junctiongo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*junctiongo.ListUnmatchedResultUpdatesResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) CreateUnmatchedResultUpdate(
+	ctx context.Context,
+	request *junctiongo.CreateUnmatchedResultUpdateBody,
+	opts ...option.RequestOption,
+) (*core.Response[*junctiongo.UnmatchedResult], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.us.junction.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v3/unmatched_result/%v/update",
 		request.RawResultId,
 	)
 	headers := internal.MergeHeaders(
