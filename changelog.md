@@ -1,3 +1,15 @@
+## [v3.0.0] - 2026-10-10
+### Breaking Changes
+- **`GetUnmatchedResultResponse`** — removed and replaced by `GetUnmatchedResultTestResponse` with an entirely different field set (`RunId`, `Stage`, `Case`, `OrderSource`, etc.); update all references and type assertions to use `GetUnmatchedResultTestResponse`.
+- **`UnmatchedResult.IsStale`** — field and its `SetIsStale()` setter removed with no replacement; remove all call sites.
+
+### Added
+- **`CheckoutSessionAppointment`** — new type representing a PSC appointment slot held during checkout; attach it to a session via the new `CreateCheckoutSessionBody.Appointment` field and `SetAppointment()` setter.
+- **Lab-test promotion** — new types `LabTestPromotion`, `LabTestPromotionSource`, `GetPromotionSourceLabTestsRequest`, and `ListPromotionsLabTestsRequest` support promoting sandbox lab tests to production.
+- **Unmatched-result update tracking** — new types `UnmatchedResultUpdate`, `CreateUnmatchedResultUpdateBody`, `ListUnmatchedResultUpdatesLabTestsRequest`, `ListUnmatchedResultUpdatesResponse`, and related enums (`UnmatchedResultUpdateActorType`, `UnmatchedResultUpdateStatus`, `MatchReviewTransitionStatus`) enable recording and listing status transitions on unmatched results.
+- **Collection instructions** — new `GetLabTestCollectionInstructionsResponse` and `GetLabTestCollectionInstructionsLabTestsRequest` types expose tube count and lab details for a given lab test.
+- **`UnmatchedResult` activity fields and new enum values** — `LatestActivityActorId`, `LatestActivityActorType`, and `LatestActivityAt` added to `UnmatchedResult`; `MatchReviewStatusFilterPendingCustomerReviewInProgress` added to `MatchReviewStatusFilter`.
+
 ## v2.0.0 - 2026-09-24
 
 ### Added

@@ -3,7 +3,7 @@
 package option
 
 import (
-	core "github.com/junction-api/junction-go/v2/core"
+	core "github.com/junction-api/junction-go/v3/core"
 	http "net/http"
 	url "net/url"
 )
