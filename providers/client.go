@@ -5,10 +5,10 @@ package providers
 import (
 	context "context"
 
-	junctiongo "github.com/junction-api/junction-go/v2"
-	core "github.com/junction-api/junction-go/v2/core"
-	internal "github.com/junction-api/junction-go/v2/internal"
-	option "github.com/junction-api/junction-go/v2/option"
+	junctiongo "github.com/junction-api/junction-go/v3"
+	core "github.com/junction-api/junction-go/v3/core"
+	internal "github.com/junction-api/junction-go/v3/internal"
+	option "github.com/junction-api/junction-go/v3/option"
 )
 
 type Client struct {
