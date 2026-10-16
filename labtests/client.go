@@ -6,10 +6,10 @@ import (
 	context "context"
 	io "io"
 
-	junctiongo "github.com/junction-api/junction-go"
-	core "github.com/junction-api/junction-go/core"
-	internal "github.com/junction-api/junction-go/internal"
-	option "github.com/junction-api/junction-go/option"
+	junctiongo "github.com/junction-api/junction-go/v3"
+	core "github.com/junction-api/junction-go/v3/core"
+	internal "github.com/junction-api/junction-go/v3/internal"
+	option "github.com/junction-api/junction-go/v3/option"
 )
 
 type Client struct {

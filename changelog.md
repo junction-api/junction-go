@@ -1,3 +1,11 @@
+## [v3.0.0] - 2026-10-16
+### Added
+- **`CheckoutSessionAppointment`** — new type for holding a PSC appointment slot during checkout; attach via the new `CreateCheckoutSessionBody.Appointment` field and `SetAppointment()` setter.
+- **Lab-test version history** — added `GetLabTestVersionHistoryResponse`, `LabTestVersionSummary`, `LabTestVersionMarkerSummary`, and `GetVersionHistoryLabTestsRequest` for paginated version history; `GetByIdLabTestsRequest` gains an optional `Version` field to fetch a specific snapshot.
+- **Sandbox-to-production promotions** — added `LabTestPromotion`, `LabTestPromotionSource`, `GetPromotionSourceLabTestsRequest`, and `ListPromotionsLabTestsRequest` to manage lab-test promotion workflows.
+- **Unmatched-result audit trail** — added `UnmatchedResultUpdate`, `CreateUnmatchedResultUpdateBody`, `ListUnmatchedResultUpdatesLabTestsRequest`, and related types/enums for tracking status transitions on unmatched results.
+- **Collection instructions and expanded fields** — added `GetLabTestCollectionInstructionsLabTestsRequest` and `GetLabTestCollectionInstructionsResponse`; `ClientFacingMarkerComplete` gains `Components`; `UpdateLabTestRequest` gains `LabAccountId`, `MarkerIds`, and `ProviderIds`; new enum values added across `MatchReviewStatusFilter`, `UnmatchedResultLatestActivityActorType`, `LabTestGenerationMethodFilter`, and `LabLocationCapability`.
+
 ## v2.0.0 - 2026-09-24
 
 ### Added
