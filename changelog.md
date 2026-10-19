@@ -1,3 +1,9 @@
+## [v3.0.0] - 2026-10-19
+### Added
+
+- **`CheckoutSessionAppointment`** — new type representing a PSC appointment slot held while the patient pays; becomes the order's appointment once payment creates the order.
+- **`CreateCheckoutSessionBody.Appointment`** — new optional field (and `SetAppointment()` setter) to attach a held appointment slot when creating a checkout session.
+
 ## v2.0.0 - 2026-09-24
 
 ### Added
